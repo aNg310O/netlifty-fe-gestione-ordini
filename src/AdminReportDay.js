@@ -117,8 +117,8 @@ const AdminReportDay = (props) => {
         <Button onClick={() => handleReportClick()} size="large" style={{ display: 'flex', backgroundColor: "#3f51b5", alignItems: 'center', justifyContent: 'center' }} startIcon={<CloudUploadIcon />} variant="outlined">
             Download Report
         </Button>
-        <div id="content">
-            <table id="report">
+        <div id='content'>
+            <table id='report'>
                 <thead>
                     <tr>{renderHeader()}</tr>
                 </thead>
