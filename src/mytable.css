@@ -1,0 +1,43 @@
+.button {
+  border: none;
+  outline: none;
+  font-size: 11px;
+  font-family: "Quicksand", sans-serif;
+  color: #d12b2b;
+  padding: 3px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 1px solid #d12b2b;
+  background-color: transparent;
+}
+
+.operation {
+  padding: 6px 12px;
+  border: 1px solid #d9d7ce;
+}
+
+td {
+  padding: 6px 12px;
+  border: 1px solid #d9d7ce;
+}
+
+th {
+  font-family: "Roboto";
+  font-size: 14px;
+  color: rgb(255, 255, 255);
+  text-align: center;
+  text-transform: uppercase;
+  background-color: #3f51b5;
+}
+
+tr:nth-of-type(even) {
+  /*font-size: 12px;*/
+  font-family: "Roboto";
+  background-color: #cccccc;
+}
+
+tr:nth-of-type(odd) {
+  /*font-size: 12px;*/
+  font-family: "Roboto";
+  background-color: #a7ffff;
+}
