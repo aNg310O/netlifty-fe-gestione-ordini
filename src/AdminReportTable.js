@@ -41,7 +41,7 @@ const AdminReportTable = (props) => {
 
     const handleReportClick = () => {
         let today = new Date().toISOString().slice(0, 10)
-        var myFormat;
+        var myFormat = ['210', '297'];
         if ( page > 19 ) {
             myFormat = ['210', '594'];
         } else {

@@ -54,7 +54,7 @@ const AdminReportDay = (props) => {
     }
 
     const handleReportClick = () => {
-        var myFormat;
+        var myFormat = ['210', '297'];
         if ( page > 19 ) {
             myFormat = ['210', '594'];
         } else {
