@@ -7,7 +7,7 @@ export default class Profile extends Component {
     super(props);
 
     this.state = {
-      redirect: null,
+      redirect: "/home",
       userReady: false,
       currentUser: { username: "" }
     };
