@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Switch, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./App.css";
+//import "./App.css";
 import AuthService from "./services/auth.service";
 import Login from "./components/login.component";
 import Home from "./components/home.component";
@@ -74,7 +74,7 @@ class App extends Component {
             {currentUser && (
               <li className="nav-item">
                 <Link to={"/user"} className="nav-link">
-                  User
+                  Ordini
                 </Link>
               </li>
             )}
