@@ -44,7 +44,7 @@ class App extends Component {
 
     return (
       <div>
-        <nav className="navbar navbar-expand navbar-nav navbar-dark bg-dark">
+        <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
           <Link to={"/"} className="navbar-brand">
             Gestione Ordini
           </Link>
