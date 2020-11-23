@@ -62,7 +62,7 @@ const AdminReportDay = (props) => {
         }
         console.log(myFormat)
         window.scrollTo(0,0)
-        const input = document.getElementById('content',{scrollY: -window.scrollY});
+        const input = document.getElementById('contentday',{scrollY: -window.scrollY});
         html2canvas(input)
             .then((canvas) => {
                 const imgData = canvas.toDataURL('image/png');
@@ -110,15 +110,15 @@ const AdminReportDay = (props) => {
                 value={selectedDate}
                 onChange={handleDateChange}
                 KeyboardButtonProps={{
-                'aria-label': 'change date',
+                'aria-label': 'change date'
                 }}
             />
         </MuiPickersUtilsProvider>
         <Button onClick={() => handleReportClick()} size="large" style={{ display: 'flex', backgroundColor: "#3f51b5", alignItems: 'center', justifyContent: 'center' }} startIcon={<CloudUploadIcon />} variant="outlined">
             Download Report
         </Button>
-        <div id='content'>
-            <table id='report'>
+        <div id='contentday'>
+            <table id='reportday'>
                 <thead>
                     <tr>{renderHeader()}</tr>
                 </thead>
