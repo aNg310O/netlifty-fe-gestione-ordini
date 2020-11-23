@@ -49,7 +49,7 @@ class App extends Component {
             Gestione Ordini
           </Link>
           {/*<div className="navbar-nav mr-auto">*/}
-          <div className="navbar-nav">
+          <div className="navbar-nav mr-auto">
            {/* <li className="nav-item">
               <Link to={"/home"} className="nav-link">
                 Home
