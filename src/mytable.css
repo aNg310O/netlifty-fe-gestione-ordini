@@ -31,13 +31,11 @@ th {
 }
 
 tr:nth-of-type(even) {
-  /*font-size: 12px;*/
   font-family: "Roboto";
   background-color: #cccccc;
 }
 
 tr:nth-of-type(odd) {
-  /*font-size: 12px;*/
   font-family: "Roboto";
   background-color: #a7ffff;
 }

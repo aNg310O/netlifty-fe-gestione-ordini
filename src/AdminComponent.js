@@ -7,6 +7,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import Snackbar from '@material-ui/core/Snackbar';
+import SnackbarContent from '@material-ui/core/SnackbarContent';
 import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { ProductTable } from './AdminProductTable';
@@ -15,6 +16,7 @@ import { AdminReportTable } from './AdminReportTable';
 import { AdminReportDay } from './AdminReportDay';
 import authHeader from './services/auth-header';
 import Register from "./components/register.component";
+import AuthService from "./services/auth.service";
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -53,8 +55,9 @@ export default function AdminComponent() {
   const [checkC,setCheckC] = useState(false);
   const [boxReportDayVisibility, setBoxReportDayVisibility] = useState("none");
   const [checkD,setCheckD] = useState(false);
+  const [snackColor, setSnackColor] = useState('teal');
   
-//const currentUser = AuthService.getCurrentUser();
+const seller = AuthService.getCurrentUser();
 
   const handleSwitchChange = (event) => {
     setCheckA(event.target.checked);
@@ -90,23 +93,33 @@ export default function AdminComponent() {
       API.post('gestione-ordini/prodotti/', data, { headers: authHeader() })
         .then(response => {
           if (response.status === 200) {
+            setSnackColor('green');
             setResult("Prodotto inserito!")
             setOpen(true);
-          } else if (response.status === 401) {
-            setResult("Latua sessione è scaduta. Fai logout/login!")
-            setOpen(true);
-          } 
+        }
         })
         .catch(e => {
-          setResult(e.message)
-          setOpen(true);
-          //console.log(e);
+          if (e.response.status === 401) {
+            setSnackColor('red');
+            setResult("La tua sessione è scaduta. Fai logout/login!")
+            setOpen(true);
+          } else if (e.response.status === 403) {
+            setSnackColor('red');
+            setResult("No token provided. Fai logout/login!")
+            setOpen(true);
+          } else {
+            setSnackColor('red');
+            setResult(e.message)
+            setOpen(true);
+          }
         });
     } else {
-        setResult("Il prodotto non può essere vuoto...")
-        setOpen(true);
-      }
+      setResult("Il prodotto non può essere vuoto...")
+      setSnackColor('orange');
+      setOpen(true);
+    }
   }
+
 
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
@@ -124,10 +137,11 @@ export default function AdminComponent() {
       />
       <Box display={boxProductVisibility} className={classes.root}>
       <ProductTable trigP={checkA} />
-        
+        <br></br>
           <TextField required label="Descrizione" variant="outlined" value={desc} margin="dense" type="string" defaultValue="" onChange={e => setDesc(e.target.value)}></TextField>
           <TextField required label="Grammatura (gr)" variant="outlined" value={grammatura} margin="dense" type="number" defaultValue="" onChange={e => setGrammatura(e.target.value)}></TextField>
           <TextField required label="Peso Totale (gr)" variant="outlined" value={pesoTotale} margin="dense" type="number" defaultValue="" onChange={e => setPesoTotale(e.target.value)}></TextField>
+          <br></br>
           <Button onClick={() => handleProductClick(desc,grammatura,pesoTotale)} size="large" style={{ display: 'flex', backgroundColor: "#3f51b5", alignItems: 'center', justifyContent: 'center' }} startIcon={<CloudUploadIcon />} variant="outlined">
             Inserisci il prodotto
           </Button>
@@ -144,7 +158,7 @@ export default function AdminComponent() {
         <br></br>
         <FormControlLabel
         control={<Switch checked={checkC} onChange={handleSwitchCChange} name="checkedC" color="primary" />}
-        label="REPORT ORDINI OGGI"
+        label="Report ordini"
       />
         <Box display={boxReportVisibility} className={classes.root}>
           <AdminReportTable trigR={checkC} />
@@ -152,14 +166,24 @@ export default function AdminComponent() {
         <br></br>
         <FormControlLabel
         control={<Switch checked={checkD} onChange={handleSwitchDChange} name="checkedD" color="primary" />}
-        label="REPORT ORDINI"
+        label="Report ordini per data"
       />
         <Box display={boxReportDayVisibility} className={classes.root}>
           <AdminReportDay trigRD={checkD} />
         </Box>
 
-      <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }} message={result} open={open} autoHideDuration={3500} onClose={handleClose} style={{ backgroundColor: 'green', color: 'black' }}></Snackbar>
-      <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }} message={result} open={open} autoHideDuration={3500} onClose={handleClose} style={{ backgroundColor: 'green', color: 'black' }}></Snackbar>
+      <Snackbar
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        open={open}
+        autoHideDuration={3000}
+        onClose={handleClose}
+      >
+        <SnackbarContent style={{
+          backgroundColor: snackColor,
+        }}
+          message={result}
+        />
+      </Snackbar>
     </div>
   )
 }

@@ -4,11 +4,16 @@ import './mytable.css'
 import './other2_table.css'
 import AuthService from "./services/auth.service";
 import authHeader from './services/auth-header';
+import Snackbar from '@material-ui/core/Snackbar';
+import SnackbarContent from '@material-ui/core/SnackbarContent';
 
 const seller = AuthService.getCurrentUser();
 
 const ProductTable = (props) => {
     const [prodotto, setProdotto] = useState([])
+    const [result, setResult] = useState('');
+    const [open, setOpen] = useState(false);
+    const [snackColor, setSnackColor] = useState('teal');
     useEffect(() => {
         getData()
     },[props.trigP])
@@ -20,17 +25,23 @@ const ProductTable = (props) => {
                 if(seller.roles[0] === "ROLE_ADMIN") {
                     setProdotto(res.data)
                 }
-            } else if (res.status === 401) {
-                console.log("Token scaduto!");
-            }
-            })
-            .catch(err => {
-                if (err.response.status === 401) {
-                    console.log(err)
-                    AuthService.logout()
-                }
-            })
-    }
+    }})
+                .catch(e => {
+                  if (e.response.status === 401) {
+                      setSnackColor('red');
+                      setResult("La tua sessione è scaduta. Fai logout/login!")
+                      setOpen(true);
+                    } else if (e.response.status === 403) {
+                      setSnackColor('red');
+                      setResult("No token provided. Fai logout/login!")
+                      setOpen(true);
+                    } else {
+                      setSnackColor('red');
+                      setResult(e.message)
+                      setOpen(true);
+                    }
+                  });
+              }
 
     const removeData = (id) => {
         API.delete(`gestione-ordini/prodotto/${id}`, { headers: authHeader() }).then(res => {
@@ -61,6 +72,12 @@ const ProductTable = (props) => {
         })
     }
 
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+          return;
+        }
+        setOpen(false);
+      };
     return (
         <div>
             <table id='styled-table'>
@@ -71,6 +88,18 @@ const ProductTable = (props) => {
                     {renderBody()}
                 </tbody>
             </table>
+            <Snackbar
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        open={open}
+        autoHideDuration={3000}
+        onClose={handleClose}
+      >
+        <SnackbarContent style={{
+          backgroundColor: snackColor,
+        }}
+          message={result}
+        />
+      </Snackbar>
         </div>
     )
 }

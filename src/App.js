@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import { Switch, Route, Link } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
+import { Switch, Route, Link, Redirect } from "react-router-dom";
 import "./App.css";
 import AuthService from "./services/auth.service";
 import Login from "./components/login.component";
@@ -8,6 +7,7 @@ import Home from "./components/home.component";
 import Profile from "./components/profile.component";
 import BoardUser from "./components/board-user.component";
 import BoardAdmin from "./components/board-admin.component";
+import NotFoundPage from './components/NotFoundPage'
 
 class App extends Component {
   constructor(props) {
@@ -44,16 +44,16 @@ class App extends Component {
 
     return (
       <div>
-        <nav className="navbar navbar-expand navbar-dark bg-dark">
+        <nav className="navbar navbar-expand navbar-dark bg-secondary">
           <Link to={"/"} className="navbar-brand">
             Gestione Ordini
           </Link>
           <div className="navbar-nav mr-auto">
-            <li className="nav-item">
+           {/* <li className="nav-item">
               <Link to={"/home"} className="nav-link">
                 Home
               </Link>
-            </li>
+            </li>*/}
 
             {/*showModeratorBoard && (
               <li className="nav-item">
@@ -66,7 +66,7 @@ class App extends Component {
             {showAdminBoard && (
               <li className="nav-item">
                 <Link to={"/admin"} className="nav-link">
-                  Admin Board
+                  Admin
                 </Link>
               </li>
             )}
@@ -74,7 +74,7 @@ class App extends Component {
             {currentUser && (
               <li className="nav-item">
                 <Link to={"/user"} className="nav-link">
-                  User
+                  Ordini
                 </Link>
               </li>
             )}
@@ -82,11 +82,11 @@ class App extends Component {
 
           {currentUser ? (
             <div className="navbar-nav ml-auto">
-              {/*<li className="nav-item">
+              <li className="nav-item">
                 <Link to={"/profile"} className="nav-link">
                   {currentUser.username}
                 </Link>
-          </li>*/}
+          </li>
               <li className="nav-item">
                 <a href="/" className="nav-link" onClick={this.logOut}>
                   LogOut
@@ -110,8 +110,7 @@ class App extends Component {
           )}
         </nav>
 
-        {/*<div className="container mt-3">*/}
-          <div>
+        <div className="container mt-3">
           <Switch>
             <Route exact path={["/", "/home"]} component={Home} />
             <Route exact path="/login" component={Login} />
@@ -120,6 +119,8 @@ class App extends Component {
             <Route path="/user" component={BoardUser} />
             {/*<Route path="/mod" component={BoardModerator} />*/}
             <Route path="/admin" component={BoardAdmin} />
+            <Route path="/404" component={NotFoundPage} />
+                    <Redirect to="/404" />
           </Switch>
         </div>
       </div>

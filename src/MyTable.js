@@ -6,7 +6,6 @@ import authHeader from './services/auth-header';
 
 const seller = AuthService.getCurrentUser();
 
-//const seller="angelo";
 const Table = (props) => {
     const [ordini, setOrdini] = useState([])
     useEffect(() => {

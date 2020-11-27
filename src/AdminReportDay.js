@@ -15,7 +15,6 @@ import { format } from 'date-fns';
 import Button from '@material-ui/core/Button';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import { jsPDF } from "jspdf";
-import * as html2canvas from 'html2canvas';
 import 'jspdf-autotable';
 
 const seller = AuthService.getCurrentUser();
@@ -24,7 +23,6 @@ const AdminReportDay = (props) => {
     const [ordine, setOrdine] = useState([])
     const [selectedDate, setSelectedDate] = useState();
     const [fileName, setFileName] = useState('');
-    const [page, setPage] = useState(0);
 
     useEffect(() => {},[props.trigRD])
 
@@ -49,33 +47,17 @@ const AdminReportDay = (props) => {
               }
               response.data.push({_id: "TOTALE", qty: 0, totale: totalone })
               setOrdine(response.data)
-              setPage(Object.keys(response.data).length);
         } 
     }
 
     const handleReportClick = () => {
-        var myFormat = ['210', '297'];
-        if ( page > 19 ) {
-            myFormat = ['210', '594'];
-        } else {
-            myFormat = ['210', '297'];
-        }
-        console.log(myFormat)
         window.scrollTo(0,0)
-        const input = document.getElementById('contentday',{scrollY: -window.scrollY});
-        html2canvas(input)
-            .then((canvas) => {
-                const imgData = canvas.toDataURL('image/png');
-                const pdf = new jsPDF({
-                    orientation: 'p',
-                    unit: 'mm',
-                    format: myFormat,
-                });
-                pdf.text(`Report ordini per il giorno ${fileName}`, 5, 10);
-                pdf.addImage(imgData, 'JPEG', 6, 25);
-                pdf.save(`${fileName}.pdf`);
-            }); 
+        var test = new jsPDF();
+        test.text(`Report ordini per il giorno ${fileName.substring(7,16)}`, 5, 15);
+        test.autoTable({html: '#reportday', startY: 25});
+        test.save(`${fileName}.pdf`);
         };
+
 
     const renderHeader = () => {
         let headerElement = ['desc', 'quantità', 'peso totale (gr)', 'data inserimento']
@@ -97,26 +79,30 @@ const AdminReportDay = (props) => {
         })
     }
 
+    const handleKeypress = (e) => {
+        e.preventDefault();
+        return false
+        }
     return (
         <div id='root-content'>
-        <TextField InputLabelProps={{ shrink: true, }} InputProps={{ readOnly: true, }} variant="outlined" value="Inserire la data per il report"/>
+        <TextField style={{ backgroundColor: "#D4D4D4"}} InputLabelProps={{ shrink: true, }} InputProps={{ readOnly: true, }} variant="outlined" value="Inserire la data per il report"/>
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <KeyboardDatePicker
+                InputProps={{ readOnly: true, }}
                 format="yyyyMMdd"
                 disableFuture={true}
                 id="date-picker-inline"
                 inputVariant="filled"
+                onKeyPress={(e) => { handleKeypress(e)}}
                 variant="dialog"
                 value={selectedDate}
                 onChange={handleDateChange}
-                KeyboardButtonProps={{
-                'aria-label': 'change date'
-                }}
             />
         </MuiPickersUtilsProvider>
         <Button onClick={() => handleReportClick()} size="large" style={{ display: 'flex', backgroundColor: "#3f51b5", alignItems: 'center', justifyContent: 'center' }} startIcon={<CloudUploadIcon />} variant="outlined">
             Download Report
         </Button>
+<br></br>
         <div id='contentday'>
             <table id='reportday'>
                 <thead>
@@ -127,6 +113,7 @@ const AdminReportDay = (props) => {
                 </tbody>
             </table>
         </div>
+<br></br>
         </div>
     )
 }

@@ -11,11 +11,11 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import Snackbar from '@material-ui/core/Snackbar';
+import SnackbarContent from '@material-ui/core/SnackbarContent';
 import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { Table } from './MyTable';
 import AuthService from "./services/auth.service";
-//import { Redirect } from "react-router-dom";
 import authHeader from './services/auth-header';
 
 const useStyles = makeStyles((theme) => ({
@@ -51,9 +51,9 @@ export function SellerComponent() {
   const [boxProductVisibility, setBoxProductVisibility] = useState("none");
   const [checkB,setCheckB] = useState(false);
   const [boxOrderVisibility, setBoxOrderVisibility] = useState("none");
+  const [snackColor, setSnackColor] = useState('teal');
   
 const currentUser = AuthService.getCurrentUser();
-//const currentUser =  "angelo";
 
   const handleSwitchChange = (event) => {
     setCheckA(event.target.checked);
@@ -69,17 +69,32 @@ const currentUser = AuthService.getCurrentUser();
 
   useEffect(() => {
     retrieveProduct();
-  }, ['']);
+  }, []);
 
   const retrieveProduct = () => {
     API.get('gestione-ordini/prodotti',  { headers: authHeader() })
       .then(response => {
-        setItems(response.data);
+        if (response.status === 200) {
+          setItems(response.data);
+        }
       })
       .catch(e => {
-        console.log(e);
+        if (e.response.status === 401) {
+          setSnackColor('red');
+          setResult("La tua sessione è scaduta. Fai logout/login!")
+          setOpen(true);
+        } else if (e.response.status === 403) {
+          setSnackColor('red');
+          setResult("No token provided. Fai logout/login!")
+          setOpen(true);
+        } else {
+          setSnackColor('red');
+          setResult(e.message)
+          setOpen(true);
+        }
       });
   }
+
 
   const handleChange = (event) => {
     if (event.target.value !== 2) {
@@ -116,20 +131,31 @@ const currentUser = AuthService.getCurrentUser();
       API.post('gestione-ordini/ordine/', data,  { headers: authHeader() })
         .then(response => {
           if (response.status === 200) {
+            setSnackColor('green');
             setResult("Ordine inserito!")
             setOpen(true);
           }
         })
         .catch(e => {
-          setResult(e.message)
-          setOpen(true);
-          //console.log(e);
+          if (e.response.status === 401) {
+            setSnackColor('red');
+            setResult("La tua sessione è scaduta. Fai logout/login!")
+            setOpen(true);
+          } else if (e.response.status === 403) {
+            setSnackColor('red');
+            setResult("No token provided. Fai logout/login!")
+            setOpen(true);
+          } else {
+            setSnackColor('red');
+            setResult(e.message)
+            setOpen(true);
+          }
         });
     } else {
         setResult("L'ordine non può essere vuoto...")
         setOpen(true);
       }
-  }
+}
 
   const handleCustomClick = (prodotto, pesoTotaleCustom, ordine, note) => {
     if (ordine !== 0) {
@@ -144,20 +170,32 @@ const currentUser = AuthService.getCurrentUser();
       API.post('gestione-ordini/ordine/', customData,  { headers: authHeader() })
         .then(response => {
           if (response.status === 200) {
+            setSnackColor('green');
             setResult("Ordine custom inserito!")
             setOpen(true);
           }
         })
         .catch(e => {
-          setResult(e.message)
-          setOpen(true);
-          //console.log(e);
+          if (e.response.status === 401) {
+            setSnackColor('red');
+            setResult("La tua sessione è scaduta. Fai logout/login!")
+            setOpen(true);
+          } else if (e.response.status === 403) {
+            setSnackColor('red');
+            setResult("No token provided. Fai logout/login!")
+            setOpen(true);
+          } else {
+            setSnackColor('red');
+            setResult(e.message)
+            setOpen(true);
+          }
         });
     } else {
         setResult("L'ordine non può essere vuoto...")
         setOpen(true);
-    }
+      }
   }
+
 
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
@@ -187,27 +225,37 @@ const currentUser = AuthService.getCurrentUser();
           </Select>
         </FormControl>
         <Box display={boxVisibility} className={classes.root}>
-          <TextField label="Prodotto" InputLabelProps={{ shrink: true, }} InputProps={{ readOnly: true, }} variant="filled" value={selected.desc}></TextField>
-          <TextField label="Grammatura (gr)" InputLabelProps={{ shrink: true, }} InputProps={{ readOnly: true, }} variant="filled" value={selected.grammatura}></TextField>
-          <TextField label="Peso Totale (gr)" InputLabelProps={{ shrink: true, }} InputProps={{ readOnly: true, }} variant="filled" value={selected.pesoTotale * order}></TextField>
-          <TextField margin="dense" onChange={e => setOrder(e.target.value)} value={order} type="number" defaultValue="0" variant="outlined" label="Inserisci qui l'ordine" InputProps={{ inputProps: {min: 0} }}></TextField>
-          <TextField label="Note" value={note} onChange={e => setNote(e.target.value)} margin="dense" type="string" defaultValue="" variant="outlined" ></TextField>
-          <Button onClick={() => handleClick(selected,note)} size="large" style={{ display: 'flex', backgroundColor: "#3f51b5", alignItems: 'center', justifyContent: 'center' }} startIcon={<CloudUploadIcon />} variant="outlined">
+          <TextField label="Prodotto" style={{ backgroundColor: "#D4D4D4"}} InputLabelProps={{ shrink: true }} InputProps={{ readOnly: true }} variant="outlined" value={selected.desc}></TextField>
+          <TextField label="Grammatura (gr)" style={{ backgroundColor: "#D4D4D4"}} InputLabelProps={{ shrink: true, }} InputProps={{ readOnly: true, }} variant="outlined" value={selected.grammatura}></TextField>
+          <TextField label="Peso Totale (gr)" style={{ backgroundColor: "#D4D4D4"}} InputLabelProps={{ shrink: true, }} InputProps={{ readOnly: true, }} variant="outlined" value={selected.pesoTotale * order}></TextField>
+          <TextField margin="none" onChange={e => setOrder(e.target.value)} value={order} type="number" defaultValue="0" variant="outlined" label="Inserisci qui l'ordine" InputProps={{ inputProps: {min: 0} }}></TextField>
+          <TextField label="Note" value={note} onChange={e => setNote(e.target.value)} margin="none" type="string" defaultValue="" variant="outlined" ></TextField>
+          <Button onClick={() => handleClick(selected,note)} size="large" style={{ display: 'flex', backgroundColor: "#3f51b5", alignItems: 'center', justifyContent: 'center', "margin-top": "10px" }} startIcon={<CloudUploadIcon />} variant="outlined">
             Inserisci l'ordine
           </Button>
         </Box>
         <Box display={boxCustomVisibility} className={classes.root}>
-          <TextField required value={prodotto} margin="dense" onChange={e => setProdotto(e.target.value)} type="string" defaultValue="" variant="outlined" label="Nome prodotto"></TextField>
-          <TextField required value={pesoTotaleCustom} margin="dense" onChange={e => setPesoTotaleCustom(e.target.value)} type="number" defaultValue="0" variant="outlined" label="Peso totale(gr)" InputProps={{ inputProps: {min: 0} }}></TextField>
-          <TextField required value={ordine} margin="dense" onChange={e => setOrdine(e.target.value)} type="number" defaultValue="0" variant="outlined" label="Quantità(pezzi)" InputProps={{ inputProps: {min: 0} }}></TextField>
-          <TextField value={note} margin="dense" onChange={e => setNote(e.target.value)} type="string" defaultValue="" variant="outlined" label="Note"></TextField>
+          <TextField required value={prodotto} margin="none" onChange={e => setProdotto(e.target.value)} type="string" defaultValue="" variant="outlined" label="Nome prodotto"></TextField>
+          <TextField required value={pesoTotaleCustom} margin="none" onChange={e => setPesoTotaleCustom(e.target.value)} type="number" defaultValue="0" variant="outlined" label="Peso totale(gr)" InputProps={{ inputProps: {min: 0} }}></TextField>
+          <TextField required value={ordine} margin="none" onChange={e => setOrdine(e.target.value)} type="number" defaultValue="0" variant="outlined" label="Quantità(pezzi)" InputProps={{ inputProps: {min: 0} }}></TextField>
+          <TextField value={note} margin="none" onChange={e => setNote(e.target.value)} type="string" defaultValue="" variant="outlined" label="Note"></TextField>
           <Button onClick={() => handleCustomClick(prodotto, pesoTotaleCustom, ordine, note)} size="large" style={{ display: 'flex', backgroundColor: "#3f51b5", alignItems: 'center', justifyContent: 'center' }} startIcon={<CloudUploadIcon />} variant="outlined">
             Inserisci l'ordine personalizzato
           </Button>
         </Box>
       </Box>
-      <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }} message={result} open={open} autoHideDuration={3500} onClose={handleClose} style={{ backgroundColor: 'green', color: 'black' }}></Snackbar>
-      <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }} message={result} open={open} autoHideDuration={3500} onClose={handleClose} style={{ backgroundColor: 'green', color: 'black' }}></Snackbar>
+           <Snackbar
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        open={open}
+        autoHideDuration={3000}
+        onClose={handleClose}
+      >
+        <SnackbarContent style={{
+          backgroundColor: snackColor,
+        }}
+          message={result}
+        />
+      </Snackbar>
       <br></br>
       <FormControlLabel
         control={<Switch checked={checkB} onChange={handleSwitchBChange} name="checkedB" color="primary" />}
