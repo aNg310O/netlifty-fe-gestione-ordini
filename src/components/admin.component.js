@@ -135,7 +135,7 @@ export default function AdminComponent() {
         <TextField required label="Grammatura (gr)" variant="outlined" value={grammatura} margin="dense" type="number" defaultValue="" onChange={e => setGrammatura(e.target.value)}></TextField>
         <TextField required label="Peso Totale (gr)" variant="outlined" value={pesoTotale} margin="dense" type="number" defaultValue="" onChange={e => setPesoTotale(e.target.value)}></TextField>
         <br></br>
-        <Button onClick={() => handleProductClick(desc, grammatura, pesoTotale)} size="large" style={{ display: 'flex', backgroundColor: "#3f51b5", alignItems: 'center', justifyContent: 'center' }} startIcon={<CloudUploadIcon />} variant="outlined">
+        <Button onClick={() => handleProductClick(desc, grammatura, pesoTotale)} size="large" style={{ display: 'flex', backgroundColor: "#3f51b5", alignItems: 'center', justifyContent: 'center', "margin-top": "10px" }} startIcon={<CloudUploadIcon />} variant="outlined">
           Inserisci il prodotto
           </Button>
       </Box>

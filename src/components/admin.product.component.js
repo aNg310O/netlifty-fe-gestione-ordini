@@ -29,7 +29,7 @@ const ProductTable = (props) => {
                 .catch(e => {
                     if (e.response.status === 401) {
                       setSnackColor('red');
-                      setResult("La tua sessione è scaduta. Fai logout/login!")
+                      setResult("Sessione scaduta. Fai logout/login!")
                       setOpen(true);
                     } else if (e.response.status === 403) {
                       setSnackColor('red');

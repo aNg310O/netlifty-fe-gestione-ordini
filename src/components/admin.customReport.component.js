@@ -100,7 +100,7 @@ const AdminReportDay = (props) => {
             />
     </MuiPickersUtilsProvider>
 
-        <Button onClick={() => handleReportClick()} size="large" style={{ "margin-top":"10px", display: 'flex', backgroundColor: "#3f51b5", alignItems: 'center', justifyContent: 'center' }} startIcon={<CloudUploadIcon />} variant="outlined">
+        <Button onClick={() => handleReportClick()} size="large" style={{ "margin-top":"10px", display: 'flex', backgroundColor: "#3f51b5", alignItems: 'center', justifyContent: 'center', "margin-top": "10px" }} startIcon={<CloudUploadIcon />} variant="outlined">
             Download Report
         </Button>
         <br></br>

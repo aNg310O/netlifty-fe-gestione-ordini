@@ -81,7 +81,7 @@ const currentUser = AuthService.getCurrentUser();
       .catch(e => {
         if (e.response.status === 401) {
           setSnackColor('red');
-          setResult("La tua sessione è scaduta. Fai logout/login!")
+          setResult("Sessione scaduta. Fai logout/login!")
           setOpen(true);
         } else if (e.response.status === 403) {
           setSnackColor('red');
@@ -238,7 +238,7 @@ const currentUser = AuthService.getCurrentUser();
           <TextField required value={pesoTotaleCustom} margin="none" onChange={e => setPesoTotaleCustom(e.target.value)} type="number" defaultValue="0" variant="outlined" label="Peso totale(gr)" InputProps={{ inputProps: {min: 0} }}></TextField>
           <TextField required value={ordine} margin="none" onChange={e => setOrdine(e.target.value)} type="number" defaultValue="0" variant="outlined" label="Quantità(pezzi)" InputProps={{ inputProps: {min: 0} }}></TextField>
           <TextField value={note} margin="none" onChange={e => setNote(e.target.value)} type="string" defaultValue="" variant="outlined" label="Note"></TextField>
-          <Button onClick={() => handleCustomClick(prodotto, pesoTotaleCustom, ordine, note)} size="large" style={{ display: 'flex', backgroundColor: "#3f51b5", alignItems: 'center', justifyContent: 'center' }} startIcon={<CloudUploadIcon />} variant="outlined">
+          <Button onClick={() => handleCustomClick(prodotto, pesoTotaleCustom, ordine, note)} size="large" style={{ display: 'flex', backgroundColor: "#3f51b5", alignItems: 'center', justifyContent: 'center', "margin-top": "10px" }} startIcon={<CloudUploadIcon />} variant="outlined">
             Inserisci l'ordine personalizzato
           </Button>
         </Box>
