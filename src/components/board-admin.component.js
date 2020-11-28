@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import AdminComponent from '../AdminComponent'
+import AdminComponent from './admin.component'
 import UserService from "../services/user.service";
 
 export default class BoardAdmin extends Component {

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import UserService from "../services/user.service";
-import { SellerComponent } from '../SellerComponent'
+import { SellerComponent } from './ordini.component'
 
 export default class BoardUser extends Component {
   constructor(props) {

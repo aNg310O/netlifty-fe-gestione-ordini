@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import API from './api';
-import './mytable.css'
-import AuthService from "./services/auth.service";
-import authHeader from './services/auth-header';
+import API from '../services/api';
+import '../asset/mytable.css'
+import AuthService from "../services/auth.service";
+import authHeader from '../services/auth-header';
 
 const seller = AuthService.getCurrentUser();
 

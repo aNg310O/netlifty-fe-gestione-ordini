@@ -1,10 +1,9 @@
 import "date-fns";
 import React, { useState, useEffect } from "react";
-import API from './api';
-import './mytable.css'
-import './other2_table.css'
-import AuthService from "./services/auth.service";
-import authHeader from './services/auth-header';
+import API from '../services/api';
+import '../asset/mytable.css'
+import AuthService from "../services/auth.service";
+import authHeader from '../services/auth-header';
 import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
@@ -27,6 +26,7 @@ const AdminReportDay = (props) => {
     useEffect(() => {},[props.trigRD])
 
     const handleDateChange = (date) => {
+        console.log(date)
         setSelectedDate(date);
         const str = format(date,'yyyyMMdd')
         getData(str);
@@ -58,7 +58,6 @@ const AdminReportDay = (props) => {
         test.save(`${fileName}.pdf`);
         };
 
-
     const renderHeader = () => {
         let headerElement = ['desc', 'quantità', 'peso totale (gr)', 'data inserimento']
         return headerElement.map((key, index) => {
@@ -83,6 +82,7 @@ const AdminReportDay = (props) => {
         e.preventDefault();
         return false
         }
+
     return (
         <div id='root-content'>
         <TextField style={{ backgroundColor: "#D4D4D4"}} InputLabelProps={{ shrink: true, }} InputProps={{ readOnly: true, }} variant="outlined" value="Inserire la data per il report"/>
@@ -98,11 +98,12 @@ const AdminReportDay = (props) => {
                 value={selectedDate}
                 onChange={handleDateChange}
             />
-        </MuiPickersUtilsProvider>
-        <Button onClick={() => handleReportClick()} size="large" style={{ display: 'flex', backgroundColor: "#3f51b5", alignItems: 'center', justifyContent: 'center' }} startIcon={<CloudUploadIcon />} variant="outlined">
+    </MuiPickersUtilsProvider>
+
+        <Button onClick={() => handleReportClick()} size="large" style={{ "margin-top":"10px", display: 'flex', backgroundColor: "#3f51b5", alignItems: 'center', justifyContent: 'center' }} startIcon={<CloudUploadIcon />} variant="outlined">
             Download Report
         </Button>
-<br></br>
+        <br></br>
         <div id='contentday'>
             <table id='reportday'>
                 <thead>
@@ -113,7 +114,7 @@ const AdminReportDay = (props) => {
                 </tbody>
             </table>
         </div>
-<br></br>
+        <br></br>
         </div>
     )
 }

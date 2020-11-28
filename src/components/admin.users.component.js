@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from "react";
-import API from './api';
-import './mytable.css'
-import './other2_table.css'
-import AuthService from "./services/auth.service";
-import authHeader from './services/auth-header';
+import API from '../services/api';
+import '../asset/mytable.css'
+import AuthService from "../services/auth.service";
+import authHeader from '../services/auth-header';
 import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 
+
 const seller = AuthService.getCurrentUser();
 
-//const seller="angelo";
 const AdminUsersTable = (props) => {
     const [users, setUsers] = useState([])
     const [snackColor, setSnackColor] = useState('teal');
     const [result, setResult] = useState('');
     const [open, setOpen] = useState(false);
+    
     useEffect(() => {
         getData()
     },[props.trigU])
@@ -32,7 +32,7 @@ const AdminUsersTable = (props) => {
 
     //DA FARE
     const removeData = (username) => {
-       if (username === seller.username) {
+        if (username === seller.username) {
             setResult("Non puoi rimuovere te stesso...")
             setSnackColor('orange');
             setOpen(true);
@@ -70,6 +70,7 @@ const AdminUsersTable = (props) => {
         }
         setOpen(false);
       };
+
     return (
         <div>
             <table id='users'>
@@ -80,7 +81,7 @@ const AdminUsersTable = (props) => {
                     {renderBody()}
                 </tbody>
             </table>
-           <Snackbar
+            <Snackbar
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         open={open}
         autoHideDuration={3000}
@@ -92,6 +93,7 @@ const AdminUsersTable = (props) => {
           message={result}
         />
       </Snackbar>
+
         </div>
     )
 }

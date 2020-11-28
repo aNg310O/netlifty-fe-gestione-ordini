@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import API from './api';
-import { ButtonAppBar } from './AppBar';
+import API from '../services/api';
+import { ButtonAppBar } from './ordini.appbar.component';
 import { makeStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -14,9 +14,9 @@ import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { Table } from './MyTable';
-import AuthService from "./services/auth.service";
-import authHeader from './services/auth-header';
+import { Table } from './ordini.table.component';
+import AuthService from "../services/auth.service";
+import authHeader from '../services/auth-header';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -95,7 +95,6 @@ const currentUser = AuthService.getCurrentUser();
       });
   }
 
-
   const handleChange = (event) => {
     if (event.target.value !== 2) {
       setSelected(event.target.value || '');
@@ -155,7 +154,7 @@ const currentUser = AuthService.getCurrentUser();
         setResult("L'ordine non può essere vuoto...")
         setOpen(true);
       }
-}
+  }
 
   const handleCustomClick = (prodotto, pesoTotaleCustom, ordine, note) => {
     if (ordine !== 0) {
@@ -196,7 +195,6 @@ const currentUser = AuthService.getCurrentUser();
       }
   }
 
-
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
@@ -228,8 +226,9 @@ const currentUser = AuthService.getCurrentUser();
           <TextField label="Prodotto" style={{ backgroundColor: "#D4D4D4"}} InputLabelProps={{ shrink: true }} InputProps={{ readOnly: true }} variant="outlined" value={selected.desc}></TextField>
           <TextField label="Grammatura (gr)" style={{ backgroundColor: "#D4D4D4"}} InputLabelProps={{ shrink: true, }} InputProps={{ readOnly: true, }} variant="outlined" value={selected.grammatura}></TextField>
           <TextField label="Peso Totale (gr)" style={{ backgroundColor: "#D4D4D4"}} InputLabelProps={{ shrink: true, }} InputProps={{ readOnly: true, }} variant="outlined" value={selected.pesoTotale * order}></TextField>
-          <TextField margin="none" onChange={e => setOrder(e.target.value)} value={order} type="number" defaultValue="0" variant="outlined" label="Inserisci qui l'ordine" InputProps={{ inputProps: {min: 0} }}></TextField>
+          <TextField label="Inserisci qui l'ordine" margin="none" onChange={e => setOrder(e.target.value)} value={order} type="number" defaultValue="0" variant="outlined" InputProps={{ inputProps: {min: 0} }}></TextField>
           <TextField label="Note" value={note} onChange={e => setNote(e.target.value)} margin="none" type="string" defaultValue="" variant="outlined" ></TextField>
+          
           <Button onClick={() => handleClick(selected,note)} size="large" style={{ display: 'flex', backgroundColor: "#3f51b5", alignItems: 'center', justifyContent: 'center', "margin-top": "10px" }} startIcon={<CloudUploadIcon />} variant="outlined">
             Inserisci l'ordine
           </Button>
@@ -244,7 +243,7 @@ const currentUser = AuthService.getCurrentUser();
           </Button>
         </Box>
       </Box>
-           <Snackbar
+      <Snackbar
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         open={open}
         autoHideDuration={3000}

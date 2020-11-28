@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import PageNotFound from '../404-error-page-found.jpg';
+import PageNotFound from '../asset/404-error-page-found.jpg';
 class NotFoundPage extends React.Component{
     render(){
         return <div class="container">

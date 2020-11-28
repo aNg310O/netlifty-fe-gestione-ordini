@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
-import API from './api';
-import './mytable.css'
-import './other2_table.css'
-import AuthService from "./services/auth.service";
-import authHeader from './services/auth-header';
+import API from '../services/api';
+import '../asset/mytable.css'
+import AuthService from "../services/auth.service";
+import authHeader from '../services/auth-header';
 import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 
@@ -14,6 +13,7 @@ const ProductTable = (props) => {
     const [result, setResult] = useState('');
     const [open, setOpen] = useState(false);
     const [snackColor, setSnackColor] = useState('teal');
+
     useEffect(() => {
         getData()
     },[props.trigP])
@@ -22,14 +22,14 @@ const ProductTable = (props) => {
         API.get(`/gestione-ordini/prodotti/`, { headers: authHeader() })
             .then(res => {
                 if (res.status === 200) {
-                if(seller.roles[0] === "ROLE_ADMIN") {
+                    if(seller.roles[0] === "ROLE_ADMIN") {
                     setProdotto(res.data)
-                }
-    }})
+                    }
+                }})
                 .catch(e => {
-                  if (e.response.status === 401) {
+                    if (e.response.status === 401) {
                       setSnackColor('red');
-                      setResult("La tua sessione è scaduta. Fai logout/login!")
+                      setResult("La tua sessione Ã¨ scaduta. Fai logout/login!")
                       setOpen(true);
                     } else if (e.response.status === 403) {
                       setSnackColor('red');
@@ -78,6 +78,7 @@ const ProductTable = (props) => {
         }
         setOpen(false);
       };
+
     return (
         <div>
             <table id='styled-table'>
@@ -88,6 +89,7 @@ const ProductTable = (props) => {
                     {renderBody()}
                 </tbody>
             </table>
+
             <Snackbar
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         open={open}
@@ -100,6 +102,7 @@ const ProductTable = (props) => {
           message={result}
         />
       </Snackbar>
+
         </div>
     )
 }
