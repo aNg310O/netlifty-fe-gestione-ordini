@@ -39,31 +39,24 @@ class App extends Component {
   }
 
   render() {
-    const { currentUser, 
+    const { currentUser,
       //showModeratorBoard, 
       showAdminBoard } = this.state;
 
     return (
       <div>
-        <nav className="navbar navbar-expand navbar-dark bg-secondary">
-          <Link to={"/"} className="navbar-brand">
-            Gestione Ordini
-          </Link>
-          <div className="navbar-nav mr-auto">
-            {/*<li className="nav-item">
-              <Link to={"/home"} className="nav-link">
+        <nav class="navbar navbar-dark bg-primary mb-4">
+        <p class="navbar-brand">Navbar</p>
+        <button class="navbar-toggler toggler-example" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1"
+    aria-controls="navbarSupportedContent1" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"><i
+        class="fas fa-bars fa-1x"></i></span></button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent1">
+          <ul class="navbar-nav mr-auto">
+            <li className="nav-item">
+              <Link to={"/"} className="nav-link">
                 Home
               </Link>
-            </li>*/}
-
-            {/*showModeratorBoard && (
-              <li className="nav-item">
-                <Link to={"/mod"} className="nav-link">
-                  Moderator Board
-                </Link>
-              </li>
-            )*/}
-
+            </li>
             {showAdminBoard && (
               <li className="nav-item">
                 <Link to={"/admin"} className="nav-link">
@@ -79,49 +72,29 @@ class App extends Component {
                 </Link>
               </li>
             )}
-          </div>
+
 
           {currentUser ? (
-            <div className="navbar-nav ml-auto">
-              <li className="nav-item">
-                <Link to={"/profile"} className="nav-link">
-                  {currentUser.username}
-          </Link>
-          </li>
-              <li className="nav-item">
-                <a href="/" className="nav-link" onClick={this.logOut}>
-                  LogOut
-                </a>
-              </li>
+            <div>
+              <li className="nav-item"><Link to={"/profile"} className="nav-link">{currentUser.username}</Link></li>
+              <li className="nav-item"><a href="/" className="nav-link" onClick={this.logOut}>LogOut</a></li>
             </div>
           ) : (
-            <div className="navbar-nav ml-auto">
-              <li className="nav-item">
-                <Link to={"/login"} className="nav-link">
-                  Login
-                </Link>
-              </li>
-
-            {/*}  <li className="nav-item">
-                <Link to={"/register"} className="nav-link">
-                  Sign Up
-                </Link>
-          </li>*/}
-            </div>
-          )}
+              <li className="nav-item"><Link to={"/login"} className="nav-link">Login</Link></li>
+                )}
+            </ul>
+          </div>
         </nav>
 
         <div className="container mt-3">
           <Switch>
             <Route exact path={["/", "/home"]} component={Home} />
             <Route exact path="/login" component={Login} />
-            {/*<Route exact path="/register" component={Register} />*/}
             <Route exact path="/profile" component={Profile} />
             <Route path="/user" component={BoardUser} />
-            {/*<Route path="/mod" component={BoardModerator} />*/}
             <Route path="/admin" component={BoardAdmin} />
             <Route path="/404" component={NotFoundPage} />
-                    <Redirect to="/404" />
+            <Redirect to="/404" />
           </Switch>
         </div>
       </div>
