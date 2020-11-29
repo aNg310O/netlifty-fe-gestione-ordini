@@ -148,7 +148,7 @@ export default function AdminComponent() {
       <br></br>
       <FormControlLabel
         control={<Switch checked={checkC} onChange={handleSwitchCChange} name="checkedC" color="primary" />}
-        label="Report ordini"
+        label="Report ordini oggi"
       />
       <Box display={boxReportVisibility} className={classes.root}>
         <AdminReportTable trigR={checkC} />

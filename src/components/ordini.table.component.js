@@ -30,18 +30,16 @@ const Table = (props) => {
     }
 
     const renderHeader = () => {
-        let headerElement = ['data inserimento', 'venditore', 'desc', 'qty', 'peso totale','note', 'operation']
+        let headerElement = ['desc', 'qty', 'peso totale','note', 'operation']
         return headerElement.map((key, index) => {
             return <th key={index}>{key.toUpperCase()}</th>
         })
     }
 
     const renderBody = () => {
-        return ordini && ordini.map(({ id, desc, qty, pesoTotale, dataInserimento, seller, note }) => {
+        return ordini && ordini.map(({ id, desc, qty, pesoTotale, note }) => {
             return (
                 <tr key={id}>
-                    <td>{dataInserimento}</td>
-                    <td>{seller}</td>
                     <td>{desc}</td>
                     <td>{qty}</td>
                     <td>{pesoTotale}</td>
