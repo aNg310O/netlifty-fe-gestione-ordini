@@ -16,7 +16,6 @@ class App extends Component {
     this.logOut = this.logOut.bind(this);
 
     this.state = {
-      //showModeratorBoard: false,
       showAdminBoard: false,
       currentUser: undefined,
     };
@@ -28,7 +27,6 @@ class App extends Component {
     if (user) {
       this.setState({
         currentUser: user,
-        //showModeratorBoard: user.roles.includes("ROLE_MODERATOR"),
         showAdminBoard: user.roles.includes("ROLE_ADMIN"),
       });
     }
@@ -36,17 +34,17 @@ class App extends Component {
 
   logOut() {
     AuthService.logout();
+    this.setState ({currentUser: undefined, showAdminBoard: false});
   }
 
   render() {
     const { currentUser,
-      //showModeratorBoard, 
       showAdminBoard } = this.state;
 
     return (
       <div>
         <nav class="navbar navbar-dark bg-primary mb-4">
-        <p class="navbar-brand">GESTIONE ORDINI</p>
+        <p className="navbar-brand">GESTIONE ORDINI</p>
         <button class="navbar-toggler toggler-example" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1"
     aria-controls="navbarSupportedContent1" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"><i
         class="fas fa-bars fa-1x"></i></span></button>
@@ -77,7 +75,7 @@ class App extends Component {
           {currentUser ? (
             <div>
               <li className="nav-item"><Link to={"/profile"} className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show">{currentUser.username}</Link></li>
-              <li className="nav-item"><a href="/" className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show" onClick={this.logOut}>LogOut</a></li>
+              <li className="nav-item"><Link to={"/"} className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show" onClick={this.logOut}>LogOut</Link></li>
             </div>
           ) : (
               <li className="nav-item"><Link to={"/login"} className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show">Login</Link></li>
@@ -94,7 +92,7 @@ class App extends Component {
             <Route path="/user" component={BoardUser} />
             <Route path="/admin" component={BoardAdmin} />
             <Route path="/404" component={NotFoundPage} />
-            <Redirect to="/404" />
+              <Redirect to="/404" />
           </Switch>
         </div>
       </div>
