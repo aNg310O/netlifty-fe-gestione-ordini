@@ -14,6 +14,7 @@ import { ProductTable } from './admin.product.component';
 import { AdminUsersTable } from './admin.users.component';
 import { AdminReportTable } from './admin.report.component';
 import { AdminReportDay } from './admin.customReport.component';
+import { AdminOrderTable } from './admin.ordini.table.component';
 import authHeader from '../services/auth-header';
 import Register from "./register.component";
 
@@ -49,6 +50,8 @@ export default function AdminComponent() {
   const [boxReportDayVisibility, setBoxReportDayVisibility] = useState("none");
   const [checkD, setCheckD] = useState(false);
   const [snackColor, setSnackColor] = useState('teal');
+  const [checkE, setCheckE] = useState(false);
+  const [boxSingleOrderVisibility, setBoxSingleOrderVisibility] = useState("none");
 
   const handleSwitchChange = (event) => {
     setCheckA(event.target.checked);
@@ -72,6 +75,12 @@ export default function AdminComponent() {
     setCheckD(event.target.checked);
     if (event.target.checked) { setBoxReportDayVisibility("block"); }
     else { setBoxReportDayVisibility("none"); }
+  };
+
+  const handleSwitchEChange = (event) => {
+    setCheckE(event.target.checked);
+    if (event.target.checked) { setBoxSingleOrderVisibility("block"); }
+    else { setBoxSingleOrderVisibility("none"); }
   };
 
   const handleProductClick = (desc, grammatura, pesoTotale) => {
@@ -160,6 +169,14 @@ export default function AdminComponent() {
       />
       <Box display={boxReportDayVisibility} className={classes.root}>
         <AdminReportDay trigRD={checkD} />
+      </Box>
+      <br></br>
+      <FormControlLabel
+        control={<Switch checked={checkE} onChange={handleSwitchEChange} name="checkedE" color="primary" />}
+        label="Report per singolo ordine"
+      />
+      <Box display={boxSingleOrderVisibility} className={classes.root}>
+        <AdminOrderTable trigE={checkE} />
       </Box>
 
       <Snackbar
