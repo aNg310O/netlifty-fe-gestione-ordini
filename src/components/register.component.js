@@ -124,11 +124,12 @@ export default class Register extends Component {
     return (
       <div className="col-md-12">
         <div className="card card-container">
-          <img
+          {/*<img
             src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
             alt="profile-img"
             className="profile-img-card"
-          />
+          />*/}
+          <h5>Inserisci un nuovo utente</h5>
 
           <Form
             onSubmit={this.handleRegister}
@@ -175,7 +176,7 @@ export default class Register extends Component {
                 </div>
 
                 <div className="form-group">
-                  <button className="btn btn-primary btn-block">Sign Up</button>
+                  <button className="btn btn-primary btn-block">Registra</button>
                 </div>
               </div>
             )}

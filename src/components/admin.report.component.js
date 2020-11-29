@@ -39,8 +39,8 @@ const AdminReportTable = (props) => {
         let today = new Date().toISOString().slice(0, 10)
         window.scrollTo(0,0)
         var test = new jsPDF();
-        test.text(`Report ordini per il giorno ${today}`, 5, 15);
-        test.autoTable({html: '#report', startY: 25});
+        test.text(`Report ordini per il giorno ${today}`, 10, 15);
+        test.autoTable({html: '#report', startY: 25 });
         test.save(`report_${today}.pdf`);
         };
 

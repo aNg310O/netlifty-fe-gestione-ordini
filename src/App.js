@@ -46,20 +46,20 @@ class App extends Component {
     return (
       <div>
         <nav class="navbar navbar-dark bg-primary mb-4">
-        <p class="navbar-brand">Navbar</p>
+        <p class="navbar-brand">GESTIONE ORDINI</p>
         <button class="navbar-toggler toggler-example" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1"
     aria-controls="navbarSupportedContent1" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"><i
         class="fas fa-bars fa-1x"></i></span></button>
           <div class="collapse navbar-collapse" id="navbarSupportedContent1">
           <ul class="navbar-nav mr-auto">
             <li className="nav-item">
-              <Link to={"/"} className="nav-link">
+              <Link to={"/"} className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show">
                 Home
               </Link>
             </li>
             {showAdminBoard && (
               <li className="nav-item">
-                <Link to={"/admin"} className="nav-link">
+                <Link to={"/admin"} className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show">
                   Admin
                 </Link>
               </li>
@@ -67,7 +67,7 @@ class App extends Component {
 
             {currentUser && (
               <li className="nav-item">
-                <Link to={"/user"} className="nav-link">
+                <Link to={"/user"} className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show">
                   Ordini
                 </Link>
               </li>
@@ -76,11 +76,11 @@ class App extends Component {
 
           {currentUser ? (
             <div>
-              <li className="nav-item"><Link to={"/profile"} className="nav-link">{currentUser.username}</Link></li>
-              <li className="nav-item"><a href="/" className="nav-link" onClick={this.logOut}>LogOut</a></li>
+              <li className="nav-item"><Link to={"/profile"} className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show">{currentUser.username}</Link></li>
+              <li className="nav-item"><a href="/" className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show" onClick={this.logOut}>LogOut</a></li>
             </div>
           ) : (
-              <li className="nav-item"><Link to={"/login"} className="nav-link">Login</Link></li>
+              <li className="nav-item"><Link to={"/login"} className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show">Login</Link></li>
                 )}
             </ul>
           </div>

@@ -16,7 +16,6 @@ import { AdminReportTable } from './admin.report.component';
 import { AdminReportDay } from './admin.customReport.component';
 import authHeader from '../services/auth-header';
 import Register from "./register.component";
-import AuthService from "../services/auth.service";
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -50,8 +49,6 @@ export default function AdminComponent() {
   const [boxReportDayVisibility, setBoxReportDayVisibility] = useState("none");
   const [checkD, setCheckD] = useState(false);
   const [snackColor, setSnackColor] = useState('teal');
-
-  const seller = AuthService.getCurrentUser();
 
   const handleSwitchChange = (event) => {
     setCheckA(event.target.checked);
@@ -131,9 +128,9 @@ export default function AdminComponent() {
       <Box display={boxProductVisibility} className={classes.root}>
         <ProductTable trigP={checkA} />
 <br></br>
-        <TextField required label="Descrizione" variant="outlined" value={desc} margin="dense" type="string" defaultValue="" onChange={e => setDesc(e.target.value)}></TextField>
-        <TextField required label="Grammatura (gr)" variant="outlined" value={grammatura} margin="dense" type="number" defaultValue="" onChange={e => setGrammatura(e.target.value)}></TextField>
-        <TextField required label="Peso Totale (gr)" variant="outlined" value={pesoTotale} margin="dense" type="number" defaultValue="" onChange={e => setPesoTotale(e.target.value)}></TextField>
+        <TextField required label="Descrizione" variant="outlined" value={desc} margin="none" type="string" defaultValue="" onChange={e => setDesc(e.target.value)}></TextField>
+        <TextField required label="Grammatura (gr)" variant="outlined" value={grammatura} margin="none" type="number" defaultValue="" onChange={e => setGrammatura(e.target.value)} InputProps={{ inputProps: {min: 0} }}></TextField>
+        <TextField required label="Peso Totale (gr)" variant="outlined" value={pesoTotale} margin="none" type="number" defaultValue="" onChange={e => setPesoTotale(e.target.value)} InputProps={{ inputProps: {min: 0} }}></TextField>
         <br></br>
         <Button onClick={() => handleProductClick(desc, grammatura, pesoTotale)} size="large" style={{ display: 'flex', backgroundColor: "#3f51b5", alignItems: 'center', justifyContent: 'center', "margin-top": "10px" }} startIcon={<CloudUploadIcon />} variant="outlined">
           Inserisci il prodotto

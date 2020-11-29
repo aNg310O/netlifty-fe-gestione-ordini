@@ -230,7 +230,7 @@ const currentUser = AuthService.getCurrentUser();
           <TextField label="Note" value={note} onChange={e => setNote(e.target.value)} margin="none" type="string" defaultValue="" variant="outlined" ></TextField>
           
           <Button onClick={() => handleClick(selected,note)} size="large" style={{ display: 'flex', backgroundColor: "#3f51b5", alignItems: 'center', justifyContent: 'center', "margin-top": "10px" }} startIcon={<CloudUploadIcon />} variant="outlined">
-            Inserisci l'ordine
+            Inserisci ordine
           </Button>
         </Box>
         <Box display={boxCustomVisibility} className={classes.root}>
@@ -239,7 +239,7 @@ const currentUser = AuthService.getCurrentUser();
           <TextField required value={ordine} margin="none" onChange={e => setOrdine(e.target.value)} type="number" defaultValue="0" variant="outlined" label="Quantità(pezzi)" InputProps={{ inputProps: {min: 0} }}></TextField>
           <TextField value={note} margin="none" onChange={e => setNote(e.target.value)} type="string" defaultValue="" variant="outlined" label="Note"></TextField>
           <Button onClick={() => handleCustomClick(prodotto, pesoTotaleCustom, ordine, note)} size="large" style={{ display: 'flex', backgroundColor: "#3f51b5", alignItems: 'center', justifyContent: 'center', "margin-top": "10px" }} startIcon={<CloudUploadIcon />} variant="outlined">
-            Inserisci l'ordine personalizzato
+            Inserisci ordine personalizzato
           </Button>
         </Box>
       </Box>

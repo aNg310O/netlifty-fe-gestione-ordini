@@ -53,8 +53,8 @@ const AdminReportDay = (props) => {
     const handleReportClick = () => {
         window.scrollTo(0,0)
         var test = new jsPDF();
-        test.text(`Report ordini per il giorno ${fileName.substring(7,16)}`, 5, 15);
-        test.autoTable({html: '#reportday', startY: 25});
+        test.text(`Report ordini per il giorno ${fileName.substring(7,16)}`, 10, 15);
+        test.autoTable({html: '#reportday', startY: 25 });
         test.save(`${fileName}.pdf`);
         };
 
@@ -100,7 +100,7 @@ const AdminReportDay = (props) => {
             />
     </MuiPickersUtilsProvider>
 
-        <Button onClick={() => handleReportClick()} size="large" style={{ "margin-top":"10px", display: 'flex', backgroundColor: "#3f51b5", alignItems: 'center', justifyContent: 'center', "margin-top": "10px" }} startIcon={<CloudUploadIcon />} variant="outlined">
+        <Button onClick={() => handleReportClick()} size="large" style={{ display: 'flex', backgroundColor: "#3f51b5", alignItems: 'center', justifyContent: 'center', "margin-top": "10px" }} startIcon={<CloudUploadIcon />} variant="outlined">
             Download Report
         </Button>
         <br></br>
