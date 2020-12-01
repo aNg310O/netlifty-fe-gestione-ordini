@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export function SellerComponent() {
+export function RivediOrdineComponent() {
   const classes = useStyles();
   const [items, setItems] = useState([]);
   const [selected, setSelected] = useState(['']);
@@ -203,47 +203,12 @@ const currentUser = AuthService.getCurrentUser();
   };
 
   return (
-    <div>
-      {/*<ButtonAppBar />
-      <FormControlLabel
-        control={<Switch checked={checkA} onChange={handleSwitchChange} name="checkedA" color="primary" />}
-        label="Inserisci ordini"
-      />*/}
+    <div>  
       <Box className={classes.root}>
-        <FormControl className={classes.formControl}>
-          <InputLabel id="demo-simple-select-label">Prodotti</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={selected.desc}
-            onChange={handleChange}>
-            {items && items.map((myData) => (
-            <MenuItem value={myData} key={myData.desc}>{myData.desc}</MenuItem>))}
-            <MenuItem value={2} key={"custom"}>Custom</MenuItem>
-          </Select>
-        </FormControl>
-        <Box display={boxVisibility} className={classes.root}>
-          <TextField label="Prodotto" style={{ backgroundColor: "#D4D4D4"}} InputLabelProps={{ shrink: true }} InputProps={{ readOnly: true }} variant="outlined" value={selected.desc}></TextField>
-          <TextField label="Grammatura (gr)" style={{ backgroundColor: "#D4D4D4"}} InputLabelProps={{ shrink: true, }} InputProps={{ readOnly: true, }} variant="outlined" value={selected.grammatura}></TextField>
-          <TextField label="Peso Totale (gr)" style={{ backgroundColor: "#D4D4D4"}} InputLabelProps={{ shrink: true, }} InputProps={{ readOnly: true, }} variant="outlined" value={selected.pesoTotale * order}></TextField>
-          <TextField label="Inserisci qui l'ordine" margin="none" onChange={e => setOrder(e.target.value)} value={order} type="number" defaultValue="0" variant="outlined" InputProps={{ inputProps: {min: 0} }}></TextField>
-          <TextField label="Note" value={note} onChange={e => setNote(e.target.value)} margin="none" type="string" defaultValue="" variant="outlined" ></TextField>
-          
-          <Button onClick={() => handleClick(selected,note)} size="large" style={{ display: 'flex', backgroundColor: "#3f51b5", alignItems: 'center', justifyContent: 'center', "margin-top": "10px" }} startIcon={<CloudUploadIcon />} variant="outlined">
-            Inserisci ordine
-          </Button>
-        </Box>
-        <Box display={boxCustomVisibility} className={classes.root}>
-          <TextField required value={prodotto} margin="none" onChange={e => setProdotto(e.target.value)} type="string" defaultValue="" variant="outlined" label="Nome prodotto"></TextField>
-          <TextField required value={pesoTotaleCustom} margin="none" onChange={e => setPesoTotaleCustom(e.target.value)} type="number" defaultValue="0" variant="outlined" label="Peso totale(gr)" InputProps={{ inputProps: {min: 0} }}></TextField>
-          <TextField required value={ordine} margin="none" onChange={e => setOrdine(e.target.value)} type="number" defaultValue="0" variant="outlined" label="Quantità(pezzi)" InputProps={{ inputProps: {min: 0} }}></TextField>
-          <TextField value={note} margin="none" onChange={e => setNote(e.target.value)} type="string" defaultValue="" variant="outlined" label="Note"></TextField>
-          <Button onClick={() => handleCustomClick(prodotto, pesoTotaleCustom, ordine, note)} size="large" style={{ display: 'flex', backgroundColor: "#3f51b5", alignItems: 'center', justifyContent: 'center', "margin-top": "10px" }} startIcon={<CloudUploadIcon />} variant="outlined">
-            Inserisci ordine personalizzato
-          </Button>
-        </Box>
+              <Table trig={checkB} />
       </Box>
-      <Snackbar
+
+<Snackbar
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         open={open}
         autoHideDuration={3000}
@@ -255,13 +220,6 @@ const currentUser = AuthService.getCurrentUser();
           message={result}
         />
       </Snackbar>
-      {/*<FormControlLabel
-        control={<Switch checked={checkB} onChange={handleSwitchBChange} name="checkedB" color="primary" />}
-        label="Rivedi/modifica l'ordine inserito"
-      />
-      <Box display={boxOrderVisibility} className={classes.root}>
-              <Table trig={checkB} />
-      </Box>*/}
     </div>
   )
 }

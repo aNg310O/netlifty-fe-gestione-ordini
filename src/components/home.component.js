@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 import UserService from "../services/user.service";
 
-export default class MyHome extends Component {
+export default class Home extends Component {
   constructor(props) {
     super(props);
 
@@ -33,7 +33,7 @@ export default class MyHome extends Component {
     return (
       <div className="container">
         <header className="jumbotron">
-          <h3>{this.state.content}</h3>
+          <h6>Benvenuto. Gestisci i tuoi ordini da questa app!</h6>
         </header>
       </div>
     );

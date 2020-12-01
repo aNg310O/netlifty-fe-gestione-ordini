@@ -30,20 +30,21 @@ const Table = (props) => {
     }
 
     const renderHeader = () => {
-        let headerElement = ['desc', 'qty', 'peso totale','note', 'operation']
+        let headerElement = ['desc', 'qty', 'peso totale','note', 'venditore', 'operation']
         return headerElement.map((key, index) => {
             return <th key={index}>{key.toUpperCase()}</th>
         })
     }
 
     const renderBody = () => {
-        return ordini && ordini.map(({ id, desc, qty, pesoTotale, note }) => {
+        return ordini && ordini.map(({ id, desc, qty, pesoTotale, note, seller }) => {
             return (
                 <tr key={id}>
                     <td>{desc}</td>
                     <td>{qty}</td>
                     <td>{pesoTotale}</td>
                     <td>{note}</td>
+                    <td>{seller}</td>
                     <td className='operation'>
                         <button className='button' onClick={() => removeData(id)}>Delete</button>
                     </td>

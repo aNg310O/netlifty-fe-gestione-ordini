@@ -1,12 +1,18 @@
 import React, { Component } from "react";
-import { Switch, Route, Link, Redirect } from "react-router-dom";
-//import "bootstrap/dist/css/bootstrap.min.css";
+import { Switch, Route, Link, Redirect, withRouter } from "react-router-dom";
 import "./asset/App.css";
 import AuthService from "./services/auth.service";
 import Login from "./components/login.component";
 import Home from "./components/home.component";
 import Profile from "./components/profile.component";
 import BoardUser from "./components/board-user.component";
+import { SellerComponent } from './components/ordini.component'
+import { RivediOrdineComponent } from './components/ordine.rivedi.component'
+import { AdminProdotti } from './components/admin.gestioneprodotti.component'
+import { AdminUsers } from './components/admin.gestioneutenti.component'
+import { AdminNewUsers } from './components/admin.inserimentoutenti.component'
+import { AdminReportOggi } from './components/admin.reportoggi.component'
+import { AdminReportAltri } from './components/admin.altrireport.component'
 import BoardAdmin from "./components/board-admin.component";
 import NotFoundPage from './components/NotFoundPage'
 
@@ -19,11 +25,20 @@ class App extends Component {
       showAdminBoard: false,
       currentUser: undefined,
     };
-  }
+
+    this.state = {
+      title: ""
+   }
+}
+
+changeTitle = (newTitle) => {
+  this.setState({
+      title: newTitle
+  })
+}
 
   componentDidMount() {
     const user = AuthService.getCurrentUser();
-
     if (user) {
       this.setState({
         currentUser: user,
@@ -43,13 +58,16 @@ class App extends Component {
 
     return (
       <div>
-        <nav class="navbar navbar-dark bg-primary mb-4">
-        <p className="navbar-brand">GESTIONE ORDINI</p>
-        <button class="navbar-toggler toggler-example" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1"
-    aria-controls="navbarSupportedContent1" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"><i
-        class="fas fa-bars fa-1x"></i></span></button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent1">
-          <ul class="navbar-nav mr-auto">
+        <nav className="navbar navbar-dark bg-primary mb-4">
+            <p className="navbar-brand">Gestione Ordini</p>
+            <span className="navbar-text">
+              {currentUser ? currentUser.username + this.state.title  : 'Welcome'}
+            </span>
+        <button className="navbar-toggler toggler-example" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1"
+    aria-controls="navbarSupportedContent1" aria-expanded="false" aria-label="Toggle navigation"><span className="navbar-toggler-icon"><i
+        className="fas fa-bars fa-1x"></i></span></button>
+          <div className="collapse navbar-collapse" id="navbarSupportedContent1">
+          <ul className="navbar-nav mr-auto">
             <li className="nav-item">
               <Link to={"/"} className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show">
                 Home
@@ -57,16 +75,56 @@ class App extends Component {
             </li>
             {showAdminBoard && (
               <li className="nav-item">
-                <Link to={"/admin"} className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show">
-                  Admin
+                <Link to={"/admin/prodotti"} className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show" onClick={() => this.setState({title: " | Gestione dei prodotti"})}>
+                  Gestione prodotti
+                </Link>
+              </li>
+            ) }
+
+            {showAdminBoard && (
+              <li className="nav-item">
+                <Link to={"/admin/users"} className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show" onClick={() => this.setState({title: " | Gestione degli utenti"})}>
+                  Gestione utenti
+                </Link>
+              </li>
+            ) }
+
+            {showAdminBoard && (
+              <li className="nav-item">
+                <Link to={"/admin/new"} className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show" onClick={() => this.setState({title: " | Creazione nuovi utenti"})}>
+                  Inserimento utenti
+                </Link>
+              </li>
+            ) }
+
+            {showAdminBoard && (
+              <li className="nav-item">
+                <Link to={"/admin/report/oggi"} className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show" onClick={() => this.setState({title: " | Report di oggi"})}>
+                  Report di oggi
+                </Link>
+              </li>
+            ) }
+
+            {showAdminBoard && (
+              <li className="nav-item">
+                <Link to={"/admin/report/altri"} className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show" onClick={() => this.setState({title: " | Altri report"})}>
+                  Altri report
+                </Link>
+              </li>
+            ) }
+
+            {currentUser && (
+              <li className="nav-item">
+                <Link to={"/user/ordine"} className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show" onClick={() => this.setState({title: " | Inserimento ordini"})}>
+                  Esegui ordine
                 </Link>
               </li>
             )}
 
             {currentUser && (
               <li className="nav-item">
-                <Link to={"/user"} className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show">
-                  Ordini
+                <Link to={"/user/recap"} className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show" onClick={() => this.setState({title: " | Verifica ordine"})}>
+                  Visualizza Ordine
                 </Link>
               </li>
             )}
@@ -74,8 +132,7 @@ class App extends Component {
 
           {currentUser ? (
             <div>
-              <li className="nav-item"><Link to={"/profile"} className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show">{currentUser.username}</Link></li>
-              <li className="nav-item"><Link to={"/"} className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show" onClick={this.logOut}>LogOut</Link></li>
+              <li className="nav-item"><Link to={"/login"} className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show" onClick={this.logOut}>LogOut</Link></li>
             </div>
           ) : (
               <li className="nav-item"><Link to={"/login"} className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show">Login</Link></li>
@@ -89,8 +146,13 @@ class App extends Component {
             <Route exact path={["/", "/home"]} component={Home} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/profile" component={Profile} />
-            <Route path="/user" component={BoardUser} />
-            <Route path="/admin" component={BoardAdmin} />
+            <Route path="/user/ordine" component={SellerComponent} />
+            <Route path="/user/recap" component={RivediOrdineComponent} />
+            <Route path="/admin/prodotti" component={AdminProdotti} />
+            <Route path="/admin/users" component={AdminUsers} />
+            <Route path="/admin/new" component={AdminNewUsers} />
+            <Route path="/admin/report/oggi" component={AdminReportOggi} />
+            <Route path="/admin/report/altri" component={AdminReportAltri} />
             <Route path="/404" component={NotFoundPage} />
               <Redirect to="/404" />
           </Switch>
