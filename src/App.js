@@ -5,7 +5,6 @@ import AuthService from "./services/auth.service";
 import Login from "./components/login.component";
 import Home from "./components/home.component";
 import Profile from "./components/profile.component";
-import BoardUser from "./components/board-user.component";
 import { SellerComponent } from './components/ordini.component'
 import { RivediOrdineComponent } from './components/ordine.rivedi.component'
 import { AdminProdotti } from './components/admin.gestioneprodotti.component'
@@ -13,7 +12,6 @@ import { AdminUsers } from './components/admin.gestioneutenti.component'
 import { AdminNewUsers } from './components/admin.inserimentoutenti.component'
 import { AdminReportOggi } from './components/admin.reportoggi.component'
 import { AdminReportAltri } from './components/admin.altrireport.component'
-import BoardAdmin from "./components/board-admin.component";
 import NotFoundPage from './components/NotFoundPage'
 
 class App extends Component {
@@ -59,7 +57,6 @@ changeTitle = (newTitle) => {
     return (
       <div>
         <nav className="navbar navbar-dark bg-primary mb-4">
-            <p className="navbar-brand">Gestione Ordini</p>
             <span className="navbar-text">
               {currentUser ? currentUser.username + this.state.title  : 'Welcome'}
             </span>
@@ -68,11 +65,6 @@ changeTitle = (newTitle) => {
         className="fas fa-bars fa-1x"></i></span></button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent1">
           <ul className="navbar-nav mr-auto">
-            <li className="nav-item">
-              <Link to={"/"} className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show">
-                Home
-              </Link>
-            </li>
             {showAdminBoard && (
               <li className="nav-item">
                 <Link to={"/admin/prodotti"} className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show" onClick={() => this.setState({title: " | Gestione dei prodotti"})}>
