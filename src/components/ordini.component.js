@@ -151,6 +151,7 @@ const currentUser = AuthService.getCurrentUser();
           }
         });
     } else {
+        setSnackColor('orange');
         setResult("L'ordine non può essere vuoto...")
         setOpen(true);
       }
@@ -190,6 +191,7 @@ const currentUser = AuthService.getCurrentUser();
           }
         });
     } else {
+        setSnackColor('orange');
         setResult("L'ordine non può essere vuoto...")
         setOpen(true);
       }
@@ -223,21 +225,21 @@ const currentUser = AuthService.getCurrentUser();
           </Select>
         </FormControl>
         <Box display={boxVisibility} className={classes.root}>
-          <TextField label="Prodotto" style={{ backgroundColor: "#D4D4D4"}} InputLabelProps={{ shrink: true }} InputProps={{ readOnly: true }} variant="outlined" value={selected.desc}></TextField>
-          <TextField label="Grammatura (gr)" style={{ backgroundColor: "#D4D4D4"}} InputLabelProps={{ shrink: true, }} InputProps={{ readOnly: true, }} variant="outlined" value={selected.grammatura}></TextField>
-          <TextField label="Peso Totale (gr)" style={{ backgroundColor: "#D4D4D4"}} InputLabelProps={{ shrink: true, }} InputProps={{ readOnly: true, }} variant="outlined" value={selected.pesoTotale * order}></TextField>
-          <TextField label="Inserisci qui l'ordine" margin="none" onChange={e => setOrder(e.target.value)} value={order} type="number" defaultValue="0" variant="outlined" InputProps={{ inputProps: {min: 0} }}></TextField>
-          <TextField label="Note" value={note} onChange={e => setNote(e.target.value)} margin="none" type="string" defaultValue="" variant="outlined" ></TextField>
+          <TextField label="Prodotto" style={{ backgroundColor: "#D4D4D4", "margin": "10px"}} InputLabelProps={{ shrink: true }} InputProps={{ readOnly: true }} variant="outlined" value={selected.desc}></TextField>
+          <TextField label="Grammatura (gr)" style={{ backgroundColor: "#D4D4D4", "margin": "10px"}} InputLabelProps={{ shrink: true, }} InputProps={{ readOnly: true, }} variant="outlined" value={selected.grammatura}></TextField>
+          <TextField label="Peso Totale (gr)" style={{ backgroundColor: "#D4D4D4", "margin": "10px"}} InputLabelProps={{ shrink: true, }} InputProps={{ readOnly: true, }} variant="outlined" value={selected.pesoTotale * order}></TextField>
+          <TextField label="Inserisci qui l'ordine" style={{ "margin": "10px"}} margin="none" onChange={e => setOrder(e.target.value)} value={order} type="number" defaultValue="0" variant="outlined" InputProps={{ inputProps: {min: 0} }}></TextField>
+          <TextField label="Note" style={{ "margin": "10px"}} value={note} onChange={e => setNote(e.target.value)} margin="none" type="string" defaultValue="" variant="outlined" ></TextField>
           
           <Button onClick={() => handleClick(selected,note)} size="large" style={{ display: 'flex', backgroundColor: "#3f51b5", alignItems: 'center', justifyContent: 'center', "margin-top": "10px" }} startIcon={<CloudUploadIcon />} variant="outlined">
             Inserisci ordine
           </Button>
         </Box>
         <Box display={boxCustomVisibility} className={classes.root}>
-          <TextField required value={prodotto} margin="none" onChange={e => setProdotto(e.target.value)} type="string" defaultValue="" variant="outlined" label="Nome prodotto"></TextField>
-          <TextField required value={pesoTotaleCustom} margin="none" onChange={e => setPesoTotaleCustom(e.target.value)} type="number" defaultValue="0" variant="outlined" label="Peso totale(gr)" InputProps={{ inputProps: {min: 0} }}></TextField>
-          <TextField required value={ordine} margin="none" onChange={e => setOrdine(e.target.value)} type="number" defaultValue="0" variant="outlined" label="Quantità(pezzi)" InputProps={{ inputProps: {min: 0} }}></TextField>
-          <TextField value={note} margin="none" onChange={e => setNote(e.target.value)} type="string" defaultValue="" variant="outlined" label="Note"></TextField>
+          <TextField required value={prodotto} style={{ "margin": "10px"}} margin="none" onChange={e => setProdotto(e.target.value)} type="string" defaultValue="" variant="outlined" label="Nome prodotto"></TextField>
+          <TextField required value={pesoTotaleCustom} style={{ "margin": "10px"}} margin="none" onChange={e => setPesoTotaleCustom(e.target.value)} type="number" defaultValue="0" variant="outlined" label="Peso totale(gr)" InputProps={{ inputProps: {min: 0} }}></TextField>
+          <TextField required value={ordine} style={{ "margin": "10px"}} margin="none" onChange={e => setOrdine(e.target.value)} type="number" defaultValue="0" variant="outlined" label="Quantità(pezzi)" InputProps={{ inputProps: {min: 0} }}></TextField>
+          <TextField value={note} style={{ "margin": "10px"}} margin="none" onChange={e => setNote(e.target.value)} type="string" defaultValue="" variant="outlined" label="Note"></TextField>
           <Button onClick={() => handleCustomClick(prodotto, pesoTotaleCustom, ordine, note)} size="large" style={{ display: 'flex', backgroundColor: "#3f51b5", alignItems: 'center', justifyContent: 'center', "margin-top": "10px" }} startIcon={<CloudUploadIcon />} variant="outlined">
             Inserisci ordine personalizzato
           </Button>

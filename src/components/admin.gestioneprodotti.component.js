@@ -130,9 +130,9 @@ export function AdminProdotti() {
     <div>
       <Box className={classes.root}>
         <ProductTable trigP={checkA} />
-        <TextField required label="Descrizione" variant="outlined" value={desc} margin="none" type="string" defaultValue="" onChange={e => setDesc(e.target.value)}></TextField>
-        <TextField required label="Grammatura (gr)" variant="outlined" value={grammatura} margin="none" type="number" defaultValue="" onChange={e => setGrammatura(e.target.value)} InputProps={{ inputProps: {min: 0} }}></TextField>
-        <TextField required label="Peso Totale (gr)" variant="outlined" value={pesoTotale} margin="none" type="number" defaultValue="" onChange={e => setPesoTotale(e.target.value)} InputProps={{ inputProps: {min: 0} }}></TextField>
+        <TextField required label="Descrizione" variant="outlined" value={desc} margin="none" type="string" defaultValue="" onChange={e => setDesc(e.target.value)} style={{"margin": "20px" }}></TextField>
+        <TextField required label="Grammatura (gr)" variant="outlined" value={grammatura} margin="none" type="number" defaultValue="" onChange={e => setGrammatura(e.target.value)} InputProps={{ inputProps: {min: 0} }} style={{"margin": "20px" }}></TextField>
+        <TextField required label="Peso Totale (gr)" variant="outlined" value={pesoTotale} margin="none" type="number" defaultValue="" onChange={e => setPesoTotale(e.target.value)} InputProps={{ inputProps: {min: 0} }} style={{"margin": "20px" }}></TextField>
         <Button onClick={() => handleProductClick(desc, grammatura, pesoTotale)} size="large" style={{ display: 'flex', backgroundColor: "#3f51b5", alignItems: 'center', justifyContent: 'center', "margin-top": "10px" }} startIcon={<CloudUploadIcon />} variant="outlined">
           Inserisci il prodotto
           </Button>

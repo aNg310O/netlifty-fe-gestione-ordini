@@ -58,7 +58,7 @@ changeTitle = (newTitle) => {
       <div>
         <nav className="navbar navbar-dark bg-primary mb-4">
             <span className="navbar-text">
-              {currentUser ? currentUser.username + this.state.title  : 'Welcome'}
+              {currentUser ? currentUser.username + this.state.title  : 'Benvenuto'}
             </span>
         <button className="navbar-toggler toggler-example" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1"
     aria-controls="navbarSupportedContent1" aria-expanded="false" aria-label="Toggle navigation"><span className="navbar-toggler-icon"><i

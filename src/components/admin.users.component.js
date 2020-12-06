@@ -19,15 +19,29 @@ const AdminUsersTable = (props) => {
         getData()
     },[props.trigU])
 
-    const getData = async () => {
+    const getData = () => {
+        API.get(`/api/user/findUser`, { headers: authHeader() })
+            .then(res => {
+                if (res.status === 200) {
         if(seller.roles[0] === "ROLE_ADMIN"){
-            const response = await API.get(`/api/user/findUser`, { headers: authHeader() })
-            if (response.status === 200) {
-            setUsers(response.data)
-            } else if (response.status === 401) {
-                console.log("Token scaduto!")
+            setUsers(res.data)
             }
+               }})
+                .catch(e => {
+                    if (e.response.status === 401) {
+                      setSnackColor('red');
+                      setResult("Sessione scaduta. Fai logout/login!")
+                      setOpen(true);
+                    } else if (e.response.status === 403) {
+                      setSnackColor('red');
+                      setResult("No token provided. Fai logout/login!")
+                      setOpen(true);
+                    } else {
+                      setSnackColor('red');
+                      setResult(e.message)
+                      setOpen(true);
         }
+      });
     }
 
     //DA FARE
@@ -37,14 +51,16 @@ const AdminUsersTable = (props) => {
             setSnackColor('orange');
             setOpen(true);
         } else {
+ var answer = window.confirm(`Vuoi davvero eliminare l'utente?`);
+            if (answer) {
         API.delete(`api/user/deleteUser/${username}`, { headers: authHeader() }).then(res => {
             const del = users.filter(users => username !== users.username)
             setUsers(del)
         })}
-    }
+    }}
 
     const renderHeader = () => {
-        let headerElement = ['username', 'email', 'operation']
+        let headerElement = ['username', 'email', '']
         return headerElement.map((key, index) => {
             return <th key={index}>{key.toUpperCase()}</th>
         })
@@ -57,7 +73,7 @@ const AdminUsersTable = (props) => {
                     <td>{username}</td>
                     <td>{email}</td>
                     <td className='operation'>
-                        <button className='button' onClick={() => removeData(username)}>Delete</button>
+                        <button className='button' onClick={() => removeData(username)}>Elimina</button>
                     </td>
                 </tr>
             )

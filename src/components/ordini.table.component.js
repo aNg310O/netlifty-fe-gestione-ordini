@@ -23,14 +23,16 @@ const Table = (props) => {
     }
 
     const removeData = (id) => {
+        var answer = window.confirm(`Vuoi davvero eliminare questo ordine?`);
+        if (answer) {
         API.delete(`gestione-ordini/ordine/${id}`, { headers: authHeader() }).then(res => {
             const del = ordini.filter(ordine => id !== ordine.id)
             setOrdini(del)
-        })
+        })}
     }
 
     const renderHeader = () => {
-        let headerElement = ['desc', 'qty', 'peso totale','note', 'venditore', 'operation']
+        let headerElement = ['desc', 'qty', 'peso totale','note', 'venditore', '']
         return headerElement.map((key, index) => {
             return <th key={index}>{key.toUpperCase()}</th>
         })
@@ -46,7 +48,7 @@ const Table = (props) => {
                     <td>{note}</td>
                     <td>{seller}</td>
                     <td className='operation'>
-                        <button className='button' onClick={() => removeData(id)}>Delete</button>
+                        <button className='button' onClick={() => removeData(id)}>Elimina</button>
                     </td>
                 </tr>
             )

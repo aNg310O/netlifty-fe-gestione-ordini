@@ -15,13 +15,19 @@ import Button from '@material-ui/core/Button';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import { jsPDF } from "jspdf";
 import 'jspdf-autotable';
-
+import { Plugins, FilesystemDirectory, FilesystemEncoding } from '@capacitor/core';
+import Snackbar from '@material-ui/core/Snackbar';
+import SnackbarContent from '@material-ui/core/SnackbarContent';
+const { Toast } = Plugins;
 const seller = AuthService.getCurrentUser();
 
 const AdminOrderTable = (props) => {
     const [ordine, setOrdine] = useState([])
     const [selectedDate, setSelectedDate] = useState();
     const [fileName, setFileName] = useState('');
+    const [result, setResult] = useState('');
+    const [open, setOpen] = useState(false);
+    const [snackColor, setSnackColor] = useState('teal');
 
     useEffect(() => {},[props.trigE])
 
@@ -33,20 +39,53 @@ const AdminOrderTable = (props) => {
         setFileName("report_full_" + str);
       };
 
-    const getData = async (str) => {
+    const getData = (str) => {
+       var totalone = 0;
+        API.get(`/gestione-ordine/allOrder/${str}`, { headers: authHeader() })
+            .then(res => {
+                if (res.status === 200) {
         if(seller.roles[0] === "ROLE_ADMIN"){
-            const response = await API.get(`/gestione-ordine/allOrder/${str}`, { headers: authHeader() })
-            //console.log(response.data)
-              setOrdine(response.data)
+              setOrdine(res.data)
         } 
+               }})
+                .catch(e => {
+                    if (e.response.status === 401) {
+                      setSnackColor('red');
+                      setResult("Sessione scaduta. Fai logout/login!")
+                      setOpen(true);
+                    } else if (e.response.status === 403) {
+                      setSnackColor('red');
+                      setResult("No token provided. Fai logout/login!")
+                      setOpen(true);
+                    } else {
+                      setSnackColor('red');
+                      setResult(e.message)
+                      setOpen(true);
     }
+                 });
+              }
 
     const handleReportClick = () => {
         window.scrollTo(0,0)
         var test = new jsPDF();
         test.text(`Report ordini per il giorno ${fileName.substring(7,16)}`, 10, 15);
         test.autoTable({html: '#reportdaysingle', startY: 25 });
+        var strb64 = btoa(test.output());
+        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+            Plugins.Filesystem.writeFile({
+                path: `${fileName}.pdf`,
+                data: strb64,
+                directory: FilesystemDirectory.Documents,
+                recursive:true
+            })
+            Toast.show({
+                text: `Download ${fileName}.pdf in ${FilesystemDirectory.Documents}`,
+                position: 'center',
+                duration: 'long'
+            })
+        } else {
         test.save(`${fileName}.pdf`);
+        }
         };
 
     const renderHeader = () => {
@@ -75,6 +114,12 @@ const AdminOrderTable = (props) => {
         e.preventDefault();
         return false
         }
+        const handleClose = (event, reason) => {
+            if (reason === 'clickaway') {
+              return;
+            }
+            setOpen(false);
+          };
 
     return (
         <div id='root-content'>
@@ -108,6 +153,18 @@ const AdminOrderTable = (props) => {
             </table>
         </div>
         <br></br>
+        <Snackbar
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        open={open}
+        autoHideDuration={3000}
+        onClose={handleClose}
+      >
+        <SnackbarContent style={{
+          backgroundColor: snackColor,
+        }}
+          message={result}
+        />
+      </Snackbar>
         </div>
     )
 }

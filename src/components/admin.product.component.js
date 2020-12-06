@@ -44,14 +44,17 @@ const ProductTable = (props) => {
               }
 
     const removeData = (id) => {
+       var answer = window.confirm(`Vuoi davvero eliminare il prodotto?`);
+        if (answer) {
         API.delete(`gestione-ordini/prodotto/${id}`, { headers: authHeader() }).then(res => {
             const del = prodotto.filter(prodotto => id !== prodotto.id)
             setProdotto(del)
         })
+      }
     }
 
     const renderHeader = () => {
-        let headerElement = ['desc', 'grammatura', 'peso totale', 'operation']
+        let headerElement = ['desc', 'gr al pezzo', 'peso totale', '']
         return headerElement.map((key, index) => {
             return <th key={index}>{key.toUpperCase()}</th>
         })
@@ -65,7 +68,7 @@ const ProductTable = (props) => {
                     <td>{grammatura}</td>
                     <td>{pesoTotale}</td>
                     <td className='operation'>
-                        <button className='button' onClick={() => removeData(id)}>Delete</button>
+                        <button className='button' onClick={() => removeData(id)}>Elimina</button>
                     </td>
                 </tr>
             )

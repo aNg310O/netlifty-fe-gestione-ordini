@@ -3,18 +3,15 @@
   outline: none;
   font-size: 11px;
   font-family: "Quicksand", sans-serif;
-  color: #d12b2b;
-  padding: 3px 10px;
+  color: black;
   border-radius: 8px;
   cursor: pointer;
-  border: 1px solid #d12b2b;
-  background-color: transparent;
-}
-
-.operation {
   padding: 6px 12px;
   border: 1px solid #d9d7ce;
+  background-color: rgba(255, 0, 0, 0.637);
 }
+
+
 
 .styled-table {
   border-collapse: collapse;
@@ -23,10 +20,11 @@
   font-family: sans-serif;
   min-width: 400px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  display: flex;
 }
 
 thead tr {
-  background-color: #009879;
+  background-color: #006bb3;
   color: #ffffff;
   text-align: left;
 }
@@ -60,7 +58,7 @@ tr:nth-of-type(odd) {
   background-color: #a7ffff;
 }
 
-tbody tr:last-of-type {
+tbody {
   border-bottom: 1px solid #000000;
 }
 
