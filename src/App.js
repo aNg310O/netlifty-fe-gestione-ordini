@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Switch, Route, Link, Redirect, withRouter } from "react-router-dom";
+import { Switch, Route, Link, Redirect } from "react-router-dom";
 import "./asset/App.css";
 import AuthService from "./services/auth.service";
 import Login from "./components/login.component";
@@ -107,8 +107,8 @@ changeTitle = (newTitle) => {
 
             {currentUser && (
               <li className="nav-item">
-                <Link to={"/user/ordine"} className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show" onClick={() => this.setState({title: " | Inserimento ordini"})}>
-                  Esegui ordine
+                <Link to={"/user/ordine"} className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show" onClick={() => this.setState({title: " | Inserisci ordini"})}>
+                  Inserisci ordine
                 </Link>
               </li>
             )}
@@ -116,7 +116,7 @@ changeTitle = (newTitle) => {
             {currentUser && (
               <li className="nav-item">
                 <Link to={"/user/recap"} className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show" onClick={() => this.setState({title: " | Verifica ordine"})}>
-                  Visualizza Ordine
+                  Rivedi il tuo Ordine
                 </Link>
               </li>
             )}

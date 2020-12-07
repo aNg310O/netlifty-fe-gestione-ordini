@@ -15,7 +15,7 @@ import Button from '@material-ui/core/Button';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import { jsPDF } from "jspdf";
 import 'jspdf-autotable';
-import { Plugins, FilesystemDirectory, FilesystemEncoding } from '@capacitor/core';
+import { Plugins, FilesystemDirectory } from '@capacitor/core';
 import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 const { Toast } = Plugins;
@@ -40,24 +40,24 @@ const AdminReportDay = (props) => {
         setFileName("report_" + str);
       };
 
-    const getData = (str) => {
-        var totalone=0;
+      const getData = (str) => {
+        var totalone = 0;
         API.get(`/gestione-ordine/dateOrder/${str}`, { headers: authHeader() })
             .then(res => {
                 if (res.status === 200) {
-        if(seller.roles[0] === "ROLE_ADMIN"){
-            for (var key in res.data) {
-                var obj=res.data[key];
-                for (var prop in obj) {
-                    if (prop === 'totale') {
-                        totalone = totalone + obj.totale;
+                    if(seller.roles[0] === "ROLE_ADMIN") {
+                        for (var key in res.data) {
+                            var obj=res.data[key];
+                            for (var prop in obj) {
+                                if (prop === 'totale') {
+                                    totalone = totalone + obj.totale;
+                                }
+                            }
+                          }
+                          res.data.push({_id: "TOTALE", qty: 0, totale: totalone })
+                          setOrdine(res.data)
                     }
-                }
-              }
-              res.data.push({_id: "TOTALE", qty: 0, totale: totalone })
-              setOrdine(res.data)
-        } 
-               }})
+                }})
                 .catch(e => {
                     if (e.response.status === 401) {
                       setSnackColor('red');
@@ -71,12 +71,13 @@ const AdminReportDay = (props) => {
                       setSnackColor('red');
                       setResult(e.message)
                       setOpen(true);
-    }
-                 });
+                    }
+                  });
               }
 
+
     const handleReportClick = () => {
-        window.scrollTo(0,0)
+        //window.scrollTo(0,0)
         var test = new jsPDF();
         test.text(`Report ordini per il giorno ${fileName.substring(7,16)}`, 10, 15);
         test.autoTable({html: '#reportday', startY: 25 });
@@ -94,7 +95,7 @@ const AdminReportDay = (props) => {
                 duration: 'long'
             })
         } else {
-        test.save(`${fileName}.pdf`);
+            test.save(`${fileName}.pdf`);
         }
         };
 
@@ -122,6 +123,7 @@ const AdminReportDay = (props) => {
         e.preventDefault();
         return false
         }
+
         const handleClose = (event, reason) => {
             if (reason === 'clickaway') {
               return;
@@ -131,7 +133,7 @@ const AdminReportDay = (props) => {
 
     return (
         <div id='root-content'>
-        <TextField style={{ backgroundColor: "#D4D4D4"}} InputLabelProps={{ shrink: true, }} InputProps={{ readOnly: true, }} variant="outlined" value="Inserire la data per il report"/>
+        <TextField style={{ backgroundColor: "#D4D4D4"}} InputLabelProps={{ shrink: true, }} InputProps={{ readOnly: true, }} variant="outlined" value="Report per il giorno: "/>
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <KeyboardDatePicker
                 InputProps={{ readOnly: true, }}

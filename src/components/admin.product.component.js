@@ -8,7 +8,7 @@ import SnackbarContent from '@material-ui/core/SnackbarContent';
 
 const seller = AuthService.getCurrentUser();
 
-const ProductTable = (props) => {
+const ProductTable = () => {
     const [prodotto, setProdotto] = useState([])
     const [result, setResult] = useState('');
     const [open, setOpen] = useState(false);
@@ -16,7 +16,7 @@ const ProductTable = (props) => {
 
     useEffect(() => {
         getData()
-    },[props.trigP])
+    },)
 
     const getData = () => {
         API.get(`/gestione-ordini/prodotti/`, { headers: authHeader() })
@@ -44,13 +44,13 @@ const ProductTable = (props) => {
               }
 
     const removeData = (id) => {
-       var answer = window.confirm(`Vuoi davvero eliminare il prodotto?`);
+        var answer = window.confirm(`Vuoi davvero eliminare il prodotto?`);
         if (answer) {
-        API.delete(`gestione-ordini/prodotto/${id}`, { headers: authHeader() }).then(res => {
-            const del = prodotto.filter(prodotto => id !== prodotto.id)
-            setProdotto(del)
-        })
-      }
+            API.delete(`gestione-ordini/prodotto/${id}`, { headers: authHeader() }).then(res => {
+                const del = prodotto.filter(prodotto => id !== prodotto.id)
+                setProdotto(del)
+            })
+        }
     }
 
     const renderHeader = () => {

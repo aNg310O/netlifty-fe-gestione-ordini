@@ -25,7 +25,7 @@ const Table = (props) => {
     const removeData = (id) => {
         var answer = window.confirm(`Vuoi davvero eliminare questo ordine?`);
         if (answer) {
-        API.delete(`gestione-ordini/ordine/${id}`, { headers: authHeader() }).then(res => {
+            API.delete(`gestione-ordini/ordine/${id}`, { headers: authHeader() }).then(res => {
             const del = ordini.filter(ordine => id !== ordine.id)
             setOrdini(del)
         })}
@@ -57,7 +57,7 @@ const Table = (props) => {
 
     return (
         <div>
-            <table id='ordini'>
+            <table id='ordini' style={{"margin-bottom": "2em" }} >
                 <thead>
                     <tr>{renderHeader()}</tr>
                 </thead>

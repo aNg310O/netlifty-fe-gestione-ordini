@@ -8,11 +8,12 @@ import Button from '@material-ui/core/Button';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import { jsPDF } from "jspdf";
 import 'jspdf-autotable';
-import { Plugins, FilesystemDirectory, FilesystemEncoding } from '@capacitor/core';
+import { Plugins, FilesystemDirectory } from '@capacitor/core';
 import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 
 const { Toast } = Plugins;
+
 const seller = AuthService.getCurrentUser();
 
 const AdminReportTable = (props) => {
@@ -30,19 +31,19 @@ const AdminReportTable = (props) => {
         API.get(`/gestione-ordine/todayOrder`, { headers: authHeader() })
             .then(res => {
                 if (res.status === 200) {
-        if(seller.roles[0] === "ROLE_ADMIN"){
-            for (var key in res.data) {
-                var obj=res.data[key];
-                for (var prop in obj) {
-                    if (prop === 'totale') {
-                        totalone = totalone + obj.totale;
+                    if(seller.roles[0] === "ROLE_ADMIN") {
+                        for (var key in res.data) {
+                            var obj=res.data[key];
+                            for (var prop in obj) {
+                                if (prop === 'totale') {
+                                    totalone = totalone + obj.totale;
+                                }
+                            }
+                          }
+                          res.data.push({_id: "TOTALE", qty: 0, totale: totalone })
+                          setOrdine(res.data)
                     }
-                }
-              }
-              res.data.push({_id: "TOTALE", qty: 0, totale: totalone })
-              setOrdine(res.data)
-        }  
-               }})
+                }})
                 .catch(e => {
                     if (e.response.status === 401) {
                       setSnackColor('red');
@@ -56,13 +57,15 @@ const AdminReportTable = (props) => {
                       setSnackColor('red');
                       setResult(e.message)
                       setOpen(true);
-    }
+                    }
                   });
               }
 
+
+
     const handleReportClick = () => {
         let today = new Date().toISOString().slice(0, 10)
-        window.scrollTo(0,0)
+        //window.scrollTo(0,0)
         var test = new jsPDF();
         test.text(`Report ordini per il giorno ${today}`, 10, 15);
         test.autoTable({html: '#report', startY: 25 });
@@ -80,9 +83,10 @@ const AdminReportTable = (props) => {
                 duration: 'long'
             })
         } else {
-        test.save(`report_${today}.pdf`);
+            test.save(`report_${today}.pdf`);
         }
         };
+        
 
     const renderHeader = () => {
         let headerElement = ['desc', 'quantità', 'peso totale (gr)', 'data inserimento']
@@ -110,6 +114,8 @@ const AdminReportTable = (props) => {
         }
         setOpen(false);
       };
+
+
     return (
         <div>
                     <Button onClick={() => handleReportClick()} size="large" style={{ display: 'flex', backgroundColor: "#3f51b5", alignItems: 'center', justifyContent: 'center', "margin-top": "10px" }} startIcon={<CloudUploadIcon />} variant="outlined">

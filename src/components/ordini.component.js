@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import API from '../services/api';
-//import { ButtonAppBar } from './ordini.appbar.component';
 import { makeStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -12,9 +11,6 @@ import Button from '@material-ui/core/Button';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
-import Switch from '@material-ui/core/Switch';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { Table } from './ordini.table.component';
 import AuthService from "../services/auth.service";
 import authHeader from '../services/auth-header';
 
@@ -47,29 +43,13 @@ export function SellerComponent() {
   const [ordine, setOrdine] = useState(0);
   const [note, setNote] = useState('');
   const [pesoTotaleCustom, setPesoTotaleCustom] = useState(0);
-  const [checkA, setCheckA] = useState(false);
-  const [boxProductVisibility, setBoxProductVisibility] = useState("none");
-  const [checkB,setCheckB] = useState(false);
-  const [boxOrderVisibility, setBoxOrderVisibility] = useState("none");
   const [snackColor, setSnackColor] = useState('teal');
   
 const currentUser = AuthService.getCurrentUser();
 
-  const handleSwitchChange = (event) => {
-    setCheckA(event.target.checked);
-    if (event.target.checked) { setBoxProductVisibility("block"); }
-    else { setBoxProductVisibility("none"); }
-  };
-
-  const handleSwitchBChange = (event) => {
-    setCheckB(event.target.checked);
-    if (event.target.checked) { setBoxOrderVisibility("block"); }
-    else { setBoxOrderVisibility("none"); }
-  };
-
   useEffect(() => {
     retrieveProduct();
-  }, []);
+  },[]);
 
   const retrieveProduct = () => {
     API.get('gestione-ordini/prodotti',  { headers: authHeader() })
@@ -206,11 +186,6 @@ const currentUser = AuthService.getCurrentUser();
 
   return (
     <div>
-      {/*<ButtonAppBar />
-      <FormControlLabel
-        control={<Switch checked={checkA} onChange={handleSwitchChange} name="checkedA" color="primary" />}
-        label="Inserisci ordini"
-      />*/}
       <Box className={classes.root}>
         <FormControl className={classes.formControl}>
           <InputLabel id="demo-simple-select-label">Prodotti</InputLabel>
@@ -257,13 +232,6 @@ const currentUser = AuthService.getCurrentUser();
           message={result}
         />
       </Snackbar>
-      {/*<FormControlLabel
-        control={<Switch checked={checkB} onChange={handleSwitchBChange} name="checkedB" color="primary" />}
-        label="Rivedi/modifica l'ordine inserito"
-      />
-      <Box display={boxOrderVisibility} className={classes.root}>
-              <Table trig={checkB} />
-      </Box>*/}
     </div>
   )
 }
