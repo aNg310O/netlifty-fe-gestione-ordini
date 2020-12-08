@@ -36,13 +36,13 @@ export function SellerComponent() {
   const [selected, setSelected] = useState(['']);
   const [boxVisibility, setBoxVisiblity] = useState("none");
   const [boxCustomVisibility, setBoxCustomVisiblity] = useState("none");
-  const [order, setOrder] = useState(0);
+  const [order, setOrder] = useState();
   const [result, setResult] = useState('');
   const [open, setOpen] = useState(false);
   const [prodotto, setProdotto] = useState('');
-  const [ordine, setOrdine] = useState(0);
+  const [ordine, setOrdine] = useState();
   const [note, setNote] = useState('');
-  const [pesoTotaleCustom, setPesoTotaleCustom] = useState(0);
+  const [pesoTotaleCustom, setPesoTotaleCustom] = useState();
   const [snackColor, setSnackColor] = useState('teal');
   
 const currentUser = AuthService.getCurrentUser();
@@ -80,25 +80,25 @@ const currentUser = AuthService.getCurrentUser();
       setSelected(event.target.value || '');
       setBoxVisiblity("block");
       setBoxCustomVisiblity("none");
-      setOrdine(0);
+      setOrdine('');
       setNote('');
       setProdotto('');
-      setPesoTotaleCustom(0);
-      setOrder(0);
+      setPesoTotaleCustom('');
+      setOrder('');
     } else {
       setSelected(event.target.value || '');
       setBoxVisiblity("none");
       setBoxCustomVisiblity("block");
-      setOrdine(0);
+      setOrdine('');
       setNote('');
       setProdotto('');
-      setPesoTotaleCustom(0);
-      setOrder(0);
+      setPesoTotaleCustom('');
+      setOrder('');
     }
   };
 
   const handleClick = (selection,note) => {
-    if (order !== 0) {
+    if (order !== 0 && order !== '') {
       let data = {
         "desc": selection.desc,
         "seller": currentUser.username,
@@ -138,7 +138,7 @@ const currentUser = AuthService.getCurrentUser();
   }
 
   const handleCustomClick = (prodotto, pesoTotaleCustom, ordine, note) => {
-    if (ordine !== 0) {
+    if (ordine !== 0 && ordine!== '') {
       let customData = {
         "desc": prodotto,
         "seller": currentUser.username,
@@ -196,14 +196,14 @@ const currentUser = AuthService.getCurrentUser();
             onChange={handleChange}>
             {items && items.map((myData) => (
             <MenuItem value={myData} key={myData.desc}>{myData.desc}</MenuItem>))}
-            <MenuItem value={2} key={"custom"}>Custom</MenuItem>
+            <MenuItem value={2} key={"custom"}>Ordine personalizzato</MenuItem>
           </Select>
         </FormControl>
         <Box display={boxVisibility} className={classes.root}>
           <TextField label="Prodotto" style={{ backgroundColor: "#D4D4D4", "margin": "10px"}} InputLabelProps={{ shrink: true }} InputProps={{ readOnly: true }} variant="outlined" value={selected.desc}></TextField>
           <TextField label="Grammatura (gr)" style={{ backgroundColor: "#D4D4D4", "margin": "10px"}} InputLabelProps={{ shrink: true, }} InputProps={{ readOnly: true, }} variant="outlined" value={selected.grammatura}></TextField>
-          <TextField label="Peso Totale (gr)" style={{ backgroundColor: "#D4D4D4", "margin": "10px"}} InputLabelProps={{ shrink: true, }} InputProps={{ readOnly: true, }} variant="outlined" value={selected.pesoTotale * order}></TextField>
-          <TextField label="Inserisci qui l'ordine" style={{ "margin": "10px"}} margin="none" onChange={e => setOrder(e.target.value)} value={order} type="number" defaultValue="0" variant="outlined" InputProps={{ inputProps: {min: 0} }}></TextField>
+          <TextField label="Peso Totale (gr)" style={{ backgroundColor: "#D4D4D4", "margin": "10px"}} InputLabelProps={{ shrink: true, }} InputProps={{ readOnly: true, }} variant="outlined" value={order ? selected.pesoTotale * order : 0}></TextField>
+          <TextField label="Inserisci qui l'ordine" style={{ "margin": "10px"}} margin="none" onChange={e => setOrder(e.target.value)} value={order} type="number" variant="outlined" InputProps={{ inputProps: {min: 0} }}></TextField>
           <TextField label="Note" style={{ "margin": "10px"}} value={note} onChange={e => setNote(e.target.value)} margin="none" type="string" defaultValue="" variant="outlined" ></TextField>
           
           <Button onClick={() => handleClick(selected,note)} size="large" style={{ display: 'flex', backgroundColor: "#3f51b5", alignItems: 'center', justifyContent: 'center', "margin-top": "10px" }} startIcon={<CloudUploadIcon />} variant="outlined">
@@ -212,8 +212,8 @@ const currentUser = AuthService.getCurrentUser();
         </Box>
         <Box display={boxCustomVisibility} className={classes.root}>
           <TextField required value={prodotto} style={{ "margin": "10px"}} margin="none" onChange={e => setProdotto(e.target.value)} type="string" defaultValue="" variant="outlined" label="Nome prodotto"></TextField>
-          <TextField required value={pesoTotaleCustom} style={{ "margin": "10px"}} margin="none" onChange={e => setPesoTotaleCustom(e.target.value)} type="number" defaultValue="0" variant="outlined" label="Peso totale(gr)" InputProps={{ inputProps: {min: 0} }}></TextField>
-          <TextField required value={ordine} style={{ "margin": "10px"}} margin="none" onChange={e => setOrdine(e.target.value)} type="number" defaultValue="0" variant="outlined" label="Quantità(pezzi)" InputProps={{ inputProps: {min: 0} }}></TextField>
+          <TextField required value={pesoTotaleCustom} style={{ "margin": "10px"}} margin="none" onChange={e => setPesoTotaleCustom(e.target.value)} type="number" variant="outlined" label="Peso totale(gr)" InputProps={{ inputProps: {min: 0} }}></TextField>
+          <TextField required value={ordine} style={{ "margin": "10px"}} margin="none" onChange={e => setOrdine(e.target.value)} type="number" variant="outlined" label="Quantità(pezzi)" InputProps={{ inputProps: {min: 0} }}></TextField>
           <TextField value={note} style={{ "margin": "10px"}} margin="none" onChange={e => setNote(e.target.value)} type="string" defaultValue="" variant="outlined" label="Note"></TextField>
           <Button onClick={() => handleCustomClick(prodotto, pesoTotaleCustom, ordine, note)} size="large" style={{ display: 'flex', backgroundColor: "#3f51b5", alignItems: 'center', justifyContent: 'center', "margin-top": "10px" }} startIcon={<CloudUploadIcon />} variant="outlined">
             Inserisci ordine personalizzato

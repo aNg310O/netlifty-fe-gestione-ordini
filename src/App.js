@@ -26,14 +26,14 @@ class App extends Component {
 
     this.state = {
       title: ""
-   }
-}
+    }
+  }
 
-changeTitle = (newTitle) => {
-  this.setState({
+  changeTitle = (newTitle) => {
+    this.setState({
       title: newTitle
-  })
-}
+    })
+  }
 
   componentDidMount() {
     const user = AuthService.getCurrentUser();
@@ -47,7 +47,7 @@ changeTitle = (newTitle) => {
 
   logOut() {
     AuthService.logout();
-    this.setState ({currentUser: undefined, showAdminBoard: false});
+    this.setState({ currentUser: undefined, showAdminBoard: false });
   }
 
   render() {
@@ -57,81 +57,82 @@ changeTitle = (newTitle) => {
     return (
       <div>
         <nav className="navbar navbar-dark bg-primary mb-4">
-            <span className="navbar-text">
-              {currentUser ? currentUser.username + this.state.title  : 'Benvenuto'}
-            </span>
-        <button className="navbar-toggler toggler-example" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1"
-    aria-controls="navbarSupportedContent1" aria-expanded="false" aria-label="Toggle navigation"><span className="navbar-toggler-icon"><i
-        className="fas fa-bars fa-1x"></i></span></button>
+        <button className="navbar-toggler toggler-example navbar-left" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1"
+            aria-controls="navbarSupportedContent1" aria-expanded="false" aria-label="Toggle navigation"><span className="navbar-toggler-icon"><i
+              className="fas fa-bars fa-1x"></i></span></button>
+          <span className="navbar-text">
+            {currentUser ? currentUser.username + this.state.title : 'Benvenuto'}
+          </span>
+          
+          <ul class="nav navbar-nav flex-row justify-content-md-right justify-content-start flex-nowrap text-right">
+            {currentUser ? (
+              <li className="nav-item"><Link to={"/login"} className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show" onClick={this.logOut}>Disconnetti</Link></li>
+            ) : (
+                <li className="nav-item"><Link to={"/login"} className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show">Accedi</Link></li>
+              )}
+          </ul>
           <div className="collapse navbar-collapse" id="navbarSupportedContent1">
-          <ul className="navbar-nav mr-auto">
-            {showAdminBoard && (
-              <li className="nav-item">
-                <Link to={"/admin/prodotti"} className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show" onClick={() => this.setState({title: " | Gestione dei prodotti"})}>
-                  Gestione prodotti
+            <ul className="navbar-nav">
+              {showAdminBoard && (
+                <li className="nav-item">
+                  <Link to={"/admin/prodotti"} className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show" onClick={() => this.setState({ title: " | Gestione dei prodotti" })}>
+                    Gestione prodotti
                 </Link>
-              </li>
-            ) }
+                </li>
+              )}
 
-            {showAdminBoard && (
-              <li className="nav-item">
-                <Link to={"/admin/users"} className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show" onClick={() => this.setState({title: " | Gestione degli utenti"})}>
-                  Gestione utenti
+              {showAdminBoard && (
+                <li className="nav-item">
+                  <Link to={"/admin/users"} className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show" onClick={() => this.setState({ title: " | Gestione degli utenti" })}>
+                    Gestione utenti
                 </Link>
-              </li>
-            ) }
+                </li>
+              )}
 
-            {showAdminBoard && (
-              <li className="nav-item">
-                <Link to={"/admin/new"} className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show" onClick={() => this.setState({title: " | Creazione nuovi utenti"})}>
-                  Inserimento utenti
+              {showAdminBoard && (
+                <li className="nav-item">
+                  <Link to={"/admin/new"} className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show" onClick={() => this.setState({ title: " | Creazione nuovi utenti" })}>
+                    Inserimento utenti
                 </Link>
-              </li>
-            ) }
+                </li>
+              )}
 
-            {showAdminBoard && (
-              <li className="nav-item">
-                <Link to={"/admin/report/oggi"} className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show" onClick={() => this.setState({title: " | Report di oggi"})}>
-                  Report di oggi
+              {showAdminBoard && (
+                <li className="nav-item">
+                  <Link to={"/admin/report/oggi"} className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show" onClick={() => this.setState({ title: " | Report di oggi" })}>
+                    Report di oggi
                 </Link>
-              </li>
-            ) }
+                </li>
+              )}
 
-            {showAdminBoard && (
-              <li className="nav-item">
-                <Link to={"/admin/report/altri"} className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show" onClick={() => this.setState({title: " | Altri report"})}>
-                  Altri report
+              {showAdminBoard && (
+                <li className="nav-item">
+                  <Link to={"/admin/report/altri"} className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show" onClick={() => this.setState({ title: " | Altri report" })}>
+                    Altri report
                 </Link>
-              </li>
-            ) }
+                </li>
+              )}
 
-            {currentUser && (
-              <li className="nav-item">
-                <Link to={"/user/ordine"} className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show" onClick={() => this.setState({title: " | Inserisci ordini"})}>
-                  Inserisci ordine
+              {currentUser && (
+                <li className="nav-item">
+                  <Link to={"/user/ordine"} className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show" onClick={() => this.setState({ title: " | Inserisci ordini" })}>
+                    Inserisci ordine
                 </Link>
-              </li>
-            )}
+                </li>
+              )}
 
-            {currentUser && (
-              <li className="nav-item">
-                <Link to={"/user/recap"} className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show" onClick={() => this.setState({title: " | Verifica ordine"})}>
-                  Rivedi il tuo Ordine
+              {currentUser && (
+                <li className="nav-item">
+                  <Link to={"/user/recap"} className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show" onClick={() => this.setState({ title: " | Verifica ordine" })}>
+                    Rivedi il tuo Ordine
                 </Link>
-              </li>
-            )}
-
-
-          {currentUser ? (
-            <div>
-              <li className="nav-item"><Link to={"/login"} className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show" onClick={this.logOut}>LogOut</Link></li>
-            </div>
-          ) : (
-              <li className="nav-item"><Link to={"/login"} className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show">Login</Link></li>
-                )}
+                </li>
+              )}
             </ul>
+
           </div>
         </nav>
+
 
         <div className="container mt-3">
           <Switch>
@@ -146,7 +147,7 @@ changeTitle = (newTitle) => {
             <Route path="/admin/report/oggi" component={AdminReportOggi} />
             <Route path="/admin/report/altri" component={AdminReportAltri} />
             <Route path="/404" component={NotFoundPage} />
-              <Redirect to="/404" />
+            <Redirect to="/404" />
           </Switch>
         </div>
       </div>

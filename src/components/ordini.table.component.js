@@ -6,11 +6,11 @@ import authHeader from '../services/auth-header';
 
 const seller = AuthService.getCurrentUser();
 
-const Table = (props) => {
+const Table = () => {
     const [ordini, setOrdini] = useState([])
     useEffect(() => {
         getData()
-    },[props.trig])
+    },[])
 
     const getData = async () => {
         if(seller.roles[0] === "ROLE_ADMIN"){
