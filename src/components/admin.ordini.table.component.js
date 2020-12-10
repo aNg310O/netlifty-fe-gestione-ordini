@@ -145,7 +145,7 @@ const AdminOrderTable = (props) => {
         </Button>
         <br></br>
         <div id='contentdaysingle'>
-            <table id='reportdaysingle' className="styled-table">
+            <table id='reportdaysingle'>
                 <thead>
                     <tr>{renderHeader()}</tr>
                 </thead>
