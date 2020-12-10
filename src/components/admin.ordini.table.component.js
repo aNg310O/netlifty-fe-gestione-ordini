@@ -18,6 +18,7 @@ import 'jspdf-autotable';
 import { Plugins, FilesystemDirectory } from '@capacitor/core';
 import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
+import {isMobile} from 'react-device-detect';
 
 const { Toast } = Plugins;
 const seller = AuthService.getCurrentUser();
@@ -30,10 +31,9 @@ const AdminOrderTable = (props) => {
     const [open, setOpen] = useState(false);
     const [snackColor, setSnackColor] = useState('teal');
 
-    useEffect(() => {},[props.trigE])
+    useEffect(() => {},[])
 
     const handleDateChange = (date) => {
-        //console.log(date)
         setSelectedDate(date);
         const str = format(date,'yyyyMMdd')
         getData(str);
@@ -72,7 +72,7 @@ const AdminOrderTable = (props) => {
         test.text(`Report ordini per il giorno ${fileName.substring(12,20)}`, 10, 15);
         test.autoTable({html: '#reportdaysingle', startY: 25 });
         var strb64 = btoa(test.output());
-        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        if (isMobile) {
             Plugins.Filesystem.writeFile({
                 path: `${fileName}.pdf`,
                 data: strb64,
@@ -145,7 +145,7 @@ const AdminOrderTable = (props) => {
         </Button>
         <br></br>
         <div id='contentdaysingle'>
-            <table id='reportdaysingle'>
+            <table id='reportdaysingle' className="styled-table">
                 <thead>
                     <tr>{renderHeader()}</tr>
                 </thead>

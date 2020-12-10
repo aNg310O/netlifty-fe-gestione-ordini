@@ -11,6 +11,7 @@ import 'jspdf-autotable';
 import { Plugins, FilesystemDirectory } from '@capacitor/core';
 import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
+import {isMobile} from 'react-device-detect';
 
 const { Toast } = Plugins;
 
@@ -65,12 +66,11 @@ const AdminReportTable = (props) => {
 
     const handleReportClick = () => {
         let today = new Date().toISOString().slice(0, 10)
-        //window.scrollTo(0,0)
         var test = new jsPDF();
         test.text(`Report ordini per il giorno ${today}`, 10, 15);
         test.autoTable({html: '#report', startY: 25 });
         var strb64 = btoa(test.output());
-        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        if (isMobile) {
             Plugins.Filesystem.writeFile({
                 path: `report_${today}.pdf`,
                 data: strb64,

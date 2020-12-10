@@ -18,6 +18,7 @@ import 'jspdf-autotable';
 import { Plugins, FilesystemDirectory } from '@capacitor/core';
 import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
+import {isMobile} from 'react-device-detect';
 const { Toast } = Plugins;
 
 const seller = AuthService.getCurrentUser();
@@ -82,7 +83,7 @@ const AdminReportDay = (props) => {
         test.text(`Report ordini per il giorno ${fileName.substring(7,16)}`, 10, 15);
         test.autoTable({html: '#reportday', startY: 25 });
         var strb64 = btoa(test.output());
-        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        if (isMobile) {
             Plugins.Filesystem.writeFile({
                 path: `${fileName}.pdf`,
                 data: strb64,

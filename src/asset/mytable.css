@@ -1,5 +1,4 @@
 .button {
-  border: none;
   outline: none;
   font-size: 0.7em;
   font-family: "Quicksand", sans-serif;
@@ -17,7 +16,7 @@
   border-collapse: collapse;
   border: 1px solid #00000096;
   margin: 25px 0;
-  font-size: 0.7em;
+  font-size: 0.6em;
   font-family: sans-serif;
   min-width: 400px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
@@ -39,7 +38,7 @@ td {
 th {
   padding: 6px 12px;
   font-family: "Roboto";
-  font-size: 0.7em;
+  font-size: 0.6em;
   color: rgb(255, 255, 255);
   text-align: center;
   text-transform: uppercase;
@@ -54,12 +53,12 @@ tbody tr {
 
 tr:nth-of-type(even) {
   font-family: "Roboto";
-  background-color: #cccccc;
+  background-color: #fff5f5;
 }
 
 tr:nth-of-type(odd) {
   font-family: "Roboto";
-  background-color: #a7ffff;
+  background-color: #d3ffff;
 }
 
 tbody {

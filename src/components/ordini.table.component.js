@@ -3,36 +3,59 @@ import API from '../services/api';
 import '../asset/mytable.css'
 import AuthService from "../services/auth.service";
 import authHeader from '../services/auth-header';
+import Snackbar from '@material-ui/core/Snackbar';
+import SnackbarContent from '@material-ui/core/SnackbarContent';
 
 const seller = AuthService.getCurrentUser();
 
 const Table = () => {
     const [ordini, setOrdini] = useState([])
+    const [result, setResult] = useState('');
+    const [open, setOpen] = useState(false);
+    const [snackColor, setSnackColor] = useState('teal');
+
     useEffect(() => {
         getData()
-    },[])
+    }, [])
 
     const getData = async () => {
-        if(seller.roles[0] === "ROLE_ADMIN"){
-            const response = await API.get(`/gestione-ordini/ordine/all`, { headers: authHeader() })
-            setOrdini(response.data)
-        } else {
-        const response = await API.get(`/gestione-ordini/ordini/${seller.username}`, { headers: authHeader() })
-        setOrdini(response.data)
+        try {
+            if (seller.roles[0] === "ROLE_ADMIN") {
+                const response = await API.get(`/gestione-ordini/ordine/all`, { headers: authHeader() })
+                setOrdini(response.data)
+            } else {
+                const response = await API.get(`/gestione-ordini/ordini/${seller.username}`, { headers: authHeader() })
+                setOrdini(response.data)
+            }
+        } catch (e) {
+            if (e.response.status === 401) {
+                setSnackColor('red');
+                setResult("Sessione scaduta. Fai logout/login!")
+                setOpen(true);
+              } else if (e.response.status === 403) {
+                setSnackColor('red');
+                setResult("No token provided. Fai logout/login!")
+                setOpen(true);
+              } else {
+                setSnackColor('red');
+                setResult(e.message)
+                setOpen(true);
         }
     }
+}
 
     const removeData = (id) => {
         var answer = window.confirm(`Vuoi davvero eliminare questo ordine?`);
         if (answer) {
             API.delete(`gestione-ordini/ordine/${id}`, { headers: authHeader() }).then(res => {
-            const del = ordini.filter(ordine => id !== ordine.id)
-            setOrdini(del)
-        })}
+                const del = ordini.filter(ordine => id !== ordine.id)
+                setOrdini(del)
+            })
+        }
     }
 
     const renderHeader = () => {
-        let headerElement = ['desc', 'qty', 'peso totale','note', 'venditore', '']
+        let headerElement = ['desc', 'qty', 'peso totale', 'note', 'venditore', '']
         return headerElement.map((key, index) => {
             return <th key={index}>{key.toUpperCase()}</th>
         })
@@ -55,9 +78,16 @@ const Table = () => {
         })
     }
 
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+          return;
+        }
+        setOpen(false);
+      };
+
     return (
         <div>
-            <table id='ordini' style={{"margin-bottom": "2em" }} >
+            <table id='ordini' style={{ "margin-bottom": "2em" }} >
                 <thead>
                     <tr>{renderHeader()}</tr>
                 </thead>
@@ -65,6 +95,20 @@ const Table = () => {
                     {renderBody()}
                 </tbody>
             </table>
+
+            <Snackbar
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        open={open}
+        autoHideDuration={3000}
+        onClose={handleClose}
+      >
+        <SnackbarContent style={{
+          backgroundColor: snackColor,
+        }}
+          message={result}
+        />
+      </Snackbar>
+
         </div>
     )
 }

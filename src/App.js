@@ -56,14 +56,14 @@ class App extends Component {
 
     return (
       <div>
-        <nav className="navbar navbar-dark bg-primary mb-4">
-        <button className="navbar-toggler toggler-example navbar-left" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1"
-            aria-controls="navbarSupportedContent1" aria-expanded="false" aria-label="Toggle navigation"><span className="navbar-toggler-icon"><i
-              className="fas fa-bars fa-1x"></i></span></button>
+        <nav className="navbar navbar-fixed-top navbar-dark bg-primary mb-4">
+        <button className="navbar-toggler navbar-left" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1"
+            aria-controls="navbarSupportedContent1" aria-expanded="false" aria-label="Toggle navigation">
+            <span className="navbar-toggler-icon"><i className="fas fa-bars fa-1x"></i></span></button>
           <span className="navbar-text">
-            {currentUser ? currentUser.username + this.state.title : 'Benvenuto'}
+            {currentUser ? currentUser.username : 'Benvenuto'}
+            {/*{currentUser ? currentUser.username + this.state.title : 'Benvenuto'}*/}
           </span>
-          
           <ul class="nav navbar-nav flex-row justify-content-md-right justify-content-start flex-nowrap text-right">
             {currentUser ? (
               <li className="nav-item"><Link to={"/login"} className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show" onClick={this.logOut}>Disconnetti</Link></li>
