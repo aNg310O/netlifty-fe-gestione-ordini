@@ -134,7 +134,7 @@ const AdminReportDay = (props) => {
 
     return (
         <div id='root-content'>
-        <TextField style={{ backgroundColor: "#D4D4D4"}} InputLabelProps={{ shrink: true, }} InputProps={{ readOnly: true, }} variant="outlined" value="Report per il giorno: "/>
+        <TextField style={{ backgroundColor: "#6d6c6c"}} InputLabelProps={{ shrink: true, }} InputProps={{ readOnly: true, }} variant="outlined" value="Report per il giorno: "/>
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <KeyboardDatePicker
                 InputProps={{ readOnly: true, }}
@@ -149,7 +149,7 @@ const AdminReportDay = (props) => {
             />
     </MuiPickersUtilsProvider>
 
-        <Button onClick={() => handleReportClick()} size="large" style={{ display: 'flex', backgroundColor: "#3f51b5", alignItems: 'center', justifyContent: 'center', "margin-top": "10px" }} startIcon={<CloudUploadIcon />} variant="outlined">
+        <Button onClick={() => handleReportClick()} size="large" style={{ display: 'flex', backgroundColor: "#007BFF", alignItems: 'center', justifyContent: 'center', "margin-top": "10px" }} startIcon={<CloudUploadIcon />} variant="outlined">
             Download Report
         </Button>
         <br></br>

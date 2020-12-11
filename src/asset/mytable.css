@@ -1,22 +1,22 @@
 .button {
   outline: none;
-  font-size: 0.7em;
+  font-size: 0.8em;
   font-family: "Quicksand", sans-serif;
   color: black;
   border-radius: 8px;
   cursor: pointer;
   padding: 6px 12px;
-  border: 1px solid #d9d7ce;
-  background-color: rgba(255, 0, 0, 0.637);
+  border: 1px solid #000000;
+  background-color: #FF2A19;
 }
 
 
 
 .styled-table {
   border-collapse: collapse;
-  border: 1px solid #00000096;
+  border: 1px solid #000000;
   margin: 25px 0;
-  font-size: 0.6em;
+  font-size: 0.8em;
   font-family: sans-serif;
   min-width: 400px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
@@ -24,48 +24,55 @@
 }
 
 thead tr {
-  background-color: #006bb3;
+  background-color: #0064a7;
   color: #ffffff;
   text-align: left;
-  border: 1px solid #00000096;
+  border: 1px solid #000000;
+  font-size: 0.9em;
 }
 
 td {
   padding: 6px 12px;
-  border: 1px solid #00000096;
+  border: 1px solid #000000;
+  font-size: 0.8em;
 }
 
 th {
   padding: 6px 12px;
   font-family: "Roboto";
-  font-size: 0.6em;
+  font-size: 0.8em;
   color: rgb(255, 255, 255);
   text-align: center;
   text-transform: uppercase;
-  background-color: #3f51b5;
-  border: 1px solid #00000096;
+  background-color: #1762B3;
+  border: 1px solid #000000;
   margin-bottom: 15px;
 }
 
 tbody tr {
   border-bottom: 1px solid black;
+  border: 1px solid #000000;
 }
 
 tr:nth-of-type(even) {
   font-family: "Roboto";
-  background-color: #fff5f5;
+  background-color: #dfdfdf;
+  border: 1px solid #000000;
 }
 
 tr:nth-of-type(odd) {
   font-family: "Roboto";
-  background-color: #d3ffff;
+  background-color: #d3ebff;
+  border: 1px solid #000000;
 }
 
 tbody {
   border-bottom: 1px solid #000000;
+  border: 1px solid #000000;
 }
 
 tbody tr.active-row {
   font-weight: bold;
   color: #3f51b5;
+  border: 1px solid #000000;  
 }
