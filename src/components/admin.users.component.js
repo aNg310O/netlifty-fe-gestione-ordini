@@ -90,7 +90,7 @@ const AdminUsersTable = (props) => {
 
     return (
         <div>
-            <table id='users'>
+            <table id='styled-table'>
                 <thead>
                     <tr>{renderHeader()}</tr>
                 </thead>
