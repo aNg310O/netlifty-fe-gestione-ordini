@@ -12,6 +12,7 @@ import { Plugins, FilesystemDirectory } from '@capacitor/core';
 import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import {isMobile} from 'react-device-detect';
+import { CircularIndeterminate } from './Loader';
 
 const { Toast } = Plugins;
 
@@ -22,6 +23,7 @@ const AdminReportTable = (props) => {
     const [result, setResult] = useState('');
     const [open, setOpen] = useState(false);
     const [snackColor, setSnackColor] = useState('teal');
+    const [loading,setLoading] = useState(true);
 
     useEffect(() => {
         getData()
@@ -43,6 +45,7 @@ const AdminReportTable = (props) => {
                           }
                           res.data.push({_id: "TOTALE", qty: 0, totale: totalone })
                           setOrdine(res.data)
+                          setLoading(false);
                     }
                 }})
                 .catch(e => {
@@ -115,7 +118,7 @@ const AdminReportTable = (props) => {
         setOpen(false);
       };
 
-
+if (!loading){
     return (
         <div>
                     <Button onClick={() => handleReportClick()} size="large" style={{ display: 'flex', backgroundColor: "#007BFF", alignItems: 'center', justifyContent: 'center', "margin-top": "10px" }} startIcon={<CloudUploadIcon />} variant="outlined">
@@ -147,6 +150,11 @@ const AdminReportTable = (props) => {
       </Snackbar>
         </div>
     )
+} else {
+    return (
+        <CircularIndeterminate />
+    )
+}
 }
 
 

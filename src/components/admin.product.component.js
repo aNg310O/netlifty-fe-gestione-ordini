@@ -5,6 +5,7 @@ import AuthService from "../services/auth.service";
 import authHeader from '../services/auth-header';
 import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
+import { CircularIndeterminate } from './Loader';
 
 const seller = AuthService.getCurrentUser();
 
@@ -13,10 +14,11 @@ const ProductTable = () => {
     const [result, setResult] = useState('');
     const [open, setOpen] = useState(false);
     const [snackColor, setSnackColor] = useState('teal');
+    const [ loading, setLoading ] = useState(true);
 
     useEffect(() => {
         getData()
-    },)
+    }, []);
 
     const getData = () => {
         API.get(`/gestione-ordini/prodotti/`, { headers: authHeader() })
@@ -24,6 +26,7 @@ const ProductTable = () => {
                 if (res.status === 200) {
                     if(seller.roles[0] === "ROLE_ADMIN") {
                     setProdotto(res.data)
+                    setLoading(false);
                     }
                 }})
                 .catch(e => {
@@ -82,6 +85,7 @@ const ProductTable = () => {
         setOpen(false);
       };
 
+    if (!loading) {
     return (
         <div>
             <table id='styled-table'>
@@ -108,6 +112,11 @@ const ProductTable = () => {
 
         </div>
     )
+} else {
+    return (
+        <CircularIndeterminate />
+    )
+}
 }
 
 

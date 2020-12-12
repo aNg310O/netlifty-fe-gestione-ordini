@@ -13,6 +13,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import AuthService from "../services/auth.service";
 import authHeader from '../services/auth-header';
+import { CircularIndeterminate } from './Loader';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -44,6 +45,7 @@ export function SellerComponent() {
   const [note, setNote] = useState('');
   const [pesoTotaleCustom, setPesoTotaleCustom] = useState();
   const [snackColor, setSnackColor] = useState('teal');
+  const [ loading, setLoading ] = useState(true);
   
 const currentUser = AuthService.getCurrentUser();
 
@@ -56,6 +58,7 @@ const currentUser = AuthService.getCurrentUser();
       .then(response => {
         if (response.status === 200) {
           setItems(response.data);
+          setLoading(false);
         }
       })
       .catch(e => {
@@ -184,6 +187,7 @@ const currentUser = AuthService.getCurrentUser();
     setOpen(false);
   };
 
+  if (!loading) {
   return (
     <div>
       <Box className={classes.root}>
@@ -234,4 +238,9 @@ const currentUser = AuthService.getCurrentUser();
       </Snackbar>
     </div>
   )
+      } else {
+        return (
+          <CircularIndeterminate />
+        )
+      }
 }

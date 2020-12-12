@@ -5,6 +5,7 @@ import AuthService from "../services/auth.service";
 import authHeader from '../services/auth-header';
 import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
+import { CircularIndeterminate } from './Loader';
 
 const seller = AuthService.getCurrentUser();
 
@@ -13,6 +14,7 @@ const Table = () => {
     const [result, setResult] = useState('');
     const [open, setOpen] = useState(false);
     const [snackColor, setSnackColor] = useState('teal');
+    const [ loading, setLoading ] = useState(true);
 
     useEffect(() => {
         getData()
@@ -23,9 +25,11 @@ const Table = () => {
             if (seller.roles[0] === "ROLE_ADMIN") {
                 const response = await API.get(`/gestione-ordini/ordine/all`, { headers: authHeader() })
                 setOrdini(response.data)
+                setLoading(false);
             } else {
                 const response = await API.get(`/gestione-ordini/ordini/${seller.username}`, { headers: authHeader() })
                 setOrdini(response.data)
+                setLoading(false);
             }
         } catch (e) {
             if (e.response.status === 401) {
@@ -85,6 +89,7 @@ const Table = () => {
         setOpen(false);
       };
 
+    if (!loading){
     return (
         <div>
             <table id='ordini' style={{ "margin-bottom": "2em" }} >
@@ -111,6 +116,11 @@ const Table = () => {
 
         </div>
     )
+    } else {
+        return (
+            <CircularIndeterminate />
+        )
+    }
 }
 
 

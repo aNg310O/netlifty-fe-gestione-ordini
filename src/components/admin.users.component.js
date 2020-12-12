@@ -5,6 +5,7 @@ import AuthService from "../services/auth.service";
 import authHeader from '../services/auth-header';
 import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
+import { CircularIndeterminate } from './Loader'
 
 
 const seller = AuthService.getCurrentUser();
@@ -14,6 +15,7 @@ const AdminUsersTable = (props) => {
     const [snackColor, setSnackColor] = useState('teal');
     const [result, setResult] = useState('');
     const [open, setOpen] = useState(false);
+    const [loading,setLoading] = useState(true);
     
     useEffect(() => {
         getData()
@@ -26,6 +28,7 @@ const AdminUsersTable = (props) => {
                 if (res.status === 200) {
                     if(seller.roles[0] === "ROLE_ADMIN") {
                     setUsers(res.data)
+                    setLoading(false);
                     }
                 }})
                 .catch(e => {
@@ -88,6 +91,7 @@ const AdminUsersTable = (props) => {
         setOpen(false);
       };
 
+      if (!loading) {
     return (
         <div>
             <table id='styled-table'>
@@ -113,6 +117,11 @@ const AdminUsersTable = (props) => {
 
         </div>
     )
+      } else {
+          return (
+              <CircularIndeterminate />
+          )
+      }
 }
 
 
