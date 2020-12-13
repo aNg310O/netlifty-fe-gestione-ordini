@@ -62,7 +62,6 @@ class App extends Component {
             <span className="navbar-toggler-icon"><i className="fas fa-bars fa-1x"></i></span></button>
           <span className="navbar-text">
             {currentUser ? currentUser.username : 'Benvenuto'}
-            {/*{currentUser ? currentUser.username + this.state.title : 'Benvenuto'}*/}
           </span>
           <ul class="nav navbar-nav flex-row justify-content-md-right justify-content-start flex-nowrap text-right">
             {currentUser ? (

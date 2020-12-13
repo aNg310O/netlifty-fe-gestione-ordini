@@ -49,7 +49,12 @@ const AdminReportTable = (props) => {
                     }
                 }})
                 .catch(e => {
-                    if (e.response.status === 401) {
+                    if (e.message === "Network Error") {
+                        setLoading(false);
+                        setSnackColor('red');
+                        setResult("Non sei connesso ad internet...")
+                        setOpen(true);
+                    } else if (e.response.status === 401) {
                       setSnackColor('red');
                       setResult("Sessione scaduta. Fai logout/login!")
                       setOpen(true);
