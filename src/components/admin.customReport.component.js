@@ -140,7 +140,7 @@ const AdminReportDay = (props) => {
                 InputProps={{ readOnly: true, }}
                 format="yyyyMMdd"
                 disableFuture={true}
-                id="date-picker-inline"
+                id="date-picker-inline-custom"
                 inputVariant="filled"
                 onKeyPress={(e) => { handleKeypress(e)}}
                 variant="dialog"

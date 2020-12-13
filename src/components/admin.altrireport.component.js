@@ -26,11 +26,11 @@ export function AdminReportAltri() {
 
   return (
     <div>
-      <Typography variant="h5" gutterBottom="true" color='textPrimary'>Report per data</Typography> 
+      <Typography variant="h5" gutterBottom={true} color='textPrimary'>Report per data</Typography> 
       <Box className={classes.root}>
         <AdminReportDay />
       </Box>
-      <Typography variant="h5" gutterBottom="true" color='textPrimary'>Report per singolo ordine</Typography> 
+      <Typography variant="h5" gutterBottom={true} color='textPrimary'>Report per singolo ordine</Typography> 
       <Box className={classes.root}>
         <AdminOrderTable />
       </Box>

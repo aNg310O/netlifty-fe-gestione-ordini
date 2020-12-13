@@ -215,7 +215,7 @@ const currentUser = AuthService.getCurrentUser();
           <TextField label="Inserisci qui l'ordine" style={{ "margin": "10px"}} margin="none" onChange={e => setOrder(e.target.value)} value={order} type="number" variant="outlined" InputProps={{ inputProps: {min: 0} }}></TextField>
           <TextField label="Note" style={{ "margin": "10px"}} value={note} onChange={e => setNote(e.target.value)} margin="none" type="string" defaultValue="" variant="outlined" ></TextField>
           
-          <Button onClick={() => handleClick(selected,note)} size="large" style={{ display: 'flex', backgroundColor: "#007BFF", alignItems: 'center', justifyContent: 'center', "margin-top": "10px" }} startIcon={<CloudUploadIcon />} variant="outlined">
+          <Button onClick={() => handleClick(selected,note)} size="large" style={{ display: 'flex', backgroundColor: "#007BFF", alignItems: 'center', justifyContent: 'center', "marginTop": "10px" }} startIcon={<CloudUploadIcon />} variant="outlined">
             Inserisci ordine
           </Button>
         </Box>
