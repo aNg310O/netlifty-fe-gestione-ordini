@@ -11,7 +11,7 @@ import 'jspdf-autotable';
 import { Plugins, FilesystemDirectory } from '@capacitor/core';
 import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
-import {isMobile} from 'react-device-detect';
+import {isChrome, isFirefox, isSafari, isOpera, isIE, isEdge, isYandex, isChromium, isMobileSafari} from 'react-device-detect';
 import { CircularIndeterminate } from './Loader';
 
 const { Toast } = Plugins;
@@ -27,7 +27,7 @@ const AdminReportTable = (props) => {
 
     useEffect(() => {
         getData()
-    },[props.trigR])
+    },[])
 
     const getData = () => {
         var totalone = 0;
@@ -78,7 +78,9 @@ const AdminReportTable = (props) => {
         test.text(`Report ordini per il giorno ${today}`, 10, 15);
         test.autoTable({html: '#report', startY: 25 });
         var strb64 = btoa(test.output());
-        if (isMobile) {
+        if(isChrome || isFirefox || isSafari || isOpera || isIE || isEdge || isYandex || isChromium || isMobileSafari){
+            test.save(`report_${today}.pdf`);
+        } else {
             Plugins.Filesystem.writeFile({
                 path: `report_${today}.pdf`,
                 data: strb64,
@@ -90,8 +92,6 @@ const AdminReportTable = (props) => {
                 position: 'center',
                 duration: 'long'
             })
-        } else {
-            test.save(`report_${today}.pdf`);
         }
         };
         

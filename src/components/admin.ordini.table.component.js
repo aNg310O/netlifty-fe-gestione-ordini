@@ -18,7 +18,7 @@ import 'jspdf-autotable';
 import { Plugins, FilesystemDirectory } from '@capacitor/core';
 import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
-import {isMobile} from 'react-device-detect';
+import {isChrome, isFirefox, isSafari, isOpera, isIE, isEdge, isYandex, isChromium, isMobileSafari} from 'react-device-detect';
 
 const { Toast } = Plugins;
 const seller = AuthService.getCurrentUser();
@@ -72,7 +72,9 @@ const AdminOrderTable = (props) => {
         test.text(`Report ordini per il giorno ${fileName.substring(12,20)}`, 10, 15);
         test.autoTable({html: '#reportdaysingle', startY: 25 });
         var strb64 = btoa(test.output());
-        if (isMobile) {
+        if(isChrome || isFirefox || isSafari || isOpera || isIE || isEdge || isYandex || isChromium || isMobileSafari){
+            test.save(`${fileName}.pdf`);  
+        } else {
             Plugins.Filesystem.writeFile({
                 path: `${fileName}.pdf`,
                 data: strb64,
@@ -84,8 +86,6 @@ const AdminOrderTable = (props) => {
                 position: 'center',
                 duration: 'long'
             })
-        } else {
-            test.save(`${fileName}.pdf`);
         }
         };
 
