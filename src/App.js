@@ -24,16 +24,16 @@ class App extends Component {
       currentUser: undefined,
     };
 
-    this.state = {
+/*     this.state = {
       title: ""
-    }
+    } */
   }
 
-  changeTitle = (newTitle) => {
+/*   changeTitle = (newTitle) => {
     this.setState({
       title: newTitle
     })
-  }
+  } */
 
   componentDidMount() {
     const user = AuthService.getCurrentUser();
@@ -74,7 +74,7 @@ class App extends Component {
             <ul className="navbar-nav">
               {showAdminBoard && (
                 <li className="nav-item">
-                  <Link to={"/admin/prodotti"} className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show" onClick={() => this.setState({ title: " | Gestione dei prodotti" })}>
+                  <Link to={"/admin/prodotti"} className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show" /* onClick={() => this.setState({ title: " | Gestione dei prodotti" })} */>
                     Gestione prodotti
                 </Link>
                 </li>
@@ -82,7 +82,7 @@ class App extends Component {
 
               {showAdminBoard && (
                 <li className="nav-item">
-                  <Link to={"/admin/users"} className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show" onClick={() => this.setState({ title: " | Gestione degli utenti" })}>
+                  <Link to={"/admin/users"} className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show" /* onClick={() => this.setState({ title: " | Gestione degli utenti" })} */>
                     Gestione utenti
                 </Link>
                 </li>
@@ -90,7 +90,7 @@ class App extends Component {
 
               {showAdminBoard && (
                 <li className="nav-item">
-                  <Link to={"/admin/new"} className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show" onClick={() => this.setState({ title: " | Creazione nuovi utenti" })}>
+                  <Link to={"/admin/new"} className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show" /* onClick={() => this.setState({ title: " | Creazione nuovi utenti" })} */>
                     Inserimento utenti
                 </Link>
                 </li>
@@ -98,7 +98,7 @@ class App extends Component {
 
               {showAdminBoard && (
                 <li className="nav-item">
-                  <Link to={"/admin/report/oggi"} className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show" onClick={() => this.setState({ title: " | Report di oggi" })}>
+                  <Link to={"/admin/report/oggi"} className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show" /* onClick={() => this.setState({ title: " | Report di oggi" })} */>
                     Report di oggi
                 </Link>
                 </li>
@@ -106,7 +106,7 @@ class App extends Component {
 
               {showAdminBoard && (
                 <li className="nav-item">
-                  <Link to={"/admin/report/altri"} className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show" onClick={() => this.setState({ title: " | Altri report" })}>
+                  <Link to={"/admin/report/altri"} className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show" /* onClick={() => this.setState({ title: " | Altri report" })} */>
                     Altri report
                 </Link>
                 </li>
@@ -114,19 +114,37 @@ class App extends Component {
 
               {currentUser && (
                 <li className="nav-item">
-                  <Link to={"/user/ordine"} className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show" onClick={() => this.setState({ title: " | Inserisci ordini" })}>
+                  <Link to={"/user/ordine"} className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show" /* onClick={() => this.setState({ title: " | Inserisci ordini" })} */>
                     Inserisci ordine
                 </Link>
                 </li>
               )}
 
+{/*Test per differenziare menu admin/user per la voce rivedi il tuo ordine 
               {currentUser && (
                 <li className="nav-item">
                   <Link to={"/user/recap"} className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show" onClick={() => this.setState({ title: " | Verifica ordine" })}>
                     Rivedi il tuo Ordine
                 </Link>
                 </li>
+              )}*/}
+
+{currentUser && !showAdminBoard && (
+                <li className="nav-item">
+                  <Link to={"/user/recap"} className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show" /* onClick={() => this.setState({ title: " | Verifica ordine" })} */>
+                    Rivedi il tuo Ordine
+                </Link>
+                </li>
               )}
+
+{currentUser && showAdminBoard && (
+                <li className="nav-item">
+                  <Link to={"/user/recap"} className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show" /* onClick={() => this.setState({ title: " | Verifica ordine" })} */>
+                    Modifica l'ordine di oggi
+                </Link>
+                </li>
+              )}
+
             </ul>
 
           </div>

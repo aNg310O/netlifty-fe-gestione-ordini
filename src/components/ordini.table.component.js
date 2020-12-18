@@ -6,6 +6,7 @@ import authHeader from '../services/auth-header';
 import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import { CircularIndeterminate } from './Loader';
+import Typography from '@material-ui/core/Typography'
 
 const seller = AuthService.getCurrentUser();
 
@@ -15,6 +16,8 @@ const Table = () => {
     const [open, setOpen] = useState(false);
     const [snackColor, setSnackColor] = useState('teal');
     const [ loading, setLoading ] = useState(true);
+    const [empty, setEmpty] = useState(false);
+    const [msg, setMsg] = useState("");
 
     useEffect(() => {
         getData()
@@ -24,12 +27,23 @@ const Table = () => {
         try {
             if (seller.roles[0] === "ROLE_ADMIN") {
                 const response = await API.get(`/gestione-ordini/ordine/all`, { headers: authHeader() })
+                console.log(response.data.length)
+                if (response.data.length !== 0){
                 setOrdini(response.data)
                 setLoading(false);
+                } else {
+                    setEmpty(true);
+                    setMsg(`${seller.username}, ancora non ci sono ordini per oggi`);
+                }
             } else {
                 const response = await API.get(`/gestione-ordini/ordini/${seller.username}`, { headers: authHeader() })
+                if (response.data.length !== 0){
                 setOrdini(response.data)
                 setLoading(false);
+                } else {
+                    setEmpty(true);
+                    setMsg(`${seller.username}, ancora non ci sono ordini per oggi`);
+                }
             }
         } catch (e) {
             if (e.message === "Network Error") {
@@ -94,7 +108,9 @@ const Table = () => {
         setOpen(false);
       };
 
-    if (!loading){
+      if (empty) {
+          return <Typography variant="h5" gutterBottom={true} color='textPrimary'>{msg}</Typography> ;
+      } else if (!loading){
     return (
         <div>
             <table id='ordini' style={{ "margin-bottom": "2em" }} >

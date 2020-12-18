@@ -23,13 +23,14 @@ import {isChrome, isFirefox, isSafari, isOpera, isIE, isEdge, isYandex, isChromi
 const { Toast } = Plugins;
 const seller = AuthService.getCurrentUser();
 
-const AdminOrderTable = (props) => {
+const AdminOrderTable = () => {
     const [ordine, setOrdine] = useState([])
     const [selectedDate, setSelectedDate] = useState();
     const [fileName, setFileName] = useState('');
     const [result, setResult] = useState('');
     const [open, setOpen] = useState(false);
     const [snackColor, setSnackColor] = useState('teal');
+    const [click, setClick] = useState(false);
 
     useEffect(() => {},[])
 
@@ -38,6 +39,7 @@ const AdminOrderTable = (props) => {
         const str = format(date,'yyyyMMdd')
         getData(str);
         setFileName("report_full_" + str);
+        setClick(true);
       };
 
       const getData = (str) => {
@@ -125,7 +127,7 @@ const AdminOrderTable = (props) => {
 
     return (
         <div id='root-content'>
-        <TextField style={{ backgroundColor: "#6d6c6c"}} InputLabelProps={{ shrink: true, }} InputProps={{ readOnly: true, }} variant="outlined" value="Report per il giorno: "/>
+        <TextField style={{ backgroundColor: "#6d6c6c"}} InputLabelProps={{ shrink: true, }} InputProps={{ readOnly: true, }} variant="outlined" value="Scegli la data"/>
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <KeyboardDatePicker
                 InputProps={{ readOnly: true, }}
@@ -144,7 +146,7 @@ const AdminOrderTable = (props) => {
             Download Report
         </Button>
         <br></br>
-        <div id='contentdaysingle'>
+        { click && (<div id='contentdaysingle'>
             <table id='reportdaysingle'>
                 <thead>
                     <tr>{renderHeader()}</tr>
@@ -153,7 +155,7 @@ const AdminOrderTable = (props) => {
                     {renderBody()}
                 </tbody>
             </table>
-        </div>
+        </div> )}
         <br></br>
         <Snackbar
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}

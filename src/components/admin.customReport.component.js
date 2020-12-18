@@ -30,6 +30,7 @@ const AdminReportDay = (props) => {
     const [result, setResult] = useState('');
     const [open, setOpen] = useState(false);
     const [snackColor, setSnackColor] = useState('teal');
+    const [click, setClick] = useState(false);
 
     useEffect(() => {},[props.trigRD])
 
@@ -39,6 +40,7 @@ const AdminReportDay = (props) => {
         const str = format(date,'yyyyMMdd')
         getData(str);
         setFileName("report_" + str);
+        setClick(true);
       };
 
       const getData = (str) => {
@@ -134,7 +136,7 @@ const AdminReportDay = (props) => {
 
     return (
         <div id='root-content'>
-        <TextField style={{ backgroundColor: "#6d6c6c"}} InputLabelProps={{ shrink: true, }} InputProps={{ readOnly: true, }} variant="outlined" value="Report per il giorno: "/>
+        <TextField style={{ backgroundColor: "#6d6c6c"}} InputLabelProps={{ shrink: true, }} InputProps={{ readOnly: true, }} variant="outlined" value="Scegli la data"/>
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <KeyboardDatePicker
                 InputProps={{ readOnly: true, }}
@@ -153,7 +155,7 @@ const AdminReportDay = (props) => {
             Download Report
         </Button>
         <br></br>
-        <div id='contentday'>
+        { click && (<div id='contentday'>
             <table id='reportday'>
                 <thead>
                     <tr>{renderHeader()}</tr>
@@ -162,7 +164,7 @@ const AdminReportDay = (props) => {
                     {renderBody()}
                 </tbody>
             </table>
-        </div>
+        </div>)}
         <br></br>
         <Snackbar
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
