@@ -68,14 +68,17 @@ const currentUser = AuthService.getCurrentUser();
           setResult("Non sei connesso ad internet...")
           setOpen(true);
         } else if (e.response.status === 401) {
+          setLoading(false);
           setSnackColor('red');
           setResult("Sessione scaduta. Fai logout/login!")
           setOpen(true);
         } else if (e.response.status === 403) {
+          setLoading(false);
           setSnackColor('red');
           setResult("No token provided. Fai logout/login!")
           setOpen(true);
         } else {
+          setLoading(false);
           setSnackColor('red');
           setResult(e.message)
           setOpen(true);
