@@ -3,7 +3,7 @@ import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 import { isEmail } from "validator";
-
+import Logging from "../services/log.service";
 import AuthService from "../services/auth.service";
 
 const required = value => {
@@ -102,6 +102,7 @@ export default class Register extends Component {
             message: response.data.message,
             successful: true
           });
+          console.log(`INFO, "NO USER", register.component, register registrato nuovo utente ${this.state.username}`)
         },
         error => {
           const resMessage =
@@ -115,6 +116,8 @@ export default class Register extends Component {
             successful: false,
             message: resMessage
           });
+          console.log(`ERROR, NO USER, register.component, register errore in registrazione ${resMessage}`)
+          Logging.log("ERROR", "NO USER", "register.component", `register errore in registrazione ${resMessage}`)
         }
       );
     }

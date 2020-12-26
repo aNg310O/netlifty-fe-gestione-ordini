@@ -9,6 +9,10 @@ import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import { ProductTable } from './admin.product.component';
 import authHeader from '../services/auth-header';
+import AuthService from "../services/auth.service"; 
+import Logging from "../services/log.service";
+
+const currentUser = AuthService.getCurrentUser();
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -48,6 +52,7 @@ export function AdminProdotti() {
             setSnackColor('green');
             setResult("Prodotto inserito!")
             setOpen(true);
+            console.log(`INFO, ${currentUser.username}, admin.gestioneprodotti.component, handleProductClick inserito prodotto`)
           }
         })
         .catch(e => {
@@ -55,14 +60,20 @@ export function AdminProdotti() {
             setSnackColor('red');
             setResult("La tua sessione è scaduta. Fai logout/login!")
             setOpen(true);
+            console.log(`ERROR, ${currentUser.username}, admin.gestioneprodotti.component, handleProductClick errore ${e.message}`)
+            Logging.log("ERROR", currentUser.username, "admin.gestioneprodotti.component", `handleProductClick errore ${e.message}`)
           } else if (e.response.status === 403) {
             setSnackColor('red');
             setResult("No token provided. Fai logout/login!")
             setOpen(true);
+            console.log(`ERROR, ${currentUser.username}, admin.gestioneprodotti.component, handleProductClick errore ${e.message}`)
+            Logging.log("ERROR", currentUser.username, "admin.gestioneprodotti.component", `handleProductClick errore ${e.message}`)
           } else {
             setSnackColor('red');
             setResult(e.message)
             setOpen(true);
+            console.log(`ERROR, ${currentUser.username}, admin.gestioneprodotti.component, handleProductClick errore ${e.message}`)
+            Logging.log("ERROR", currentUser.username, "admin.gestioneprodotti.component", `handleProductClick errore ${e.message}`)
           }
         });
     } else {

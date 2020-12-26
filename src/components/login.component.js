@@ -4,6 +4,7 @@ import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 
 import AuthService from "../services/auth.service";
+import Logging from "../services/log.service";
 
 const required = value => {
   if (!value) {
@@ -57,6 +58,7 @@ export default class Login extends Component {
         () => {
           this.props.history.push("/");
           window.location.reload();
+          console.log(`INFO, ${this.state.username}, login.component, user logged in`)
         },
         error => {
           const resMessage =
@@ -70,6 +72,8 @@ export default class Login extends Component {
             loading: false,
             message: resMessage
           });
+          Logging.log("ERROR", this.state.username, "login.component", `login error ${resMessage}`)
+          console.log(`ERROR, ${this.state.username}, login.component, login error ${resMessage}`)
         }
       );
     } else {
