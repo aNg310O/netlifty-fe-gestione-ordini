@@ -19,8 +19,9 @@ import { Plugins, FilesystemDirectory } from '@capacitor/core';
 import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import {isChrome, isFirefox, isSafari, isOpera, isIE, isEdge, isYandex, isChromium, isMobileSafari} from 'react-device-detect';
-const { Toast } = Plugins;
+import Logging from "../services/log.service";
 
+const { Toast } = Plugins;
 const seller = AuthService.getCurrentUser();
 
 const AdminReportDay = (props) => {
@@ -35,7 +36,6 @@ const AdminReportDay = (props) => {
     useEffect(() => {},[props.trigRD])
 
     const handleDateChange = (date) => {
-        console.log(date)
         setSelectedDate(date);
         const str = format(date,'yyyyMMdd')
         getData(str);
@@ -59,6 +59,7 @@ const AdminReportDay = (props) => {
                           }
                           res.data.push({_id: "TOTALE", qty: 0, totale: totalone })
                           setOrdine(res.data)
+                          console.log(`INFO, ${seller.username}, admin.customReport.component, getData dateOrder`)
                     }
                 }})
                 .catch(e => {
@@ -66,14 +67,20 @@ const AdminReportDay = (props) => {
                       setSnackColor('red');
                       setResult("Sessione scaduta. Fai logout/login!")
                       setOpen(true);
+                      console.log(`ERROR, ${seller.username}, admin.customReport.component, getData error ${e.message}`)
+                      Logging.log("ERROR", seller.username, "admin.customReport.component", `getData errore ${e.message}`)
                     } else if (e.response.status === 403) {
                       setSnackColor('red');
                       setResult("No token provided. Fai logout/login!")
                       setOpen(true);
+                      console.log(`ERROR, ${seller.username}, admin.customReport.component, getData error ${e.message}`)
+                      Logging.log("ERROR", seller.username, "admin.customReport.component", `getData errore ${e.message}`)
                     } else {
                       setSnackColor('red');
                       setResult(e.message)
                       setOpen(true);
+                      console.log(`ERROR, ${seller.username}, admin.customReport.component, getData error ${e.message}`)
+                      Logging.log("ERROR", seller.username, "admin.customReport.component", `getData errore ${e.message}`)
                     }
                   });
               }
@@ -86,7 +93,9 @@ const AdminReportDay = (props) => {
         test.autoTable({html: '#reportday', startY: 25 });
         var strb64 = btoa(test.output());
         if(isChrome || isFirefox || isSafari || isOpera || isIE || isEdge || isYandex || isChromium || isMobileSafari){
-            test.save(`${fileName}.pdf`);  
+            test.save(`${fileName}.pdf`);
+            console.log(`INFO, ${seller.username}, admin.customReport.component, handleReportClick download from browser`)
+            Logging.log("INFO", seller.username, "admin.customReport.component", `handleReportClick download from browser`) 
         } else {
             Plugins.Filesystem.writeFile({
                 path: `${fileName}.pdf`,
@@ -99,8 +108,11 @@ const AdminReportDay = (props) => {
                 position: 'center',
                 duration: 'long'
             })
+            console.log(`INFO, ${seller.username}, admin.customReport.component, handleReportClick download from mobile`)
+            Logging.log("INFO", seller.username, "admin.customReport.component", `handleReportClick download from mobile`) 
         }
         };
+
 
     const renderHeader = () => {
         let headerElement = ['desc', 'quantità', 'peso totale (gr)', 'data inserimento']

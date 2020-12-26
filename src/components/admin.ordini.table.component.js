@@ -19,6 +19,7 @@ import { Plugins, FilesystemDirectory } from '@capacitor/core';
 import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import {isChrome, isFirefox, isSafari, isOpera, isIE, isEdge, isYandex, isChromium, isMobileSafari} from 'react-device-detect';
+import Logging from "../services/log.service";
 
 const { Toast } = Plugins;
 const seller = AuthService.getCurrentUser();
@@ -48,6 +49,7 @@ const AdminOrderTable = () => {
                 if (res.status === 200) {
                     if(seller.roles[0] === "ROLE_ADMIN") {
                           setOrdine(res.data)
+                          console.log(`INFO, ${seller.username}, admin.ordini.table.component, getData allOrder`)
                     }
                 }})
                 .catch(e => {
@@ -55,27 +57,34 @@ const AdminOrderTable = () => {
                       setSnackColor('red');
                       setResult("Sessione scaduta. Fai logout/login!")
                       setOpen(true);
+                      console.log(`ERROR, ${seller.username}, admin.ordini.table.component, getData error ${e.message}`)
+                      Logging.log("ERROR", seller.username, "admin.ordini.table.component", `getData errore ${e.message}`)
                     } else if (e.response.status === 403) {
                       setSnackColor('red');
                       setResult("No token provided. Fai logout/login!")
                       setOpen(true);
+                      console.log(`ERROR, ${seller.username}, admin.ordini.table.component, getData error ${e.message}`)
+                      Logging.log("ERROR", seller.username, "admin.ordini.table.component", `getData errore ${e.message}`)
                     } else {
                       setSnackColor('red');
                       setResult(e.message)
                       setOpen(true);
+                      console.log(`ERROR, ${seller.username}, admin.ordini.table.component, getData error ${e.message}`)
+                      Logging.log("ERROR", seller.username, "admin.ordini.table.component", `getData errore ${e.message}`)
                     }
                   });
               }
 
 
     const handleReportClick = () => {
-        //window.scrollTo(0,0)
         var test = new jsPDF();
         test.text(`Report ordini per il giorno ${fileName.substring(12,20)}`, 10, 15);
         test.autoTable({html: '#reportdaysingle', startY: 25 });
         var strb64 = btoa(test.output());
         if(isChrome || isFirefox || isSafari || isOpera || isIE || isEdge || isYandex || isChromium || isMobileSafari){
-            test.save(`${fileName}.pdf`);  
+            test.save(`${fileName}.pdf`);
+            console.log(`INFO, ${seller.username}, admin.ordini.table.component, handleReportClick download from browser`)
+            Logging.log("INFO", seller.username, "admin.ordini.table.component", `handleReportClick download from browser`) 
         } else {
             Plugins.Filesystem.writeFile({
                 path: `${fileName}.pdf`,
@@ -88,8 +97,10 @@ const AdminOrderTable = () => {
                 position: 'center',
                 duration: 'long'
             })
+            console.log(`INFO, ${seller.username}, admin.ordini.table.component, handleReportClick download from mobile`)
+            Logging.log("INFO", seller.username, "admin.ordini.table.component", `handleReportClick download from mobile`) 
         }
-        };
+    };
 
     const renderHeader = () => {
         let headerElement = ['desc', 'quantità', 'peso totale (gr)', 'data inserimento', 'venditore', 'note']

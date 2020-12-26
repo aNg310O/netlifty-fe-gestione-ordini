@@ -14,6 +14,7 @@ import SnackbarContent from '@material-ui/core/SnackbarContent';
 import AuthService from "../services/auth.service";
 import authHeader from '../services/auth-header';
 import { CircularIndeterminate } from './Loader';
+import Logging from "../services/log.service";
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -59,6 +60,7 @@ const currentUser = AuthService.getCurrentUser();
         if (response.status === 200) {
           setItems(response.data);
           setLoading(false);
+          console.log(`INFO, ${currentUser.username}, ordini.component, retrieveProduct() Call OK`)
         }
       })
       .catch(e => {
@@ -72,21 +74,28 @@ const currentUser = AuthService.getCurrentUser();
           setSnackColor('red');
           setResult("Sessione scaduta. Fai logout/login!")
           setOpen(true);
+          Logging.log("ERROR", currentUser.username, "ordini.component", `retrieveProduct() Call KO ${e.message}`)
+          console.log(`ERROR, ${currentUser.username}, ordini.component, retrieveProduct() Call KO ${e.message}`)
         } else if (e.response.status === 403) {
           setLoading(false);
           setSnackColor('red');
           setResult("No token provided. Fai logout/login!")
           setOpen(true);
+          Logging.log("ERROR", currentUser.username, "ordini.component", `retrieveProduct() Call KO ${e.message}`)
+          console.log(`ERROR, ${currentUser.username}, ordini.component, retrieveProduct() Call KO ${e.message}`)
         } else {
           setLoading(false);
           setSnackColor('red');
           setResult(e.message)
           setOpen(true);
+          Logging.log("ERROR", currentUser.username, "ordini.component", `retrieveProduct() Call KO ${e.message}`)
+          console.log(`ERROR, ${currentUser.username}, ordini.component, retrieveProduct() Call KO ${e.message}`)
         }
       });
   }
 
   const handleChange = (event) => {
+    console.log(`INFO, ${currentUser.username}, ordini.component, handleChange() scelto prodotto ${event.target.value === 2 ? "Custom" : event.target.value.desc }`)
     if (event.target.value !== 2) {
       setSelected(event.target.value || '');
       setBoxVisiblity("block");
@@ -124,6 +133,7 @@ const currentUser = AuthService.getCurrentUser();
             setSnackColor('green');
             setResult("Ordine inserito!")
             setOpen(true);
+            console.log(`INFO, ${currentUser.username}, ordini.component, handleClick inserito prodotto`)
           }
         })
         .catch(e => {
@@ -131,14 +141,20 @@ const currentUser = AuthService.getCurrentUser();
             setSnackColor('red');
             setResult("La tua sessione è scaduta. Fai logout/login!")
             setOpen(true);
+            Logging.log("ERROR", currentUser.username, "ordini.component", `handleClick errore ${e.message}`)
+            console.log(`ERROR, ${currentUser.username}, ordini.component, handleClick errore ${e.message}`)
           } else if (e.response.status === 403) {
             setSnackColor('red');
             setResult("No token provided. Fai logout/login!")
             setOpen(true);
+            Logging.log("ERROR", currentUser.username, "ordini.component", `handleClick errore ${e.message}`)
+            console.log(`ERROR, ${currentUser.username}, ordini.component, handleClick errore ${e.message}`)
           } else {
             setSnackColor('red');
             setResult(e.message)
             setOpen(true);
+            Logging.log("ERROR", currentUser.username, "ordini.component", `handleClick errore ${e.message}`)
+            console.log(`ERROR, ${currentUser.username}, ordini.component, handleClick errore ${e.message}`)
           }
         });
     } else {
@@ -164,6 +180,7 @@ const currentUser = AuthService.getCurrentUser();
             setSnackColor('green');
             setResult("Ordine custom inserito!")
             setOpen(true);
+            console.log(`INFO, ${currentUser.username}, ordini.component, handleCustomClick inserito prodotto`)
           }
         })
         .catch(e => {
@@ -171,14 +188,20 @@ const currentUser = AuthService.getCurrentUser();
             setSnackColor('red');
             setResult("La tua sessione è scaduta. Fai logout/login!")
             setOpen(true);
+            Logging.log("ERROR", currentUser.username, "ordini.component", `handleCustomClick errore ${e.message}`)
+            console.log(`ERROR, ${currentUser.username}, ordini.component, handleCustomClick errore ${e.message}`)
           } else if (e.response.status === 403) {
             setSnackColor('red');
             setResult("No token provided. Fai logout/login!")
             setOpen(true);
+            Logging.log("ERROR", currentUser.username, "ordini.component", `handleCustomClick errore ${e.message}`)
+            console.log(`ERROR, ${currentUser.username}, ordini.component, handleCustomClick errore ${e.message}`)
           } else {
             setSnackColor('red');
             setResult(e.message)
             setOpen(true);
+            Logging.log("ERROR", currentUser.username, "ordini.component", `handleCustomClick errore ${e.message}`)
+            console.log(`ERROR, ${currentUser.username}, ordini.component, handleCustomClick errore ${e.message}`)
           }
         });
     } else {
@@ -216,17 +239,17 @@ const currentUser = AuthService.getCurrentUser();
           <TextField label="Grammatura (gr)" style={{ backgroundColor: "#D4D4D4", "margin": "10px"}} InputLabelProps={{ shrink: true, }} InputProps={{ readOnly: true, }} variant="outlined" value={selected.grammatura}></TextField>
           <TextField label="Peso Totale (gr)" style={{ backgroundColor: "#D4D4D4", "margin": "10px"}} InputLabelProps={{ shrink: true, }} InputProps={{ readOnly: true, }} variant="outlined" value={order ? selected.pesoTotale * order : 0}></TextField>
           <TextField label="Inserisci qui l'ordine" style={{ "margin": "10px"}} margin="none" onChange={e => setOrder(e.target.value)} value={order} type="number" variant="outlined" InputProps={{ inputProps: {min: 0} }}></TextField>
-          <TextField label="Note" style={{ "margin": "10px"}} value={note} onChange={e => setNote(e.target.value)} margin="none" type="string" defaultValue="" variant="outlined" ></TextField>
+          <TextField label="Note" style={{ "margin": "10px"}} value={note} onChange={e => setNote(e.target.value)} margin="none" type="string" variant="outlined" ></TextField>
           
           <Button onClick={() => handleClick(selected,note)} size="large" style={{ display: 'flex', backgroundColor: "#007BFF", alignItems: 'center', justifyContent: 'center', "marginTop": "10px" }} startIcon={<CloudUploadIcon />} variant="outlined">
             Inserisci ordine
           </Button>
         </Box>
         <Box display={boxCustomVisibility} className={classes.root}>
-          <TextField required value={prodotto} style={{ "margin": "10px"}} margin="none" onChange={e => setProdotto(e.target.value)} type="string" defaultValue="" variant="outlined" label="Nome prodotto"></TextField>
+          <TextField required value={prodotto} style={{ "margin": "10px"}} margin="none" onChange={e => setProdotto(e.target.value)} type="string" variant="outlined" label="Nome prodotto"></TextField>
           <TextField required value={pesoTotaleCustom} style={{ "margin": "10px"}} margin="none" onChange={e => setPesoTotaleCustom(e.target.value)} type="number" variant="outlined" label="Peso totale(gr)" InputProps={{ inputProps: {min: 0} }}></TextField>
           <TextField required value={ordine} style={{ "margin": "10px"}} margin="none" onChange={e => setOrdine(e.target.value)} type="number" variant="outlined" label="Quantità(pezzi)" InputProps={{ inputProps: {min: 0} }}></TextField>
-          <TextField value={note} style={{ "margin": "10px"}} margin="none" onChange={e => setNote(e.target.value)} type="string" defaultValue="" variant="outlined" label="Note"></TextField>
+          <TextField value={note} style={{ "margin": "10px"}} margin="none" onChange={e => setNote(e.target.value)} type="string" variant="outlined" label="Note"></TextField>
           <Button onClick={() => handleCustomClick(prodotto, pesoTotaleCustom, ordine, note)} size="large" style={{ display: 'flex', backgroundColor: "#007BFF", alignItems: 'center', justifyContent: 'center', "margin-top": "10px" }} startIcon={<CloudUploadIcon />} variant="outlined">
             Inserisci ordine personalizzato
           </Button>

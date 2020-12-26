@@ -7,6 +7,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import { CircularIndeterminate } from './Loader';
 import Typography from '@material-ui/core/Typography'
+import Logging from "../services/log.service";
 
 const seller = AuthService.getCurrentUser();
 
@@ -15,7 +16,7 @@ const Table = () => {
     const [result, setResult] = useState('');
     const [open, setOpen] = useState(false);
     const [snackColor, setSnackColor] = useState('teal');
-    const [ loading, setLoading ] = useState(true);
+    const [loading, setLoading] = useState(true);
     const [empty, setEmpty] = useState(false);
     const [msg, setMsg] = useState("");
 
@@ -30,18 +31,22 @@ const Table = () => {
                 if (response.data.length !== 0){
                 setOrdini(response.data)
                 setLoading(false);
+                console.log(`INFO, ${seller.username}, ordini.table.component, getData all ordini`)
                 } else {
                     setEmpty(true);
                     setMsg(`${seller.username}, ancora non ci sono ordini per oggi`);
+                    console.log(`INFO, ${seller.username}, ordini.table.component, getData not today order yet`)
                 }
             } else {
                 const response = await API.get(`/gestione-ordini/ordini/${seller.username}`, { headers: authHeader() })
                 if (response.data.length !== 0){
                 setOrdini(response.data)
                 setLoading(false);
+                console.log(`INFO, ${seller.username}, ordini.table.component, getData user ordini`)
                 } else {
                     setEmpty(true);
                     setMsg(`${seller.username}, ancora non ci sono ordini per oggi`);
+                    console.log(`INFO, ${seller.username}, ordini.table.component, getData not today order yet`)
                 }
             }
         } catch (e) {
@@ -55,16 +60,22 @@ const Table = () => {
                 setSnackColor('red');
                 setResult("Sessione scaduta. Fai logout/login!")
                 setOpen(true);
+                Logging.log("ERROR", seller.username, "ordini.table.component", `getData errore ${e.message}`)
+                console.log(`ERROR , ${seller.username}, ordini.table.component, getData errore ${e.message}`)
               } else if (e.response.status === 403) {
                 setLoading(false);
                 setSnackColor('red');
                 setResult("No token provided. Fai logout/login!")
                 setOpen(true);
+                Logging.log("ERROR", seller.username, "ordini.table.component", `getData errore ${e.message}`)
+                console.log(`ERROR , ${seller.username}, ordini.table.component, getData errore ${e.message}`)
               } else {
                 setLoading(false);
                 setSnackColor('red');
                 setResult(e.message)
                 setOpen(true);
+                Logging.log("ERROR", seller.username, "ordini.table.component", `getData errore ${e.message}`)
+                console.log(`ERROR , ${seller.username}, ordini.table.component, getData errore ${e.message}`)
         }
     }
 }
@@ -75,6 +86,7 @@ const Table = () => {
             API.delete(`gestione-ordini/ordine/${id}`, { headers: authHeader() }).then(res => {
                 const del = ordini.filter(ordine => id !== ordine.id)
                 setOrdini(del)
+                console.log(`INFO , ${seller.username}, ordini.table.component, deleted order ${id}`)
             })
         }
     }

@@ -6,6 +6,7 @@ import authHeader from '../services/auth-header';
 import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import { CircularIndeterminate } from './Loader';
+import Logging from "../services/log.service";
 
 const seller = AuthService.getCurrentUser();
 
@@ -27,6 +28,7 @@ const ProductTable = () => {
                     if(seller.roles[0] === "ROLE_ADMIN") {
                     setProdotto(res.data)
                     setLoading(false);
+                    console.log(`INFO, ${seller.username}, admin.product.component, getData get dei prodotti`)
                     }
                 }})
                 .catch(e => {
@@ -40,16 +42,22 @@ const ProductTable = () => {
                       setSnackColor('red');
                       setResult("Sessione scaduta. Fai logout/login!")
                       setOpen(true);
+                      Logging.log("ERROR", seller.username, "admin.product.component", `getData errore ${e.message}`)
+                      console.log(`ERROR, ${seller.username}, admin.product.component, getData errore ${e.message}`)
                     } else if (e.response.status === 403) {
                       setLoading(false);
                       setSnackColor('red');
                       setResult("No token provided. Fai logout/login!")
                       setOpen(true);
+                      Logging.log("ERROR", seller.username, "admin.product.component", `getData errore ${e.message}`)
+                      console.log(`ERROR, ${seller.username}, admin.product.component, getData errore ${e.message}`)
                     } else {
                       setLoading(false);
                       setSnackColor('red');
                       setResult(e.message)
                       setOpen(true);
+                      Logging.log("ERROR", seller.username, "admin.product.component", `getData errore ${e.message}`)
+                      console.log(`ERROR, ${seller.username}, admin.product.component, getData errore ${e.message}`)
                     }
                   });
               }
@@ -60,6 +68,7 @@ const ProductTable = () => {
             API.delete(`gestione-ordini/prodotto/${id}`, { headers: authHeader() }).then(res => {
                 const del = prodotto.filter(prodotto => id !== prodotto.id)
                 setProdotto(del)
+                console.log(`INFO, ${seller.username}, admin.product.component, removeData prodotto ${id}`)
             })
         }
     }

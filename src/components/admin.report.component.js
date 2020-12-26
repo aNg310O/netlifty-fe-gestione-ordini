@@ -13,12 +13,13 @@ import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import {isChrome, isFirefox, isSafari, isOpera, isIE, isEdge, isYandex, isChromium, isMobileSafari} from 'react-device-detect';
 import { CircularIndeterminate } from './Loader';
+import Logging from "../services/log.service";
 
 const { Toast } = Plugins;
 
 const seller = AuthService.getCurrentUser();
 
-const AdminReportTable = (props) => {
+const AdminReportTable = () => {
     const [ordine, setOrdine] = useState([])
     const [result, setResult] = useState('');
     const [open, setOpen] = useState(false);
@@ -46,6 +47,7 @@ const AdminReportTable = (props) => {
                           res.data.push({_id: "TOTALE", qty: 0, totale: totalone })
                           setOrdine(res.data)
                           setLoading(false);
+                          console.log(`INFO, ${seller.username}, admin.report.component, getData todayOrder`)
                     }
                 }})
                 .catch(e => {
@@ -59,16 +61,22 @@ const AdminReportTable = (props) => {
                       setSnackColor('red');
                       setResult("Sessione scaduta. Fai logout/login!")
                       setOpen(true);
+                      console.log(`ERROR, ${seller.username}, admin.report.component, getData error ${e.message}`)
+                      Logging.log("ERROR", seller.username, "admin.report.component", `getData errore ${e.message}`)
                     } else if (e.response.status === 403) {
                       setLoading(false);
                       setSnackColor('red');
                       setResult("No token provided. Fai logout/login!")
                       setOpen(true);
+                      console.log(`ERROR, ${seller.username}, admin.report.component, getData error ${e.message}`)
+                      Logging.log("ERROR", seller.username, "admin.report.component", `getData errore ${e.message}`)
                     } else {
                       setLoading(false);
                       setSnackColor('red');
                       setResult(e.message)
                       setOpen(true);
+                      console.log(`ERROR, ${seller.username}, admin.report.component, getData error ${e.message}`)
+                      Logging.log("ERROR", seller.username, "admin.report.component", `getData errore ${e.message}`)
                     }
                   });
               }
@@ -83,6 +91,8 @@ const AdminReportTable = (props) => {
         var strb64 = btoa(test.output());
         if(isChrome || isFirefox || isSafari || isOpera || isIE || isEdge || isYandex || isChromium || isMobileSafari){
             test.save(`report_${today}.pdf`);
+            console.log(`INFO, ${seller.username}, admin.report.component, handleReportClick download from browser`)
+            Logging.log("INFO", seller.username, "admin.report.component", `handleReportClick download from browser`)         
         } else {
             Plugins.Filesystem.writeFile({
                 path: `report_${today}.pdf`,
@@ -95,6 +105,8 @@ const AdminReportTable = (props) => {
                 position: 'center',
                 duration: 'long'
             })
+            console.log(`INFO, ${seller.username}, admin.report.component, handleReportClick download from mobile`)
+            Logging.log("INFO", seller.username, "admin.report.component", `handleReportClick download from mobile`)   
         }
         };
         
@@ -129,7 +141,7 @@ const AdminReportTable = (props) => {
 if (!loading){
     return (
         <div>
-                    <Button onClick={() => handleReportClick()} size="large" style={{ display: 'flex', backgroundColor: "#007BFF", alignItems: 'center', justifyContent: 'center', "margin-top": "10px" }} startIcon={<CloudUploadIcon />} variant="outlined">
+        <Button onClick={() => handleReportClick()} size="large" style={{ display: 'flex', backgroundColor: "#007BFF", alignItems: 'center', justifyContent: 'center', "margin-top": "10px" }} startIcon={<CloudUploadIcon />} variant="outlined">
             Download Report
         </Button>
         <br></br>
