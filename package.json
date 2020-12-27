@@ -1,6 +1,6 @@
 {
-  "name": "app-ordini-fe",
-  "version": "0.2.0",
+  "name": "c1-app-ordini-fe",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "@capacitor/core": "^2.4.4",
