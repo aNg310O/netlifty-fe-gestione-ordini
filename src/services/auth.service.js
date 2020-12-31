@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "https://c1-gestione-ordini.herokuapp.com/api/auth/";
+const API_URL = "https://c2-gestione-ordini.herokuapp.com/api/auth/";
 
 class AuthService {
   login(username, password) {
