@@ -1,7 +1,7 @@
 import "date-fns";
 import React, { useState, useEffect } from "react";
 import API from '../services/api';
-import '../asset/mytable.css'
+import "../asset/App.css";
 import AuthService from "../services/auth.service";
 import authHeader from '../services/auth-header';
 import Button from '@material-ui/core/Button';
@@ -141,7 +141,7 @@ const AdminReportTable = () => {
 if (!loading){
     return (
         <div>
-        <Button onClick={() => handleReportClick()} size="large" style={{ display: 'flex', backgroundColor: "#007BFF", alignItems: 'center', justifyContent: 'center', "margin-top": "10px" }} startIcon={<CloudUploadIcon />} variant="outlined">
+        <Button onClick={() => handleReportClick()} size="large" style={{ display: 'flex', backgroundColor: "#F35B04", alignItems: 'center', justifyContent: 'center', "margin-top": "10px" }} startIcon={<CloudUploadIcon />} variant="outlined">
             Download Report
         </Button>
         <br></br>

@@ -165,7 +165,7 @@ const currentUser = AuthService.getCurrentUser();
   }
 
   const handleCustomClick = (prodotto, pesoTotaleCustom, ordine, note) => {
-    if (ordine !== 0 && ordine!== '') {
+    if (ordine !== 0 && ordine !== '' && prodotto !== '' && pesoTotaleCustom !== 0 ) {
       let customData = {
         "desc": prodotto,
         "seller": currentUser.username,
@@ -206,7 +206,7 @@ const currentUser = AuthService.getCurrentUser();
         });
     } else {
         setSnackColor('orange');
-        setResult("L'ordine non può essere vuoto...")
+        setResult("Devi inserire tutti i campi obbligatori [Nome prodotto, Peso Totale, Quantità]")
         setOpen(true);
       }
   }
@@ -241,7 +241,7 @@ const currentUser = AuthService.getCurrentUser();
           <TextField label="Inserisci qui l'ordine" style={{ "margin": "10px"}} margin="none" onChange={e => setOrder(e.target.value)} value={order} type="number" variant="outlined" InputProps={{ inputProps: {min: 0} }}></TextField>
           <TextField label="Note" style={{ "margin": "10px"}} value={note} onChange={e => setNote(e.target.value)} margin="none" type="string" variant="outlined" ></TextField>
           
-          <Button onClick={() => handleClick(selected,note)} size="large" style={{ display: 'flex', backgroundColor: "#007BFF", alignItems: 'center', justifyContent: 'center', "marginTop": "10px" }} startIcon={<CloudUploadIcon />} variant="outlined">
+          <Button onClick={() => handleClick(selected,note)} size="large" style={{ display: 'flex', backgroundColor: "#F35B04", alignItems: 'center', justifyContent: 'center', "marginTop": "10px" }} startIcon={<CloudUploadIcon />} variant="outlined">
             Inserisci ordine
           </Button>
         </Box>
@@ -250,7 +250,7 @@ const currentUser = AuthService.getCurrentUser();
           <TextField required value={pesoTotaleCustom} style={{ "margin": "10px"}} margin="none" onChange={e => setPesoTotaleCustom(e.target.value)} type="number" variant="outlined" label="Peso totale(gr)" InputProps={{ inputProps: {min: 0} }}></TextField>
           <TextField required value={ordine} style={{ "margin": "10px"}} margin="none" onChange={e => setOrdine(e.target.value)} type="number" variant="outlined" label="Quantità(pezzi)" InputProps={{ inputProps: {min: 0} }}></TextField>
           <TextField value={note} style={{ "margin": "10px"}} margin="none" onChange={e => setNote(e.target.value)} type="string" variant="outlined" label="Note"></TextField>
-          <Button onClick={() => handleCustomClick(prodotto, pesoTotaleCustom, ordine, note)} size="large" style={{ display: 'flex', backgroundColor: "#007BFF", alignItems: 'center', justifyContent: 'center', "margin-top": "10px" }} startIcon={<CloudUploadIcon />} variant="outlined">
+          <Button onClick={() => handleCustomClick(prodotto, pesoTotaleCustom, ordine, note)} size="large" style={{ display: 'flex', backgroundColor: "#F35B04", alignItems: 'center', justifyContent: 'center', "margin-top": "10px" }} startIcon={<CloudUploadIcon />} variant="outlined">
             Inserisci ordine personalizzato
           </Button>
         </Box>

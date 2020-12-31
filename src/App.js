@@ -56,10 +56,10 @@ class App extends Component {
 
     return (
       <div>
-        <nav className="navbar navbar-fixed-top navbar-dark bg-primary mb-4">
+        <nav className="navbar navbar-fixed-top">
         <button className="navbar-toggler navbar-left" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1"
             aria-controls="navbarSupportedContent1" aria-expanded="false" aria-label="Toggle navigation">
-            <span className="navbar-toggler-icon"><i className="fas fa-bars fa-1x"></i></span></button>
+            <span className="navbar-toggler-icon"><i className="fa-1x"></i></span></button>
           <span className="navbar-text">
             {currentUser ? currentUser.username : 'Benvenuto'}
           </span>
