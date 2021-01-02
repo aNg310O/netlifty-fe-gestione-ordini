@@ -119,11 +119,7 @@ const currentUser = AuthService.getCurrentUser();
   };
 
   const handleClick = (selection,note) => {
-<<<<<<< HEAD
     if (order !== "0" && order !== '' && order !== null) {
-=======
-    if (order !== 0 && order !== '') {
->>>>>>> 9b1071b65a25feeda1db6bb8b8952e0e7ffed192
       setDisabled(true);
       let data = {
         "desc": selection.desc,
@@ -172,11 +168,7 @@ const currentUser = AuthService.getCurrentUser();
   }
 
   const handleCustomClick = (prodotto, pesoTotaleCustom, ordine, note) => {
-<<<<<<< HEAD
     if (ordine !== "0" && ordine !== '' && prodotto !== '' && pesoTotaleCustom !== "0" ) {
-=======
-    if (ordine !== 0 && ordine !== '' && prodotto !== '' && pesoTotaleCustom !== 0 ) {
->>>>>>> 9b1071b65a25feeda1db6bb8b8952e0e7ffed192
       setDisabled(true);
       let customData = {
         "desc": prodotto,
