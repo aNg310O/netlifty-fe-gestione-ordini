@@ -119,7 +119,7 @@ const currentUser = AuthService.getCurrentUser();
   };
 
   const handleClick = (selection,note) => {
-    if (order !== 0 && order !== '') {
+    if (order !== "0" && order !== '' && order !== null) {
       setDisabled(true);
       let data = {
         "desc": selection.desc,
@@ -160,6 +160,7 @@ const currentUser = AuthService.getCurrentUser();
           }
         });
     } else {
+        setDisabled(true);
         setSnackColor('orange');
         setResult("L'ordine non può essere vuoto...")
         setOpen(true);
@@ -167,7 +168,7 @@ const currentUser = AuthService.getCurrentUser();
   }
 
   const handleCustomClick = (prodotto, pesoTotaleCustom, ordine, note) => {
-    if (ordine !== 0 && ordine !== '' && prodotto !== '' && pesoTotaleCustom !== 0 ) {
+    if (ordine !== "0" && ordine !== '' && prodotto !== '' && pesoTotaleCustom !== "0" ) {
       setDisabled(true);
       let customData = {
         "desc": prodotto,
@@ -208,6 +209,7 @@ const currentUser = AuthService.getCurrentUser();
           }
         });
     } else {
+        setDisabled(true);
         setSnackColor('orange');
         setResult("Devi inserire tutti i campi obbligatori [Nome prodotto, Peso Totale, Quantità]")
         setOpen(true);
