@@ -35,7 +35,7 @@ const AdminOrderTable = () => {
     const [snackColor, setSnackColor] = useState('teal');
     const [click, setClick] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [empty, setEmpty] = useState(false);
+    const [empty, setEmpty] = useState(true);
     const [msg, setMsg] = useState("");
 
     useEffect(() => {},[empty, loading])
