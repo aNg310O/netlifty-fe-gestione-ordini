@@ -72,7 +72,7 @@ const AdminReportDay = () => {
                     setEmpty(true);
                     setMsg(`${seller.username}, non ci sono ordini per la data selezionata`);
                     console.log(`INFO, ${seller.username}, admin.ordini.table.component, getData not today order yet`)
-                    }
+                }
             }
         catch(e) {
             if (e.message === "Network Error") {
@@ -89,7 +89,7 @@ const AdminReportDay = () => {
                       Logging.log("ERROR", seller.username, "admin.customReport.component", `getData errore ${e.message}`)
                     } else if (e.response.status === 403) {
                         setLoading(false);
-                      setSnackColor('red');
+                        setSnackColor('red');
                       setResult("No token provided. Fai logout/login!")
                       setOpen(true);
                       console.log(`ERROR, ${seller.username}, admin.customReport.component, getData error ${e.message}`)

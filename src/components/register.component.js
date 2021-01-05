@@ -5,12 +5,14 @@ import CheckButton from "react-validation/build/button";
 import { isEmail } from "validator";
 import Logging from "../services/log.service";
 import AuthService from "../services/auth.service";
+import Switch from '@material-ui/core/Switch';
+import FormControlLabel from '@material-ui/core/FormControlLabel';  
 
 const required = value => {
   if (!value) {
     return (
       <div className="alert alert-danger" role="alert">
-        This field is required!
+        Campo obbligatorio!
       </div>
     );
   }
@@ -20,7 +22,7 @@ const email = value => {
   if (!isEmail(value)) {
     return (
       <div className="alert alert-danger" role="alert">
-        This is not a valid email.
+        Email non valida.
       </div>
     );
   }
@@ -30,7 +32,7 @@ const vusername = value => {
   if (value.length < 3 || value.length > 20) {
     return (
       <div className="alert alert-danger" role="alert">
-        The username must be between 3 and 20 characters.
+        Nome utente lungo 3-20 caratteri.
       </div>
     );
   }
@@ -40,7 +42,7 @@ const vpassword = value => {
   if (value.length < 6 || value.length > 40) {
     return (
       <div className="alert alert-danger" role="alert">
-        The password must be between 6 and 40 characters.
+        Password lunga 6-40 caratteri.
       </div>
     );
   }
@@ -61,6 +63,11 @@ export default class Register extends Component {
       successful: false,
       message: ""
     };
+
+    this.state = {
+      admin: ["user"],
+      flag: false,
+    }
   }
 
   onChangeUsername(e) {
@@ -95,7 +102,8 @@ export default class Register extends Component {
       AuthService.register(
         this.state.username,
         this.state.email,
-        this.state.password
+        this.state.password,
+        this.state.admin
       ).then(
         response => {
           this.setState({
@@ -124,9 +132,18 @@ export default class Register extends Component {
   }
 
   render() {
+    const { admin,
+      flag } = this.state;
+ 
     return (
       <div className="col-md-12">
         <div className="card card-container">
+        <FormControlLabel
+        control={<Switch checked={flag} onChange={(e) => this.setState({ admin: e.target.checked ? ["admin"] : ["user"], flag: e.target.checked})} name="checkedA" color="primary" />}
+        label="Seleziona per creare un utente ADMIN"
+      />
+      { console.log(admin) }
+      { console.log(flag) }
           {/*<img
             src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
             alt="profile-img"
@@ -143,7 +160,7 @@ export default class Register extends Component {
             {!this.state.successful && (
               <div>
                 <div className="form-group">
-                  <label htmlFor="username">Username</label>
+                  <label htmlFor="username">Nome Utente</label>
                   <Input
                     type="text"
                     className="form-control"
