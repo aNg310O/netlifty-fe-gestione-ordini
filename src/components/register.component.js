@@ -132,8 +132,7 @@ export default class Register extends Component {
   }
 
   render() {
-    const { admin,
-      flag } = this.state;
+    const { admin, flag } = this.state;
  
     return (
       <div className="col-md-12">
