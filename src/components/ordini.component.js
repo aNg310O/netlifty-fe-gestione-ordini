@@ -15,6 +15,7 @@ import AuthService from "../services/auth.service";
 import authHeader from '../services/auth-header';
 import { CircularIndeterminate } from './Loader';
 import Logging from "../services/log.service";
+import qs from 'qs';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -34,32 +35,38 @@ const useStyles = makeStyles((theme) => ({
 
 export function SellerComponent() {
   const classes = useStyles();
-  const [items, setItems] = useState([]);
-  const [selected, setSelected] = useState(['']);
+  const [prodottos, setProdottos] = useState([]);
+  const [pesos, setPesos] = useState([]);
+  const [pezzaturas, setPezzaturas] = useState([]);
+  const [prodotto, setProdotto] = useState();
+  const [peso, setPeso] = useState();
+  const [pezzatura, setPezzatura] = useState();
   const [boxVisibility, setBoxVisiblity] = useState("none");
+  const [boxVisibilityPeso, setBoxVisiblityPeso] = useState("none");
+  const [boxVisibilityPezzatura, setBoxVisiblityPezzatura] = useState("none");
   const [boxCustomVisibility, setBoxCustomVisiblity] = useState("none");
   const [order, setOrder] = useState();
   const [result, setResult] = useState('');
   const [open, setOpen] = useState(false);
-  const [prodotto, setProdotto] = useState('');
+  const [prodottoCustom, setProdottoCustom] = useState('');
   const [ordine, setOrdine] = useState();
   const [note, setNote] = useState('');
   const [pesoTotaleCustom, setPesoTotaleCustom] = useState();
   const [snackColor, setSnackColor] = useState('teal');
   const [ loading, setLoading ] = useState(true);
+  const [loadingPeso, setLoadingPeso] = useState(false);
+  const [loadingPezzatura, setLoadingPezzatura] = useState(false);
   const [disabled, setDisabled] = useState(false);
   
 const currentUser = AuthService.getCurrentUser();
 
-  useEffect(() => {
-    retrieveProduct();
-  },[]);
+  useEffect(() => { retrieveProduct() }, []);
 
   const retrieveProduct = () => {
-    API.get('gestione-ordini/prodotti',  { headers: authHeader() })
+    API.get('gestione-ordini/prodottisplit', { headers: authHeader() })
       .then(response => {
         if (response.status === 200) {
-          setItems(response.data);
+          setProdottos(response.data);
           setLoading(false);
           console.log(`INFO, ${currentUser.username}, ordini.component, retrieveProduct() Call OK`)
         }
@@ -95,37 +102,173 @@ const currentUser = AuthService.getCurrentUser();
       });
   }
 
+  const retrievePeso = (prodotto) => {
+    API.get(`gestione-ordini/pesosplit/${prodotto}`, { headers: authHeader() })
+      .then(response => {
+        if (response.status === 200) {
+          setPesos(response.data);
+          setLoadingPeso(false);
+          console.log(`INFO, ${currentUser.username}, ordini.component, retrieveProduct() Call OK`)
+        }
+      })
+      .catch(e => {
+        if (e.message === "Network Error") {
+          setLoadingPeso(false);
+          setSnackColor('red');
+          setResult("Non sei connesso ad internet...")
+          setOpen(true);
+        } else if (e.response.status === 401) {
+          setLoadingPeso(false);
+          setSnackColor('red');
+          setResult("Sessione scaduta. Fai logout/login!")
+          setOpen(true);
+          Logging.log("ERROR", currentUser.username, "ordini.component", `retrieveProduct() Call KO ${e.message}`)
+          console.log(`ERROR, ${currentUser.username}, ordini.component, retrieveProduct() Call KO ${e.message}`)
+        } else if (e.response.status === 403) {
+          setLoadingPeso(false);
+          setSnackColor('red');
+          setResult("No token provided. Fai logout/login!")
+          setOpen(true);
+          Logging.log("ERROR", currentUser.username, "ordini.component", `retrieveProduct() Call KO ${e.message}`)
+          console.log(`ERROR, ${currentUser.username}, ordini.component, retrieveProduct() Call KO ${e.message}`)
+        } else {
+          setLoadingPeso(false);
+          setSnackColor('red');
+          setResult(e.message)
+          setOpen(true);
+          Logging.log("ERROR", currentUser.username, "ordini.component", `retrieveProduct() Call KO ${e.message}`)
+          console.log(`ERROR, ${currentUser.username}, ordini.component, retrieveProduct() Call KO ${e.message}`)
+        }
+      });
+  }
+  const retrievePezzatura = (peso, prodotto) => {
+    API.get(`gestione-ordini/pezzaturasplit/`, {
+      headers: authHeader(),
+      params: {
+        peso: peso,
+        prodotto: prodotto
+      },
+      paramsSerializer: (params) => {
+        return qs.stringify(params, { arrayFormat: 'repeat' })
+      },
+    })
+      .then(response => {
+        if (response.status === 200) {
+          setPezzaturas(response.data);
+          setLoadingPezzatura(false);
+          console.log(`INFO, ${currentUser.username}, ordini.component, retrieveProduct() Call OK`)
+        }
+      })
+      .catch(e => {
+        if (e.message === "Network Error") {
+          setLoadingPezzatura(false);
+          setSnackColor('red');
+          setResult("Non sei connesso ad internet...")
+          setOpen(true);
+        } else if (e.response.status === 401) {
+          setLoadingPezzatura(false);
+          setSnackColor('red');
+          setResult("Sessione scaduta. Fai logout/login!")
+          setOpen(true);
+          Logging.log("ERROR", currentUser.username, "ordini.component", `retrieveProduct() Call KO ${e.message}`)
+          console.log(`ERROR, ${currentUser.username}, ordini.component, retrieveProduct() Call KO ${e.message}`)
+        } else if (e.response.status === 403) {
+          setLoadingPezzatura(false);
+          setSnackColor('red');
+          setResult("No token provided. Fai logout/login!")
+          setOpen(true);
+          Logging.log("ERROR", currentUser.username, "ordini.component", `retrieveProduct() Call KO ${e.message}`)
+          console.log(`ERROR, ${currentUser.username}, ordini.component, retrieveProduct() Call KO ${e.message}`)
+        } else {
+          setLoadingPezzatura(false);
+          setSnackColor('red');
+          setResult(e.message)
+          setOpen(true);
+          Logging.log("ERROR", currentUser.username, "ordini.component", `retrieveProduct() Call KO ${e.message}`)
+          console.log(`ERROR, ${currentUser.username}, ordini.component, retrieveProduct() Call KO ${e.message}`)
+        }
+      });
+  }
   const handleChange = (event) => {
     console.log(`INFO, ${currentUser.username}, ordini.component, handleChange() scelto prodotto ${event.target.value === 2 ? "Custom" : event.target.value.desc }`)
-    if (event.target.value !== 2) {
-      setSelected(event.target.value || '');
-      setBoxVisiblity("block");
+    if (event.target.value !== 2 && event.target.value !== "Ricotta") {
+      setLoadingPeso(true);
+      setPeso();
+      setPezzatura();
+      setPesos();
+      setPezzaturas();
+      setProdotto(event.target.value || '')
+      retrievePeso(event.target.value)
+      setBoxVisiblityPeso("block");
+      setBoxVisiblityPezzatura("none");
       setBoxCustomVisiblity("none");
       setOrdine('');
       setNote('');
-      setProdotto('');
+      setProdottoCustom('');
+      setPesoTotaleCustom('');
+      setOrder('');
+    } else if (event.target.value === "Ricotta") {
+      retrievePezzatura(0, event.target.value)
+      setProdotto(event.target.value || '')
+      setOrder()
+      setPeso()
+      setBoxVisiblity("none");
+      setBoxVisiblityPezzatura("block");
+      setBoxVisiblityPeso("none");
+      setBoxCustomVisiblity("none");
+      setOrdine('');
+      setNote('');
+      setProdottoCustom('');
       setPesoTotaleCustom('');
       setOrder('');
     } else {
-      setSelected(event.target.value || '');
+      setProdotto(event.target.value || '')
       setBoxVisiblity("none");
+      setBoxVisiblityPezzatura("none");
+      setBoxVisiblityPeso("none");
       setBoxCustomVisiblity("block");
       setOrdine('');
       setNote('');
-      setProdotto('');
+      setProdottoCustom('');
       setPesoTotaleCustom('');
       setOrder('');
     }
   };
 
-  const handleClick = (selection,note) => {
+  const handleChangePeso = (event) => {
+    console.log(`INFO, ${currentUser.username}, ordini.component, handleChange() scelto prodotto ${event.target.value === 2 ? "Custom" : event.target.value.desc}`)
+    setLoadingPezzatura(true);
+    setPeso(event.target.value || '');
+    retrievePezzatura(event.target.value, prodotto)
+    setBoxVisiblityPezzatura("block");
+    setBoxCustomVisiblity("none");
+    setOrdine('');
+    setNote('');
+    setProdottoCustom('');
+    setPesoTotaleCustom('');
+    setOrder('');
+  };
+  const handleChangePezzatura = (event) => {
+    console.log(`INFO, ${currentUser.username}, ordini.component, handleChange() scelto prodotto ${event.target.value === 2 ? "Custom" : event.target.value.desc}`)
+    setPezzatura(event.target.value || '');
+    setBoxVisiblity("block");
+    setBoxCustomVisiblity("none");
+    setOrdine('');
+    setNote('');
+    setProdottoCustom('');
+    setPesoTotaleCustom('');
+    setOrder('');
+  };
+  const handleClick = (prodotto, pesoTotale, pezzatura, note) => {
     if (order !== "0" && order !== '' && order !== null) {
       setDisabled(true);
       let data = {
-        "desc": selection.desc,
+        "desc": prodotto,
         "seller": currentUser.username,
-        "pesoProdotto": selection.pesoTotale,
+        "pesoTotale": pesoTotale * order,
         "qty": order,
+        "grammatura": pezzatura,
+        "pesoProdotto": pesoTotale,
         "note": note,
         "isCustom": false
       };
@@ -167,13 +310,13 @@ const currentUser = AuthService.getCurrentUser();
       }
   }
 
-  const handleCustomClick = (prodotto, pesoTotaleCustom, ordine, note) => {
-    if (ordine !== "0" && ordine !== '' && prodotto !== '' && pesoTotaleCustom !== "0" ) {
+  const handleCustomClick = (prodottoCustom, pesoTotaleCustom, ordine, note) => {
+    if (ordine !== "0" && ordine !== '' && prodottoCustom !== '' && pesoTotaleCustom !== "0") {
       setDisabled(true);
       let customData = {
-        "desc": prodotto,
+        "desc": prodottoCustom,
         "seller": currentUser.username,
-        "pesoProdotto": pesoTotaleCustom,
+        "pesoTotale": pesoTotaleCustom,
         "qty": ordine,
         "note": note,
         "isCustom": true
@@ -229,34 +372,57 @@ const currentUser = AuthService.getCurrentUser();
     <div>
       <Box className={classes.root}>
         <FormControl className={classes.formControl}>
-          <InputLabel id="demo-simple-select-label">Prodotti</InputLabel>
+            <InputLabel id="demo-simple-select-label">Prodotto</InputLabel>
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            value={selected.desc}
+              value={prodotto}
             onChange={handleChange}>
-            {items && items.map((myData) => (
-            <MenuItem value={myData} key={myData.desc}>{myData.desc}</MenuItem>))}
+              {prodottos && prodottos.map(myData => <MenuItem value={myData} key={myData}>{myData}</MenuItem>)}
             <MenuItem value={2} key={"custom"}>Ordine personalizzato</MenuItem>
           </Select>
         </FormControl>
+          {loadingPeso ? <CircularIndeterminate /> :
+          <Box display={boxVisibilityPeso} className={classes.root}>
+            <FormControl className={classes.formControl}>
+              <InputLabel id="demo-simple-select-label">Peso</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={peso}
+                onChange={handleChangePeso}>
+                {pesos && pesos.map(myData => <MenuItem value={myData} key={myData}>{myData}</MenuItem>)}
+              </Select>
+            </FormControl>
+          </Box>}
+          {loadingPezzatura ? <CircularIndeterminate /> :
+          <Box display={boxVisibilityPezzatura} className={classes.root}>
+            <FormControl className={classes.formControl}>
+              <InputLabel id="demo-simple-select-label">Pezzatura</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={pezzatura}
+                onChange={handleChangePezzatura}>
+                {pezzaturas && pezzaturas.map(myData => <MenuItem value={myData} key={myData}>{myData}</MenuItem>)}
+              </Select>
+            </FormControl>
+          </Box>}
         <Box display={boxVisibility} className={classes.root}>
-          <TextField label="Prodotto" style={{ backgroundColor: "#D4D4D4", "margin": "10px"}} InputLabelProps={{ shrink: true }} InputProps={{ readOnly: true }} variant="outlined" value={selected.desc}></TextField>
-          <TextField label="Grammatura (gr)" style={{ backgroundColor: "#D4D4D4", "margin": "10px"}} InputLabelProps={{ shrink: true, }} InputProps={{ readOnly: true, }} variant="outlined" value={selected.grammatura}></TextField>
-          <TextField label="Peso Totale (gr)" style={{ backgroundColor: "#D4D4D4", "margin": "10px"}} InputLabelProps={{ shrink: true, }} InputProps={{ readOnly: true, }} variant="outlined" value={order ? selected.pesoTotale * order : 0}></TextField>
+            <TextField label="Peso Totale (gr)" style={{ backgroundColor: "#5C5C5C", "margin": "10px" }} InputLabelProps={{ shrink: true, }} InputProps={{ readOnly: true, }} variant="outlined" value={prodotto !== 'Ricotta' ? (order ? peso * order : 0) : ""}></TextField>
           <TextField label="Inserisci qui l'ordine" style={{ "margin": "10px"}} margin="none" onChange={e => setOrder(e.target.value)} value={order} type="number" variant="outlined" InputProps={{ inputProps: {min: 0} }}></TextField>
           <TextField label="Note" style={{ "margin": "10px"}} value={note} onChange={e => setNote(e.target.value)} margin="none" type="string" variant="outlined" ></TextField>
           
-          <Button onClick={() => handleClick(selected,note)} disabled={disabled} size="large" style={{ display: 'flex', backgroundColor: "#F35B04", alignItems: 'center', justifyContent: 'center', "marginTop": "10px" }} startIcon={<CloudUploadIcon />} variant="outlined">
+            <Button onClick={() => handleClick(prodotto, peso, pezzatura, note)} disabled={disabled} size="large" style={{ display: 'flex', backgroundColor: "#F35B04", alignItems: 'center', justifyContent: 'center', "marginTop": "10px" }} startIcon={<CloudUploadIcon />} variant="outlined">
             Inserisci ordine
           </Button>
         </Box>
         <Box display={boxCustomVisibility} className={classes.root}>
-          <TextField required value={prodotto} style={{ "margin": "10px"}} margin="none" onChange={e => setProdotto(e.target.value)} type="string" variant="outlined" label="Nome prodotto"></TextField>
+            <TextField required value={prodottoCustom} style={{ "margin": "10px" }} margin="none" onChange={e => setProdottoCustom(e.target.value)} type="string" variant="outlined" label="Nome prodotto"></TextField>
           <TextField required value={pesoTotaleCustom} style={{ "margin": "10px"}} margin="none" onChange={e => setPesoTotaleCustom(e.target.value)} type="number" variant="outlined" label="Peso totale(gr)" InputProps={{ inputProps: {min: 0} }}></TextField>
           <TextField required value={ordine} style={{ "margin": "10px"}} margin="none" onChange={e => setOrdine(e.target.value)} type="number" variant="outlined" label="Quantità(pezzi)" InputProps={{ inputProps: {min: 0} }}></TextField>
           <TextField value={note} style={{ "margin": "10px"}} margin="none" onChange={e => setNote(e.target.value)} type="string" variant="outlined" label="Note"></TextField>
-          <Button onClick={() => handleCustomClick(prodotto, pesoTotaleCustom, ordine, note)} disabled={disabled} size="large" style={{ display: 'flex', backgroundColor: "#F35B04", alignItems: 'center', justifyContent: 'center', "margin-top": "10px" }} startIcon={<CloudUploadIcon />} variant="outlined">
+            <Button onClick={() => handleCustomClick(prodottoCustom, pesoTotaleCustom, ordine, note)} disabled={disabled} size="large" style={{ display: 'flex', backgroundColor: "#F35B04", alignItems: 'center', justifyContent: 'center', "margin-top": "10px" }} startIcon={<CloudUploadIcon />} variant="outlined">
             Inserisci ordine personalizzato
           </Button>
         </Box>

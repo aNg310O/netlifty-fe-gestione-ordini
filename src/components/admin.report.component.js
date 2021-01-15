@@ -44,7 +44,7 @@ const AdminReportTable = () => {
                                 }
                             }
                           }
-                          res.data.push({_id: "TOTALE", qty: 0, totale: totalone })
+                          res.data.push({_id: {desc: "TOTALE"}, totale: totalone })
                           setOrdine(res.data)
                           setLoading(false);
                           console.log(`INFO, ${seller.username}, admin.report.component, getData todayOrder`)
@@ -112,7 +112,7 @@ const AdminReportTable = () => {
         
 
     const renderHeader = () => {
-        let headerElement = ['desc', 'quantità', 'peso totale (gr)', 'data inserimento']
+        let headerElement = ['prodotto', 'peso prodotto', 'pezzatura', 'quantità', 'peso totale (gr)', 'data inserimento']
         return headerElement.map((key, index) => {
             return <th key={index}>{key.toUpperCase()}</th>
         })
@@ -121,8 +121,10 @@ const AdminReportTable = () => {
     const renderBody = () => {
         return ordine && ordine.map(({ _id, qty, totale, dataInserimento }) => {
             return (
-                <tr key={_id}>
-                    <td>{_id}</td>
+                <tr key={_id.desc}>
+                    <td>{_id.desc}</td>
+                    <td>{_id.pesoProdotto}</td>
+                    <td>{_id.pezzatura}</td>
                     <td>{qty}</td>
                     <td>{totale}</td>
                     <td>{dataInserimento}</td>
@@ -141,7 +143,7 @@ const AdminReportTable = () => {
 if (!loading){
     return (
         <div>
-        <Button onClick={() => handleReportClick()} size="large" style={{ display: 'flex', backgroundColor: "#F35B04", alignItems: 'center', justifyContent: 'center', "margin-top": "10px" }} startIcon={<CloudUploadIcon />} variant="outlined">
+        <Button onClick={() => handleReportClick()} size="large" style={{ display: 'flex', backgroundColor: "#F35B04", alignItems: 'center', justifyContent: 'center', "marginTop": "10px" }} startIcon={<CloudUploadIcon />} variant="outlined">
             Download Report
         </Button>
         <br></br>

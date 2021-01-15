@@ -123,17 +123,19 @@ const AdminOrderTable = () => {
     };
 
     const renderHeader = () => {
-        let headerElement = ['desc', 'quantità', 'peso totale (gr)', 'data inserimento', 'venditore', 'note']
+        let headerElement = ['prodotto', 'peso prodotto', 'pezzatura', 'quantità', 'peso totale (gr)', 'data inserimento', 'venditore', 'note']
         return headerElement.map((key, index) => {
             return <th key={index}>{key.toUpperCase()}</th>
         })
     }
 
     const renderBody = () => {
-        return ordine && ordine.map(({ _id, desc, qty, pesoTotale, dataInserimento, seller, note }) => {
+        return ordine && ordine.map(({ id, desc, pesoProdotto, grammatura, qty, pesoTotale, dataInserimento, seller, note }) => {
             return (
-                <tr key={_id}>
+                <tr key={id}>
                     <td>{desc}</td>
+                    <td>{pesoProdotto}</td>
+                    <td>{grammatura}</td>
                     <td>{qty}</td>
                     <td>{pesoTotale}</td>
                     <td>{dataInserimento}</td>

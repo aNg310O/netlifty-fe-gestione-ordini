@@ -132,7 +132,7 @@ export default class Register extends Component {
   }
 
   render() {
-    const { admin, flag } = this.state;
+    const { flag } = this.state;
  
     return (
       <div className="col-md-12">
@@ -157,7 +157,7 @@ export default class Register extends Component {
             {!this.state.successful && (
               <div>
                 <div className="form-group">
-                  <label htmlFor="username">Username</label>
+                  <label htmlFor="username">Nome Utente</label>
                   <Input
                     type="text"
                     className="form-control"

@@ -9,7 +9,7 @@ label {
 }
 
 .card {
-  background-color: #f7f7f7;
+  background-color: #6b6b6b;
   padding: 20px 25px 30px;
   margin: 0 auto 25px;
   margin-top: 50px;
@@ -72,12 +72,12 @@ label {
   outline: none;
   font-size: 0.8em;
   font-family: "Quicksand", sans-serif;
-  color: black;
+  color: rgb(243, 243, 243);
   border-radius: 8px;
   cursor: pointer;
   padding: 6px 12px;
   border: 1px solid #000000;
-  background-color: #C03221;
+  background-color: #d32f2f;
   font-weight:bold; 
 }
     
@@ -96,7 +96,7 @@ table {
     
 thead tr {
   background-color: #596157;
-  color: #ffffff;
+  color: #8f8f8f;
   text-align: left;
   border: 1px solid #000000;
   font-size: 0.9em;
@@ -118,7 +118,7 @@ th {
   color: rgb(255, 255, 255);
   text-align: center;
   text-transform: uppercase;
-  background-color: #596157;
+  background-color: #252525;
   border: 1px solid #000000;
   margin-bottom: 15px;
   border-left:solid black 1px;
@@ -132,17 +132,17 @@ tbody tr {
     
 tr:nth-of-type(even) {
   font-family: "Roboto";
-  background-color: #E8FBDB;
+  background-color: #27632a;
   border: 1px solid #000000;
 }
     
 tr:nth-of-type(odd) {
   font-family: "Roboto";
-  background-color: #E8E8ED;
+  background-color: #388e3c;
   border: 1px solid #000000;
 }
     
-tr:hover {background-color:#1f9143;}
+tr:hover {background-color:#d68317;}
 tbody {
   border-bottom: 1px solid #000000;
   border: 1px solid #000000;

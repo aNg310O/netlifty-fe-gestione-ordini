@@ -74,7 +74,7 @@ class App extends Component {
             <ul className="navbar-nav">
               {showAdminBoard && (
                 <li className="nav-item">
-                  <Link to={"/admin/prodotti"} className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show" /* onClick={() => this.setState({ title: " | Gestione dei prodotti" })} */>
+                  <Link to={"/admin/prodottsplit"} className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show" /* onClick={() => this.setState({ title: " | Gestione dei prodotti" })} */>
                     Gestione prodotti
                 </Link>
                 </li>
@@ -158,7 +158,7 @@ class App extends Component {
             <Route exact path="/profile" component={Profile} />
             <Route path="/user/ordine" component={SellerComponent} />
             <Route path="/user/recap" component={RivediOrdineComponent} />
-            <Route path="/admin/prodotti" component={AdminProdotti} />
+            <Route path="/admin/prodottsplit" component={AdminProdotti} />
             <Route path="/admin/users" component={AdminUsers} />
             <Route path="/admin/new" component={AdminNewUsers} />
             <Route path="/admin/report/oggi" component={AdminReportOggi} />

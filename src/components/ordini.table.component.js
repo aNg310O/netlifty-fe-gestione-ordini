@@ -92,21 +92,24 @@ const Table = () => {
     }
 
     const renderHeader = () => {
-        let headerElement = ['desc', 'qty', 'peso totale', 'note', 'venditore', '']
+        let headerElement = ['prodotto', 'peso prodotto', 'pezzatura', 'quantità', 'peso totale (gr)', 'note', 'venditore', 'data inserimento', '']
         return headerElement.map((key, index) => {
             return <th key={index}>{key.toUpperCase()}</th>
         })
     }
 
     const renderBody = () => {
-        return ordini && ordini.map(({ id, desc, qty, pesoTotale, note, seller }) => {
+        return ordini && ordini.map(({ id, desc, pesoProdotto, grammatura, qty, pesoTotale, note, seller, dataInserimento }) => {
             return (
                 <tr key={id}>
                     <td>{desc}</td>
+                    <td>{pesoProdotto}</td>
+                    <td>{grammatura}</td>
                     <td>{qty}</td>
                     <td>{pesoTotale}</td>
                     <td>{note}</td>
                     <td>{seller}</td>
+                    <td>{dataInserimento}</td>
                     <td className='operation'>
                         <button className='button' onClick={() => removeData(id)}>Elimina</button>
                     </td>
@@ -127,7 +130,7 @@ const Table = () => {
       } else if (!loading){
     return (
         <div>
-            <table id='ordini' style={{ "margin-bottom": "2em" }} >
+            <table id='ordini' style={{ "marginBottom": "2em" }} >
                 <thead>
                     <tr>{renderHeader()}</tr>
                 </thead>

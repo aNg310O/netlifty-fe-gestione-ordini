@@ -22,7 +22,7 @@ const ProductTable = () => {
     }, []);
 
     const getData = () => {
-        API.get(`/gestione-ordini/prodotti/`, { headers: authHeader() })
+        API.get(`/gestione-ordini/prodottsplit/`, { headers: authHeader() })
             .then(res => {
                 if (res.status === 200) {
                     if(seller.roles[0] === "ROLE_ADMIN") {
@@ -63,6 +63,7 @@ const ProductTable = () => {
               }
 
     const removeData = (id) => {
+        window.confirm(`Sto eliminando ${id}?`);
         var answer = window.confirm(`Vuoi davvero eliminare il prodotto?`);
         if (answer) {
             API.delete(`gestione-ordini/prodotto/${id}`, { headers: authHeader() }).then(res => {
@@ -74,19 +75,19 @@ const ProductTable = () => {
     }
 
     const renderHeader = () => {
-        let headerElement = ['desc', 'gr al pezzo', 'peso totale', '']
+        let headerElement = ['prodotto', 'peso totale', 'pezzatura', '']
         return headerElement.map((key, index) => {
             return <th key={index}>{key.toUpperCase()}</th>
         })
     }
 
     const renderBody = () => {
-        return prodotto && prodotto.map(({ id, desc, grammatura, pesoTotale }) => {
+        return prodotto && prodotto.map(({ id, prodotto, pesoTotale, pezzatura }) => {
             return (
                 <tr key={id}>
-                    <td>{desc}</td>
-                    <td>{grammatura}</td>
+                    <td>{prodotto}</td>
                     <td>{pesoTotale}</td>
+                    <td>{pezzatura}</td>
                     <td className='operation'>
                         <button className='button' onClick={() => removeData(id)}>Elimina</button>
                     </td>
