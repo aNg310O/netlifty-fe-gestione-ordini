@@ -55,7 +55,7 @@ class App extends Component {
       showAdminBoard } = this.state;
 
     return (
-      <div>
+      <div className="container mt-3">
         <nav className="navbar navbar-fixed-top">
         <button className="navbar-toggler navbar-left" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1"
             aria-controls="navbarSupportedContent1" aria-expanded="false" aria-label="Toggle navigation">
