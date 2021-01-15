@@ -32,7 +32,7 @@ export default class Home extends Component {
   render() {
     return (
       <div className="container">
-        <header className="jumbotron">
+        <header className="jumbotron bg-dark">
           <h6>Benvenuto. Gestisci i tuoi ordini da questa app!</h6>
         </header>
       </div>
