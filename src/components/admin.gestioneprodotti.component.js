@@ -38,6 +38,7 @@ export function AdminProdotti() {
   const [result, setResult] = useState('');
   const [open, setOpen] = useState(false);
   const [snackColor, setSnackColor] = useState('teal');
+  const [reload, setReload] = useState(true);
 
   const handleProductClick = (desc, grammatura, pesoTotale) => {
     if (desc !== '') {
@@ -49,6 +50,7 @@ export function AdminProdotti() {
       API.post('gestione-ordini/prodottisplit/', data, { headers: authHeader() })
         .then(response => {
           if (response.status === 200) {
+            setReload(!reload)
             setSnackColor('green');
             setResult("Prodotto inserito!")
             setOpen(true);
@@ -93,7 +95,7 @@ export function AdminProdotti() {
   return (
     <div>
       <Box className={classes.root}>
-        <ProductTable />
+        <ProductTable reload={reload}/>
         <TextField required label="Prodotto" variant="outlined" value={desc} margin="none" type="string" onChange={e => setDesc(e.target.value)} style={{"margin": "20px" }}></TextField>
         <TextField required label="Peso Totale (gr)" variant="outlined" value={pesoTotale} margin="none" type="number" onChange={e => setPesoTotale(e.target.value)} InputProps={{ inputProps: {min: 0} }} style={{"margin": "20px" }}></TextField>
         <TextField required label="Pezzatura (gr)" variant="outlined" value={grammatura} margin="none" type="number" onChange={e => setGrammatura(e.target.value)} InputProps={{ inputProps: {min: 0} }} style={{"margin": "20px" }}></TextField>

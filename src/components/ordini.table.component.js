@@ -20,9 +20,7 @@ const Table = () => {
     const [empty, setEmpty] = useState(false);
     const [msg, setMsg] = useState("");
 
-    useEffect(() => {
-        getData()
-    }, [])
+    useEffect(() => { getData() }, [])
 
     const getData = async () => {
         try {
@@ -92,7 +90,7 @@ const Table = () => {
     }
 
     const renderHeader = () => {
-        let headerElement = ['prodotto', 'peso prodotto', 'pezzatura', 'quantità', 'peso totale (gr)', 'note', 'venditore', 'data inserimento', '']
+        let headerElement = ['prodotto', 'peso prodotto', 'pezzatura', 'quantitÃ ', 'peso totale (gr)', 'note', 'venditore', 'data inserimento', '']
         return headerElement.map((key, index) => {
             return <th key={index}>{key.toUpperCase()}</th>
         })

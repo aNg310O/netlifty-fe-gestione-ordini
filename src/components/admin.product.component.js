@@ -10,16 +10,14 @@ import Logging from "../services/log.service";
 
 const seller = AuthService.getCurrentUser();
 
-const ProductTable = () => {
+const ProductTable = (props) => {
     const [prodotto, setProdotto] = useState([])
     const [result, setResult] = useState('');
     const [open, setOpen] = useState(false);
     const [snackColor, setSnackColor] = useState('teal');
-    const [ loading, setLoading ] = useState(true);
+    const [loading, setLoading ] = useState(true);
 
-    useEffect(() => {
-        getData()
-    }, []);
+    useEffect(() => { getData() }, [props]);
 
     const getData = () => {
         API.get(`/gestione-ordini/prodottsplit/`, { headers: authHeader() })
@@ -63,10 +61,9 @@ const ProductTable = () => {
               }
 
     const removeData = (id) => {
-        window.confirm(`Sto eliminando ${id}?`);
         var answer = window.confirm(`Vuoi davvero eliminare il prodotto?`);
         if (answer) {
-            API.delete(`gestione-ordini/prodotto/${id}`, { headers: authHeader() }).then(res => {
+            API.delete(`gestione-ordini/prodottosplit/${id}`, { headers: authHeader() }).then(res => {
                 const del = prodotto.filter(prodotto => id !== prodotto.id)
                 setProdotto(del)
                 console.log(`INFO, ${seller.username}, admin.product.component, removeData prodotto ${id}`)
