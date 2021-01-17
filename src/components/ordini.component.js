@@ -53,7 +53,7 @@ export function SellerComponent() {
   const [note, setNote] = useState('');
   const [pesoTotaleCustom, setPesoTotaleCustom] = useState();
   const [snackColor, setSnackColor] = useState('teal');
-  const [ loading, setLoading ] = useState(true);
+  const [loading, setLoading ] = useState(true);
   const [loadingPeso, setLoadingPeso] = useState(false);
   const [loadingPezzatura, setLoadingPezzatura] = useState(false);
   const [disabled, setDisabled] = useState(false);
@@ -202,6 +202,7 @@ const currentUser = AuthService.getCurrentUser();
       setBoxVisiblityPeso("block");
       setBoxVisiblityPezzatura("none");
       setBoxCustomVisiblity("none");
+      setBoxVisiblity("none");
       setOrdine('');
       setNote('');
       setProdottoCustom('');
@@ -239,8 +240,10 @@ const currentUser = AuthService.getCurrentUser();
     console.log(`INFO, ${currentUser.username}, ordini.component, handleChange() scelto prodotto ${event.target.value === 2 ? "Custom" : event.target.value.desc}`)
     setLoadingPezzatura(true);
     setPeso(event.target.value || '');
+    setPezzatura();
     retrievePezzatura(event.target.value, prodotto)
     setBoxVisiblityPezzatura("block");
+    setBoxVisiblity("none");
     setBoxCustomVisiblity("none");
     setOrdine('');
     setNote('');
@@ -248,6 +251,7 @@ const currentUser = AuthService.getCurrentUser();
     setPesoTotaleCustom('');
     setOrder('');
   };
+
   const handleChangePezzatura = (event) => {
     console.log(`INFO, ${currentUser.username}, ordini.component, handleChange() scelto prodotto ${event.target.value === 2 ? "Custom" : event.target.value.desc}`)
     setPezzatura(event.target.value || '');
@@ -409,7 +413,7 @@ const currentUser = AuthService.getCurrentUser();
             </FormControl>
           </Box>}
         <Box display={boxVisibility} className={classes.root}>
-            <TextField label="Peso Totale (gr)" style={{ backgroundColor: "#5C5C5C", "margin": "10px" }} InputLabelProps={{ shrink: true, }} InputProps={{ readOnly: true, }} variant="outlined" value={prodotto !== 'Ricotta' ? (order ? peso * order : 0) : ""}></TextField>
+          <TextField label="Peso Totale (gr)" style={{ backgroundColor: "#5C5C5C", "margin": "10px" }} InputLabelProps={{ shrink: true, }} InputProps={{ readOnly: true, }} variant="outlined" value={prodotto !== 'Ricotta' ? (order ? peso * order : 0) : ""}></TextField>
           <TextField label="Inserisci qui l'ordine" style={{ "margin": "10px"}} margin="none" onChange={e => setOrder(e.target.value)} value={order} type="number" variant="outlined" InputProps={{ inputProps: {min: 0} }}></TextField>
           <TextField label="Note" style={{ "margin": "10px"}} value={note} onChange={e => setNote(e.target.value)} margin="none" type="string" variant="outlined" ></TextField>
           
