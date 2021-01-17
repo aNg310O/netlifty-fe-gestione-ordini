@@ -18,10 +18,7 @@ const AdminUsersTable = () => {
     const [open, setOpen] = useState(false);
     const [loading,setLoading] = useState(true);
     
-    useEffect(() => {
-        getData()
-    },[])
-
+    useEffect(() => { getData() },[loading])
 
     const getData = () => {
         API.get(`/api/user/findUser`, { headers: authHeader() })
@@ -72,12 +69,14 @@ const AdminUsersTable = () => {
             setOpen(true);
         } else {
             var answer = window.confirm(`Vuoi davvero eliminare l'utente?`);
+            setLoading(true);
             if (answer) {
                 API.delete(`api/user/deleteUser/${username}`, { headers: authHeader() }).then(res => {
                 const del = users.filter(users => username !== users.username)
                 setUsers(del)
                 console.log(`INFO, ${seller.username}, admin.users.component, removeData user ${username}`)
         })}
+        setLoading(false);
     }}
 
     const renderHeader = () => {

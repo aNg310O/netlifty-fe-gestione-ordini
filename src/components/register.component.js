@@ -209,6 +209,10 @@ export default class Register extends Component {
                   role="alert"
                 >
                   {this.state.message}
+                  {this.state.successful 
+                  ? setTimeout(() => {  window.location.reload(); }, 2000)
+                  : "" 
+                  }
                 </div>
               </div>
             )}

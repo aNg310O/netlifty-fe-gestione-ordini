@@ -7,6 +7,7 @@ import Home from "./components/home.component";
 import Profile from "./components/profile.component";
 import { SellerComponent } from './components/ordini.component'
 import { RivediOrdineComponent } from './components/ordine.rivedi.component'
+import { RivediOrdineDayComponent } from './components/ordine.rivedi.day.component'
 import { AdminProdotti } from './components/admin.gestioneprodotti.component'
 import { AdminUsers } from './components/admin.gestioneutenti.component'
 import { AdminNewUsers } from './components/admin.inserimentoutenti.component'
@@ -132,7 +133,15 @@ class App extends Component {
 {currentUser && !showAdminBoard && (
                 <li className="nav-item">
                   <Link to={"/user/recap"} className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show" /* onClick={() => this.setState({ title: " | Verifica ordine" })} */>
-                    Rivedi il tuo Ordine
+                    Rivedi il tuo Ordine di oggi
+                </Link>
+                </li>
+              )}
+    
+{currentUser && !showAdminBoard && (
+                <li className="nav-item">
+                  <Link to={"/user/recapDay"} className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show" /* onClick={() => this.setState({ title: " | Verifica ordine" })} */>
+                    Rivedi il tuo Ordine di un altro giorno
                 </Link>
                 </li>
               )}
@@ -158,6 +167,7 @@ class App extends Component {
             <Route exact path="/profile" component={Profile} />
             <Route path="/user/ordine" component={SellerComponent} />
             <Route path="/user/recap" component={RivediOrdineComponent} />
+            <Route path="/user/recapDay" component={RivediOrdineDayComponent} />
             <Route path="/admin/prodottsplit" component={AdminProdotti} />
             <Route path="/admin/users" component={AdminUsers} />
             <Route path="/admin/new" component={AdminNewUsers} />

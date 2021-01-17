@@ -8,10 +8,11 @@ import SnackbarContent from '@material-ui/core/SnackbarContent';
 import { CircularIndeterminate } from './Loader';
 import Typography from '@material-ui/core/Typography'
 import Logging from "../services/log.service";
+import qs from 'qs';
 
 const seller = AuthService.getCurrentUser();
 
-const Table = () => {
+const TableDay = (props) => {
     const [ordini, setOrdini] = useState([])
     const [result, setResult] = useState('');
     const [open, setOpen] = useState(false);
@@ -20,33 +21,31 @@ const Table = () => {
     const [empty, setEmpty] = useState(false);
     const [msg, setMsg] = useState("");
 
-    useEffect(() => { getData() }, [])
+    useEffect(() => { getData() }, [props.str])
 
     const getData = async () => {
         try {
-            if (seller.roles[0] === "ROLE_ADMIN") {
-                const response = await API.get(`/gestione-ordini/ordine/all`, { headers: authHeader() })
+                const response = await API.get(`/gestione-ordini/ordiniDay`, {
+                    headers: authHeader(),
+                    params: {
+                      seller: seller.username,
+                      orderDate : props.str
+                    },
+                    paramsSerializer: (params) => {
+                      return qs.stringify(params, { arrayFormat: 'repeat' })
+                    },
+                  })
                 if (response.data.length !== 0){
                 setOrdini(response.data)
                 setLoading(false);
-                console.log(`INFO, ${seller.username}, ordini.table.component, getData all ordini`)
-                } else {
-                    setEmpty(true);
-                    setMsg(`${seller.username}, ancora non ci sono ordini per oggi`);
-                    console.log(`INFO, ${seller.username}, ordini.table.component, getData not today order yet`)
-                }
-            } else {
-                const response = await API.get(`/gestione-ordini/ordini/${seller.username}`, { headers: authHeader() })
-                if (response.data.length !== 0){
-                setOrdini(response.data)
-                setLoading(false);
+                setEmpty(false);
                 console.log(`INFO, ${seller.username}, ordini.table.component, getData user ordini`)
                 } else {
                     setEmpty(true);
-                    setMsg(`${seller.username}, ancora non ci sono ordini per oggi`);
+                    setMsg(`${seller.username}, non ci sono ordini per la data selezionata`);
                     console.log(`INFO, ${seller.username}, ordini.table.component, getData not today order yet`)
                 }
-            }
+            
         } catch (e) {
             if (e.message === "Network Error") {
                 setLoading(false);
@@ -78,26 +77,15 @@ const Table = () => {
     }
 }
 
-    const removeData = (id) => {
-        var answer = window.confirm(`Vuoi davvero eliminare questo ordine?`);
-        if (answer) {
-            API.delete(`gestione-ordini/ordine/${id}`, { headers: authHeader() }).then(res => {
-                const del = ordini.filter(ordine => id !== ordine.id)
-                setOrdini(del)
-                console.log(`INFO , ${seller.username}, ordini.table.component, deleted order ${id}`)
-            })
-        }
-    }
-
     const renderHeader = () => {
-        let headerElement = ['prodotto', 'peso prodotto', 'pezzatura', 'quantità', 'peso totale (gr)', 'note', 'venditore', '']
+        let headerElement = ['prodotto', 'peso prodotto', 'pezzatura', 'quantità', 'peso totale (gr)', 'note', 'venditore', 'data inserimento']
         return headerElement.map((key, index) => {
             return <th key={index}>{key.toUpperCase()}</th>
         })
     }
 
     const renderBody = () => {
-        return ordini && ordini.map(({ id, desc, pesoProdotto, grammatura, qty, pesoTotale, note, seller }) => {
+        return ordini && ordini.map(({ id, desc, pesoProdotto, grammatura, qty, pesoTotale, note, seller, dataInserimento }) => {
             return (
                 <tr key={id}>
                     <td>{desc}</td>
@@ -107,9 +95,7 @@ const Table = () => {
                     <td>{pesoTotale}</td>
                     <td>{note}</td>
                     <td>{seller}</td>
-                    <td className='operation'>
-                        <button className='button' onClick={() => removeData(id)}>Elimina</button>
-                    </td>
+                    <td>{dataInserimento}</td>
                 </tr>
             )
         })
@@ -158,5 +144,4 @@ const Table = () => {
     }
 }
 
-
-export { Table };
+export { TableDay };
