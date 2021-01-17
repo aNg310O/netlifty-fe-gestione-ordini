@@ -210,7 +210,7 @@ export default class Register extends Component {
                 >
                   {this.state.message}
                   {this.state.successful 
-                  ? setTimeout(() => { window.location.reload(); }, 2000)
+                  ? setTimeout(() => { window.location.reload(true); }, 2000)
                   : "" 
                   }
                 </div>
