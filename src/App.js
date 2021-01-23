@@ -24,16 +24,16 @@ class App extends Component {
       currentUser: undefined,
     };
 
-/*     this.state = {
-      title: ""
-    } */
+    /*     this.state = {
+          title: ""
+        } */
   }
 
-/*   changeTitle = (newTitle) => {
-    this.setState({
-      title: newTitle
-    })
-  } */
+  /*   changeTitle = (newTitle) => {
+      this.setState({
+        title: newTitle
+      })
+    } */
 
   componentDidMount() {
     const user = AuthService.getCurrentUser();
@@ -57,7 +57,7 @@ class App extends Component {
     return (
       <div>
         <nav className="navbar navbar-fixed-top">
-        <button className="navbar-toggler navbar-left" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1"
+          <button className="navbar-toggler navbar-left" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1"
             aria-controls="navbarSupportedContent1" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"><i className="fa-1x"></i></span></button>
           <span className="navbar-text">
@@ -120,7 +120,7 @@ class App extends Component {
                 </li>
               )}
 
-{/*Test per differenziare menu admin/user per la voce rivedi il tuo ordine 
+              {/*Test per differenziare menu admin/user per la voce rivedi il tuo ordine 
               {currentUser && (
                 <li className="nav-item">
                   <Link to={"/user/recap"} className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show" onClick={() => this.setState({ title: " | Verifica ordine" })}>
@@ -129,7 +129,7 @@ class App extends Component {
                 </li>
               )}*/}
 
-{currentUser && !showAdminBoard && (
+              {currentUser && !showAdminBoard && (
                 <li className="nav-item">
                   <Link to={"/user/recap"} className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show" /* onClick={() => this.setState({ title: " | Verifica ordine" })} */>
                     Rivedi il tuo Ordine
@@ -137,7 +137,7 @@ class App extends Component {
                 </li>
               )}
 
-{currentUser && showAdminBoard && (
+              {currentUser && showAdminBoard && (
                 <li className="nav-item">
                   <Link to={"/user/recap"} className="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show" /* onClick={() => this.setState({ title: " | Verifica ordine" })} */>
                     Modifica l'ordine di oggi
