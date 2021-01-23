@@ -432,9 +432,9 @@ const currentUser = AuthService.getCurrentUser();
         </Box>
       </Box>
       <Snackbar
-        anchorOrigin={{ vertical: 'center', horizontal: 'center' }}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         open={open}
-        autoHideDuration={3000}
+        autoHideDuration={2000}
         onClose={handleClose}
       >
         <SnackbarContent style={{
