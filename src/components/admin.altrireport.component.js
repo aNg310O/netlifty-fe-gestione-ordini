@@ -4,6 +4,8 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography'
 import { AdminReportDay } from './admin.customReport.component';
 import { AdminOrderTable } from './admin.ordini.table.component';
+import { AdminMonthOrder } from './admin.ordini.table.monthOrder';
+import { AdminYearOrder } from './admin.ordini.table.yearOrder';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -33,6 +35,14 @@ export function AdminReportAltri() {
       <Typography variant="h5" gutterBottom={true} color='textPrimary'>Report per singolo ordine</Typography> 
       <Box className={classes.root}>
         <AdminOrderTable />
+      </Box>
+      <Typography variant="h5" gutterBottom={true} color='textPrimary'>Report mensile</Typography> 
+      <Box className={classes.root}>
+        <AdminMonthOrder />
+      </Box>
+      <Typography variant="h5" gutterBottom={true} color='textPrimary'>Report annuale</Typography> 
+      <Box className={classes.root}>
+        <AdminYearOrder />
       </Box>
     </div>
   )
