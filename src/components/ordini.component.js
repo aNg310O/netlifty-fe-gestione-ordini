@@ -53,144 +53,144 @@ export function SellerComponent() {
   const [note, setNote] = useState('');
   const [pesoTotaleCustom, setPesoTotaleCustom] = useState();
   const [snackColor, setSnackColor] = useState('teal');
-  const [loading, setLoading ] = useState(true);
+  const [loading, setLoading] = useState(true);
   const [loadingPeso, setLoadingPeso] = useState(false);
   const [loadingPezzatura, setLoadingPezzatura] = useState(false);
   const [disabled, setDisabled] = useState(false);
-  
-const currentUser = AuthService.getCurrentUser();
+
+  const currentUser = AuthService.getCurrentUser();
 
   useEffect(() => { retrieveProduct() }, []);
 
-  const retrieveProduct = () => {
-    API.get('gestione-ordini/prodottisplit', { headers: authHeader() })
-      .then(response => {
-        if (response.status === 200) {
-          setProdottos(response.data);
-          setLoading(false);
-          console.log(`INFO, ${currentUser.username}, ordini.component, retrieveProduct() Call OK`)
-        }
-      })
-      .catch(e => {
-        if (e.message === "Network Error") {
-          setLoading(false);
-          setSnackColor('red');
-          setResult("Non sei connesso ad internet...")
-          setOpen(true);
-        } else if (e.response.status === 401) {
-          setLoading(false);
-          setSnackColor('red');
-          setResult("Sessione scaduta. Fai logout/login!")
-          setOpen(true);
-          Logging.log("ERROR", currentUser.username, "ordini.component", `retrieveProduct() Call KO ${e.message}`)
-          console.log(`ERROR, ${currentUser.username}, ordini.component, retrieveProduct() Call KO ${e.message}`)
-        } else if (e.response.status === 403) {
-          setLoading(false);
-          setSnackColor('red');
-          setResult("No token provided. Fai logout/login!")
-          setOpen(true);
-          Logging.log("ERROR", currentUser.username, "ordini.component", `retrieveProduct() Call KO ${e.message}`)
-          console.log(`ERROR, ${currentUser.username}, ordini.component, retrieveProduct() Call KO ${e.message}`)
-        } else {
-          setLoading(false);
-          setSnackColor('red');
-          setResult(e.message)
-          setOpen(true);
-          Logging.log("ERROR", currentUser.username, "ordini.component", `retrieveProduct() Call KO ${e.message}`)
-          console.log(`ERROR, ${currentUser.username}, ordini.component, retrieveProduct() Call KO ${e.message}`)
-        }
-      });
+  const retrieveProduct = async () => {
+    try {
+      const response = await API.get('gestione-ordini/prodottisplit', { headers: authHeader() })
+      if (response.status === 200) {
+        setProdottos(response.data);
+        setLoading(false);
+        console.log(`INFO, ${currentUser.username}, ordini.component, retrieveProduct() Call OK`)
+      }
+    }
+    catch (e) {
+      if (e.message === "Network Error") {
+        setLoading(false);
+        setSnackColor('red');
+        setResult("Non sei connesso ad internet...")
+        setOpen(true);
+      } else if (e.response.status === 401) {
+        setLoading(false);
+        setSnackColor('red');
+        setResult("Sessione scaduta. Fai logout/login!")
+        setOpen(true);
+        Logging.log("ERROR", currentUser.username, "ordini.component", `retrieveProduct() Call KO ${e.message}`)
+        console.log(`ERROR, ${currentUser.username}, ordini.component, retrieveProduct() Call KO ${e.message}`)
+      } else if (e.response.status === 403) {
+        setLoading(false);
+        setSnackColor('red');
+        setResult("No token provided. Fai logout/login!")
+        setOpen(true);
+        Logging.log("ERROR", currentUser.username, "ordini.component", `retrieveProduct() Call KO ${e.message}`)
+        console.log(`ERROR, ${currentUser.username}, ordini.component, retrieveProduct() Call KO ${e.message}`)
+      } else {
+        setLoading(false);
+        setSnackColor('red');
+        setResult(e.message)
+        setOpen(true);
+        Logging.log("ERROR", currentUser.username, "ordini.component", `retrieveProduct() Call KO ${e.message}`)
+        console.log(`ERROR, ${currentUser.username}, ordini.component, retrieveProduct() Call KO ${e.message}`)
+      }
+    };
   }
 
-  const retrievePeso = (prodotto) => {
-    API.get(`gestione-ordini/pesosplit/${prodotto}`, { headers: authHeader() })
-      .then(response => {
-        if (response.status === 200) {
-          setPesos(response.data);
-          setLoadingPeso(false);
-          console.log(`INFO, ${currentUser.username}, ordini.component, retrieveProduct() Call OK`)
-        }
-      })
-      .catch(e => {
-        if (e.message === "Network Error") {
-          setLoadingPeso(false);
-          setSnackColor('red');
-          setResult("Non sei connesso ad internet...")
-          setOpen(true);
-        } else if (e.response.status === 401) {
-          setLoadingPeso(false);
-          setSnackColor('red');
-          setResult("Sessione scaduta. Fai logout/login!")
-          setOpen(true);
-          Logging.log("ERROR", currentUser.username, "ordini.component", `retrieveProduct() Call KO ${e.message}`)
-          console.log(`ERROR, ${currentUser.username}, ordini.component, retrieveProduct() Call KO ${e.message}`)
-        } else if (e.response.status === 403) {
-          setLoadingPeso(false);
-          setSnackColor('red');
-          setResult("No token provided. Fai logout/login!")
-          setOpen(true);
-          Logging.log("ERROR", currentUser.username, "ordini.component", `retrieveProduct() Call KO ${e.message}`)
-          console.log(`ERROR, ${currentUser.username}, ordini.component, retrieveProduct() Call KO ${e.message}`)
-        } else {
-          setLoadingPeso(false);
-          setSnackColor('red');
-          setResult(e.message)
-          setOpen(true);
-          Logging.log("ERROR", currentUser.username, "ordini.component", `retrieveProduct() Call KO ${e.message}`)
-          console.log(`ERROR, ${currentUser.username}, ordini.component, retrieveProduct() Call KO ${e.message}`)
-        }
-      });
+  const retrievePeso = async (prodotto) => {
+    try {
+      const response = await API.get(`gestione-ordini/pesosplit/${prodotto}`, { headers: authHeader() })
+      if (response.status === 200) {
+        setPesos(response.data);
+        setLoadingPeso(false);
+        console.log(`INFO, ${currentUser.username}, ordini.component, retrieveProduct() Call OK`)
+      }
+    }
+    catch (e) {
+      if (e.message === "Network Error") {
+        setLoadingPeso(false);
+        setSnackColor('red');
+        setResult("Non sei connesso ad internet...")
+        setOpen(true);
+      } else if (e.response.status === 401) {
+        setLoadingPeso(false);
+        setSnackColor('red');
+        setResult("Sessione scaduta. Fai logout/login!")
+        setOpen(true);
+        Logging.log("ERROR", currentUser.username, "ordini.component", `retrieveProduct() Call KO ${e.message}`)
+        console.log(`ERROR, ${currentUser.username}, ordini.component, retrieveProduct() Call KO ${e.message}`)
+      } else if (e.response.status === 403) {
+        setLoadingPeso(false);
+        setSnackColor('red');
+        setResult("No token provided. Fai logout/login!")
+        setOpen(true);
+        Logging.log("ERROR", currentUser.username, "ordini.component", `retrieveProduct() Call KO ${e.message}`)
+        console.log(`ERROR, ${currentUser.username}, ordini.component, retrieveProduct() Call KO ${e.message}`)
+      } else {
+        setLoadingPeso(false);
+        setSnackColor('red');
+        setResult(e.message)
+        setOpen(true);
+        Logging.log("ERROR", currentUser.username, "ordini.component", `retrieveProduct() Call KO ${e.message}`)
+        console.log(`ERROR, ${currentUser.username}, ordini.component, retrieveProduct() Call KO ${e.message}`)
+      }
+    };
   }
-  const retrievePezzatura = (peso, prodotto) => {
-    API.get(`gestione-ordini/pezzaturasplit/`, {
-      headers: authHeader(),
-      params: {
-        peso: peso,
-        prodotto: prodotto
-      },
-      paramsSerializer: (params) => {
-        return qs.stringify(params, { arrayFormat: 'repeat' })
-      },
-    })
-      .then(response => {
-        if (response.status === 200) {
-          setPezzaturas(response.data);
-          setLoadingPezzatura(false);
-          console.log(`INFO, ${currentUser.username}, ordini.component, retrieveProduct() Call OK`)
-        }
+  const retrievePezzatura = async (peso, prodotto) => {
+    try {
+      const response = await API.get(`gestione-ordini/pezzaturasplit/`, {
+        headers: authHeader(),
+        params: {
+          peso: peso,
+          prodotto: prodotto
+        },
+        paramsSerializer: (params) => {
+          return qs.stringify(params, { arrayFormat: 'repeat' })
+        },
       })
-      .catch(e => {
-        if (e.message === "Network Error") {
-          setLoadingPezzatura(false);
-          setSnackColor('red');
-          setResult("Non sei connesso ad internet...")
-          setOpen(true);
-        } else if (e.response.status === 401) {
-          setLoadingPezzatura(false);
-          setSnackColor('red');
-          setResult("Sessione scaduta. Fai logout/login!")
-          setOpen(true);
-          Logging.log("ERROR", currentUser.username, "ordini.component", `retrieveProduct() Call KO ${e.message}`)
-          console.log(`ERROR, ${currentUser.username}, ordini.component, retrieveProduct() Call KO ${e.message}`)
-        } else if (e.response.status === 403) {
-          setLoadingPezzatura(false);
-          setSnackColor('red');
-          setResult("No token provided. Fai logout/login!")
-          setOpen(true);
-          Logging.log("ERROR", currentUser.username, "ordini.component", `retrieveProduct() Call KO ${e.message}`)
-          console.log(`ERROR, ${currentUser.username}, ordini.component, retrieveProduct() Call KO ${e.message}`)
-        } else {
-          setLoadingPezzatura(false);
-          setSnackColor('red');
-          setResult(e.message)
-          setOpen(true);
-          Logging.log("ERROR", currentUser.username, "ordini.component", `retrieveProduct() Call KO ${e.message}`)
-          console.log(`ERROR, ${currentUser.username}, ordini.component, retrieveProduct() Call KO ${e.message}`)
-        }
-      });
+      if (response.status === 200) {
+        setPezzaturas(response.data);
+        setLoadingPezzatura(false);
+        console.log(`INFO, ${currentUser.username}, ordini.component, retrieveProduct() Call OK`)
+      }
+    }
+    catch (e) {
+      if (e.message === "Network Error") {
+        setLoadingPezzatura(false);
+        setSnackColor('red');
+        setResult("Non sei connesso ad internet...")
+        setOpen(true);
+      } else if (e.response.status === 401) {
+        setLoadingPezzatura(false);
+        setSnackColor('red');
+        setResult("Sessione scaduta. Fai logout/login!")
+        setOpen(true);
+        Logging.log("ERROR", currentUser.username, "ordini.component", `retrieveProduct() Call KO ${e.message}`)
+        console.log(`ERROR, ${currentUser.username}, ordini.component, retrieveProduct() Call KO ${e.message}`)
+      } else if (e.response.status === 403) {
+        setLoadingPezzatura(false);
+        setSnackColor('red');
+        setResult("No token provided. Fai logout/login!")
+        setOpen(true);
+        Logging.log("ERROR", currentUser.username, "ordini.component", `retrieveProduct() Call KO ${e.message}`)
+        console.log(`ERROR, ${currentUser.username}, ordini.component, retrieveProduct() Call KO ${e.message}`)
+      } else {
+        setLoadingPezzatura(false);
+        setSnackColor('red');
+        setResult(e.message)
+        setOpen(true);
+        Logging.log("ERROR", currentUser.username, "ordini.component", `retrieveProduct() Call KO ${e.message}`)
+        console.log(`ERROR, ${currentUser.username}, ordini.component, retrieveProduct() Call KO ${e.message}`)
+      }
+    };
   }
   const handleChange = (event) => {
-    console.log(`INFO, ${currentUser.username}, ordini.component, handleChange() scelto prodotto ${event.target.value === 2 ? "Custom" : event.target.value.desc }`)
+    console.log(`INFO, ${currentUser.username}, ordini.component, handleChange() scelto prodotto ${event.target.value === 2 ? "Custom" : event.target.value.desc}`)
     if (event.target.value !== 2 && event.target.value !== "Ricotta") {
       setLoadingPeso(true);
       setPeso();
@@ -276,7 +276,7 @@ const currentUser = AuthService.getCurrentUser();
         "note": note,
         "isCustom": false
       };
-      API.post('gestione-ordini/ordine/', data,  { headers: authHeader() })
+      API.post('gestione-ordini/ordine/', data, { headers: authHeader() })
         .then(response => {
           if (response.status === 200) {
             setSnackColor('green');
@@ -307,11 +307,11 @@ const currentUser = AuthService.getCurrentUser();
           }
         });
     } else {
-        setDisabled(true);
-        setSnackColor('orange');
-        setResult("L'ordine non può essere vuoto...")
-        setOpen(true);
-      }
+      setDisabled(true);
+      setSnackColor('orange');
+      setResult("L'ordine non può essere vuoto...")
+      setOpen(true);
+    }
   }
 
   const handleCustomClick = (prodottoCustom, pesoTotaleCustom, ordine, note) => {
@@ -325,7 +325,7 @@ const currentUser = AuthService.getCurrentUser();
         "note": note,
         "isCustom": true
       };
-      API.post('gestione-ordini/ordine/', customData,  { headers: authHeader() })
+      API.post('gestione-ordini/ordine/', customData, { headers: authHeader() })
         .then(response => {
           if (response.status === 200) {
             setSnackColor('green');
@@ -356,11 +356,11 @@ const currentUser = AuthService.getCurrentUser();
           }
         });
     } else {
-        setDisabled(true);
-        setSnackColor('orange');
-        setResult("Devi inserire tutti i campi obbligatori [Nome prodotto, Peso Totale, Quantità]")
-        setOpen(true);
-      }
+      setDisabled(true);
+      setSnackColor('orange');
+      setResult("Devi inserire tutti i campi obbligatori [Nome prodotto, Peso Totale, Quantità]")
+      setOpen(true);
+    }
   }
 
   const handleClose = (event, reason) => {
@@ -372,82 +372,82 @@ const currentUser = AuthService.getCurrentUser();
   };
 
   if (!loading) {
-  return (
-    <div>
-      <Box className={classes.root}>
-        <FormControl className={classes.formControl}>
+    return (
+      <div>
+        <Box className={classes.root}>
+          <FormControl className={classes.formControl}>
             <InputLabel id="demo-simple-select-label">Prodotto</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
               value={prodotto}
-            onChange={handleChange}>
+              onChange={handleChange}>
               {prodottos && prodottos.map(myData => <MenuItem value={myData} key={myData}>{myData}</MenuItem>)}
-            <MenuItem value={2} key={"custom"}>Ordine personalizzato</MenuItem>
-          </Select>
-        </FormControl>
+              <MenuItem value={2} key={"custom"}>Ordine personalizzato</MenuItem>
+            </Select>
+          </FormControl>
           {loadingPeso ? <CircularIndeterminate /> :
-          <Box display={boxVisibilityPeso} className={classes.root}>
-            <FormControl className={classes.formControl}>
-              <InputLabel id="demo-simple-select-label">Peso</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={peso}
-                onChange={handleChangePeso}>
-                {pesos && pesos.map(myData => <MenuItem value={myData} key={myData}>{myData}</MenuItem>)}
-              </Select>
-            </FormControl>
-          </Box>}
+            <Box display={boxVisibilityPeso} className={classes.root}>
+              <FormControl className={classes.formControl}>
+                <InputLabel id="demo-simple-select-label">Peso</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={peso}
+                  onChange={handleChangePeso}>
+                  {pesos && pesos.map(myData => <MenuItem value={myData} key={myData}>{myData}</MenuItem>)}
+                </Select>
+              </FormControl>
+            </Box>}
           {loadingPezzatura ? <CircularIndeterminate /> :
-          <Box display={boxVisibilityPezzatura} className={classes.root}>
-            <FormControl className={classes.formControl}>
-              <InputLabel id="demo-simple-select-label">Pezzatura</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={pezzatura}
-                onChange={handleChangePezzatura}>
-                {pezzaturas && pezzaturas.map(myData => <MenuItem value={myData} key={myData}>{myData}</MenuItem>)}
-              </Select>
-            </FormControl>
-          </Box>}
-        <Box display={boxVisibility} className={classes.root}>
-          <TextField label="Peso Totale (gr)" style={{ backgroundColor: "#5C5C5C", "margin": "10px" }} InputLabelProps={{ shrink: true, }} InputProps={{ readOnly: true, }} variant="outlined" value={prodotto !== 'Ricotta' ? (order ? peso * order : 0) : ""}></TextField>
-          <TextField label="Inserisci qui l'ordine" style={{ "margin": "10px"}} margin="none" onChange={e => setOrder(e.target.value)} value={order} type="number" variant="outlined" InputProps={{ inputProps: {min: 0} }}></TextField>
-          <TextField label="Note" style={{ "margin": "10px"}} value={note} onChange={e => setNote(e.target.value)} margin="none" type="string" variant="outlined" ></TextField>
-          
+            <Box display={boxVisibilityPezzatura} className={classes.root}>
+              <FormControl className={classes.formControl}>
+                <InputLabel id="demo-simple-select-label">Pezzatura</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={pezzatura}
+                  onChange={handleChangePezzatura}>
+                  {pezzaturas && pezzaturas.map(myData => <MenuItem value={myData} key={myData}>{myData}</MenuItem>)}
+                </Select>
+              </FormControl>
+            </Box>}
+          <Box display={boxVisibility} className={classes.root}>
+            <TextField label="Peso Totale (gr)" style={{ backgroundColor: "#5C5C5C", "margin": "10px" }} InputLabelProps={{ shrink: true, }} InputProps={{ readOnly: true, }} variant="outlined" value={prodotto !== 'Ricotta' ? (order ? peso * order : 0) : ""}></TextField>
+            <TextField label="Inserisci qui l'ordine" style={{ "margin": "10px" }} margin="none" onChange={e => setOrder(e.target.value)} value={order} type="number" variant="outlined" InputProps={{ inputProps: { min: 0 } }}></TextField>
+            <TextField label="Note" style={{ "margin": "10px" }} value={note} onChange={e => setNote(e.target.value)} margin="none" type="string" variant="outlined" ></TextField>
+
             <Button onClick={() => handleClick(prodotto, peso, pezzatura, note)} disabled={disabled} size="large" style={{ display: 'flex', backgroundColor: "#F35B04", alignItems: 'center', justifyContent: 'center', "marginTop": "10px" }} startIcon={<CloudUploadIcon />} variant="outlined">
-            Inserisci ordine
+              Inserisci ordine
           </Button>
-        </Box>
-        <Box display={boxCustomVisibility} className={classes.root}>
+          </Box>
+          <Box display={boxCustomVisibility} className={classes.root}>
             <TextField required value={prodottoCustom} style={{ "margin": "10px" }} margin="none" onChange={e => setProdottoCustom(e.target.value)} type="string" variant="outlined" label="Nome prodotto"></TextField>
-          <TextField required value={pesoTotaleCustom} style={{ "margin": "10px"}} margin="none" onChange={e => setPesoTotaleCustom(e.target.value)} type="number" variant="outlined" label="Peso totale(gr)" InputProps={{ inputProps: {min: 0} }}></TextField>
-          <TextField required value={ordine} style={{ "margin": "10px"}} margin="none" onChange={e => setOrdine(e.target.value)} type="number" variant="outlined" label="Quantità(pezzi)" InputProps={{ inputProps: {min: 0} }}></TextField>
-          <TextField value={note} style={{ "margin": "10px"}} margin="none" onChange={e => setNote(e.target.value)} type="string" variant="outlined" label="Note"></TextField>
+            <TextField required value={pesoTotaleCustom} style={{ "margin": "10px" }} margin="none" onChange={e => setPesoTotaleCustom(e.target.value)} type="number" variant="outlined" label="Peso totale(gr)" InputProps={{ inputProps: { min: 0 } }}></TextField>
+            <TextField required value={ordine} style={{ "margin": "10px" }} margin="none" onChange={e => setOrdine(e.target.value)} type="number" variant="outlined" label="Quantità(pezzi)" InputProps={{ inputProps: { min: 0 } }}></TextField>
+            <TextField value={note} style={{ "margin": "10px" }} margin="none" onChange={e => setNote(e.target.value)} type="string" variant="outlined" label="Note"></TextField>
             <Button onClick={() => handleCustomClick(prodottoCustom, pesoTotaleCustom, ordine, note)} disabled={disabled} size="large" style={{ display: 'flex', backgroundColor: "#F35B04", alignItems: 'center', justifyContent: 'center', "margin-top": "10px" }} startIcon={<CloudUploadIcon />} variant="outlined">
-            Inserisci ordine personalizzato
+              Inserisci ordine personalizzato
           </Button>
+          </Box>
         </Box>
-      </Box>
-      <Snackbar
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-        open={open}
-        autoHideDuration={2000}
-        onClose={handleClose}
-      >
-        <SnackbarContent style={{
-          backgroundColor: snackColor,
-        }}
-          message={result}
-        />
-      </Snackbar>
-    </div>
-  )
-      } else {
-        return (
-          <CircularIndeterminate />
-        )
-      }
+        <Snackbar
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+          open={open}
+          autoHideDuration={2000}
+          onClose={handleClose}
+        >
+          <SnackbarContent style={{
+            backgroundColor: snackColor,
+          }}
+            message={result}
+          />
+        </Snackbar>
+      </div>
+    )
+  } else {
+    return (
+      <CircularIndeterminate />
+    )
+  }
 }

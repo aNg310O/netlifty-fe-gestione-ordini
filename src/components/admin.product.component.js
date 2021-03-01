@@ -19,17 +19,18 @@ const ProductTable = (props) => {
 
     useEffect(() => { getData() }, [props]);
 
-    const getData = () => {
-        API.get(`/gestione-ordini/prodottsplit/`, { headers: authHeader() })
-            .then(res => {
+    const getData = async () => {
+        try {
+            const res = await API.get(`/gestione-ordini/prodottsplit/`, { headers: authHeader() })
                 if (res.status === 200) {
                     if(seller.roles[0] === "ROLE_ADMIN") {
                     setProdotto(res.data)
                     setLoading(false);
                     console.log(`INFO, ${seller.username}, admin.product.component, getData get dei prodotti`)
                     }
-                }})
-                .catch(e => {
+                }
+            }
+                catch(e) {
                     if (e.message === "Network Error") {
                         setLoading(false);
                         setSnackColor('red');
@@ -57,7 +58,7 @@ const ProductTable = (props) => {
                       Logging.log("ERROR", seller.username, "admin.product.component", `getData errore ${e.message}`)
                       console.log(`ERROR, ${seller.username}, admin.product.component, getData errore ${e.message}`)
                     }
-                  });
+                  };
               }
 
     const removeData = (id) => {

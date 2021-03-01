@@ -54,20 +54,20 @@ const AdminMonthOrder = () => {
     const [tests, setTests] = useState([]);
     const [yearMonth, setyearMonth] = useState();
 
-    const currentUser = AuthService.getCurrentUser();
+    //const currentUser = AuthService.getCurrentUser();
 
     useEffect(() => { retrieveMonth() },[empty, loading])
 
-    const retrieveMonth = () => {
-        API.get('gestione-ordine/availableMonth', { headers: authHeader() })
-          .then(response => {
+    const retrieveMonth = async () => {
+        try {
+          const response = await API.get('gestione-ordine/availableMonth', { headers: authHeader() })
             if (response.status === 200) {
               setTests(response.data);
               setLoading(false);
-              console.log(`INFO, ${currentUser.username}, ordini.table.monthOrder.component, retrieveMonth() Call OK`)
+              console.log(`INFO, ${seller.username}, ordini.table.monthOrder.component, retrieveMonth() Call OK`)
             }
-          })
-          .catch(e => {
+          }
+          catch(e) {
             if (e.message === "Network Error") {
               setLoading(false);
               setSnackColor('red');
@@ -78,24 +78,24 @@ const AdminMonthOrder = () => {
               setSnackColor('red');
               setResult("Sessione scaduta. Fai logout/login!")
               setOpen(true);
-              Logging.log("ERROR", currentUser.username, "ordini.table.monthOrder.component", `retrieveMonth() Call KO ${e.message}`)
-              console.log(`ERROR, ${currentUser.username}, ordini.table.monthOrder.component, retrieveMonth() Call KO ${e.message}`)
+              Logging.log("ERROR", seller.username, "ordini.table.monthOrder.component", `retrieveMonth() Call KO ${e.message}`)
+              console.log(`ERROR, ${seller.username}, ordini.table.monthOrder.component, retrieveMonth() Call KO ${e.message}`)
             } else if (e.response.status === 403) {
               setLoading(false);
               setSnackColor('red');
               setResult("No token provided. Fai logout/login!")
               setOpen(true);
-              Logging.log("ERROR", currentUser.username, "ordini.table.monthOrder.component", `retrieveMonth() Call KO ${e.message}`)
-              console.log(`ERROR, ${currentUser.username}, ordini.table.monthOrder.component, retrieveMonth() Call KO ${e.message}`)
+              Logging.log("ERROR", seller.username, "ordini.table.monthOrder.component", `retrieveMonth() Call KO ${e.message}`)
+              console.log(`ERROR, ${seller.username}, ordini.table.monthOrder.component, retrieveMonth() Call KO ${e.message}`)
             } else {
               setLoading(false);
               setSnackColor('red');
               setResult(e.message)
               setOpen(true);
-              Logging.log("ERROR", currentUser.username, "ordini.table.monthOrder.component", `retrieveMonth() Call KO ${e.message}`)
-              console.log(`ERROR, ${currentUser.username}, ordini.table.monthOrder.component, retrieveMonth() Call KO ${e.message}`)
+              Logging.log("ERROR", seller.username, "ordini.table.monthOrder.component", `retrieveMonth() Call KO ${e.message}`)
+              console.log(`ERROR, ${seller.username}, ordini.table.monthOrder.component, retrieveMonth() Call KO ${e.message}`)
             }
-          });
+          };
       }
 
     const handleChangeyearMonth = (date) => {
