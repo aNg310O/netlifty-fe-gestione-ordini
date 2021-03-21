@@ -24,17 +24,7 @@ class App extends Component {
       showAdminBoard: false,
       currentUser: undefined,
     };
-
-    /*     this.state = {
-      title: ""
-    } */
   }
-
-  /*   changeTitle = (newTitle) => {
-    this.setState({
-      title: newTitle
-    })
-  } */
 
   componentDidMount() {
     const user = AuthService.getCurrentUser();
@@ -94,7 +84,7 @@ class App extends Component {
                   data-toggle="collapse"
                   data-target=".navbar-collapse.show"
                 >
-                  Accedi
+                  Accedi o registrati
                 </Link>
               </li>
             )}
@@ -130,15 +120,27 @@ class App extends Component {
                 </li>
               )}
 
-              {showAdminBoard && (
+              {/*showAdminBoard && (
                 <li className="nav-item">
                   <Link
                     to={"/admin/new"}
                     className="nav-link"
                     data-toggle="collapse"
-                    data-target=".navbar-collapse.show" /* onClick={() => this.setState({ title: " | Creazione nuovi utenti" })} */
+                    data-target=".navbar-collapse.show"
                   >
                     Inserimento utenti
+                  </Link>
+                </li>
+              )*/}
+              {currentUser && (
+                <li className="nav-item">
+                  <Link
+                    to={"/user/ordine"}
+                    className="nav-link"
+                    data-toggle="collapse"
+                    data-target=".navbar-collapse.show" /* onClick={() => this.setState({ title: " | Inserisci ordini" })} */
+                  >
+                    Inserisci ordine
                   </Link>
                 </li>
               )}
@@ -165,19 +167,6 @@ class App extends Component {
                     data-target=".navbar-collapse.show" /* onClick={() => this.setState({ title: " | Altri report" })} */
                   >
                     Altri report
-                  </Link>
-                </li>
-              )}
-
-              {currentUser && (
-                <li className="nav-item">
-                  <Link
-                    to={"/user/ordine"}
-                    className="nav-link"
-                    data-toggle="collapse"
-                    data-target=".navbar-collapse.show" /* onClick={() => this.setState({ title: " | Inserisci ordini" })} */
-                  >
-                    Inserisci ordine
                   </Link>
                 </li>
               )}

@@ -1,139 +1,169 @@
 import React, { useState, useEffect } from "react";
-import API from '../services/api';
+import API from "../services/api";
 import "../asset/App.css";
 import AuthService from "../services/auth.service";
-import authHeader from '../services/auth-header';
-import Snackbar from '@material-ui/core/Snackbar';
-import SnackbarContent from '@material-ui/core/SnackbarContent';
-import { CircularIndeterminate } from './Loader';
+import authHeader from "../services/auth-header";
+import Snackbar from "@material-ui/core/Snackbar";
+import SnackbarContent from "@material-ui/core/SnackbarContent";
+import { CircularIndeterminate } from "./Loader";
 import Logging from "../services/log.service";
 
 const seller = AuthService.getCurrentUser();
 
 const ProductTable = (props) => {
-    const [prodotto, setProdotto] = useState([])
-    const [result, setResult] = useState('');
-    const [open, setOpen] = useState(false);
-    const [snackColor, setSnackColor] = useState('teal');
-    const [loading, setLoading ] = useState(true);
+  const [prodotto, setProdotto] = useState([]);
+  const [result, setResult] = useState("");
+  const [open, setOpen] = useState(false);
+  const [snackColor, setSnackColor] = useState("teal");
+  const [loading, setLoading] = useState(true);
 
-    useEffect(() => { getData() }, [props]);
+  useEffect(() => {
+    getData();
+  }, [props.reload]);
 
-    const getData = async () => {
-        try {
-            const res = await API.get(`/gestione-ordini/prodottsplit/`, { headers: authHeader() })
-                if (res.status === 200) {
-                    if(seller.roles[0] === "ROLE_ADMIN") {
-                    setProdotto(res.data)
-                    setLoading(false);
-                    console.log(`INFO, ${seller.username}, admin.product.component, getData get dei prodotti`)
-                    }
-                }
-            }
-                catch(e) {
-                    if (e.message === "Network Error") {
-                        setLoading(false);
-                        setSnackColor('red');
-                        setResult("Non sei connesso ad internet...")
-                        setOpen(true);
-                    } else if (e.response.status === 401) {
-                      setLoading(false);
-                      setSnackColor('red');
-                      setResult("Sessione scaduta. Fai logout/login!")
-                      setOpen(true);
-                      Logging.log("ERROR", seller.username, "admin.product.component", `getData errore ${e.message}`)
-                      console.log(`ERROR, ${seller.username}, admin.product.component, getData errore ${e.message}`)
-                    } else if (e.response.status === 403) {
-                      setLoading(false);
-                      setSnackColor('red');
-                      setResult("No token provided. Fai logout/login!")
-                      setOpen(true);
-                      Logging.log("ERROR", seller.username, "admin.product.component", `getData errore ${e.message}`)
-                      console.log(`ERROR, ${seller.username}, admin.product.component, getData errore ${e.message}`)
-                    } else {
-                      setLoading(false);
-                      setSnackColor('red');
-                      setResult(e.message)
-                      setOpen(true);
-                      Logging.log("ERROR", seller.username, "admin.product.component", `getData errore ${e.message}`)
-                      console.log(`ERROR, ${seller.username}, admin.product.component, getData errore ${e.message}`)
-                    }
-                  };
-              }
-
-    const removeData = (id) => {
-        var answer = window.confirm(`Vuoi davvero eliminare il prodotto?`);
-        if (answer) {
-            API.delete(`gestione-ordini/prodottosplit/${id}`, { headers: authHeader() }).then(res => {
-                const del = prodotto.filter(prodotto => id !== prodotto.id)
-                setProdotto(del)
-                console.log(`INFO, ${seller.username}, admin.product.component, removeData prodotto ${id}`)
-            })
+  const getData = async () => {
+    try {
+      const res = await API.get(`/gestione-ordini/prodottsplit/`, {
+        headers: authHeader(),
+      });
+      if (res.status === 200) {
+        if (seller.roles[0] === "ROLE_ADMIN") {
+          setProdotto(res.data);
+          setLoading(false);
+          console.log(
+            `INFO, ${seller.username}, admin.product.component, getData get dei prodotti`
+          );
         }
+      }
+    } catch (e) {
+      if (e.message === "Network Error") {
+        setLoading(false);
+        setSnackColor("red");
+        setResult("Non sei connesso ad internet...");
+        setOpen(true);
+      } else if (e.response.status === 401) {
+        setLoading(false);
+        setSnackColor("red");
+        setResult("Sessione scaduta. Fai logout/login!");
+        setOpen(true);
+        Logging.log(
+          "ERROR",
+          seller.username,
+          "admin.product.component",
+          `getData errore ${e.message}`
+        );
+        console.log(
+          `ERROR, ${seller.username}, admin.product.component, getData errore ${e.message}`
+        );
+      } else if (e.response.status === 403) {
+        setLoading(false);
+        setSnackColor("red");
+        setResult("No token provided. Fai logout/login!");
+        setOpen(true);
+        Logging.log(
+          "ERROR",
+          seller.username,
+          "admin.product.component",
+          `getData errore ${e.message}`
+        );
+        console.log(
+          `ERROR, ${seller.username}, admin.product.component, getData errore ${e.message}`
+        );
+      } else {
+        setLoading(false);
+        setSnackColor("red");
+        setResult(e.message);
+        setOpen(true);
+        Logging.log(
+          "ERROR",
+          seller.username,
+          "admin.product.component",
+          `getData errore ${e.message}`
+        );
+        console.log(
+          `ERROR, ${seller.username}, admin.product.component, getData errore ${e.message}`
+        );
+      }
     }
+  };
 
-    const renderHeader = () => {
-        let headerElement = ['prodotto', 'peso totale', 'pezzatura', '']
-        return headerElement.map((key, index) => {
-            return <th key={index}>{key.toUpperCase()}</th>
-        })
+  const removeData = (id) => {
+    var answer = window.confirm(`Vuoi davvero eliminare il prodotto?`);
+    if (answer) {
+      API.delete(`gestione-ordini/prodottosplit/${id}`, {
+        headers: authHeader(),
+      }).then((res) => {
+        const del = prodotto.filter((prodotto) => id !== prodotto.id);
+        setProdotto(del);
+        console.log(
+          `INFO, ${seller.username}, admin.product.component, removeData prodotto ${id}`
+        );
+      });
     }
+  };
 
-    const renderBody = () => {
-        return prodotto && prodotto.map(({ id, prodotto, pesoTotale, pezzatura }) => {
-            return (
-                <tr key={id}>
-                    <td>{prodotto}</td>
-                    <td>{pesoTotale}</td>
-                    <td>{pezzatura}</td>
-                    <td className='operation'>
-                        <button className='button' onClick={() => removeData(id)}>Elimina</button>
-                    </td>
-                </tr>
-            )
-        })
-    }
+  const renderHeader = () => {
+    let headerElement = ["prodotto", "peso totale", "pezzatura", ""];
+    return headerElement.map((key, index) => {
+      return <th key={index}>{key.toUpperCase()}</th>;
+    });
+  };
 
-    const handleClose = (event, reason) => {
-        if (reason === 'clickaway') {
-          return;
-        }
-        setOpen(false);
-      };
-
-    if (!loading) {
+  const renderBody = () => {
     return (
-        <div>
-            <table id='styled-table'>
-                <thead>
-                    <tr>{renderHeader()}</tr>
-                </thead>
-                <tbody>
-                    {renderBody()}
-                </tbody>
-            </table>
+      prodotto &&
+      prodotto.map(({ id, prodotto, pesoTotale, pezzatura }) => {
+        return (
+          <tr key={id}>
+            <td>{prodotto}</td>
+            <td>{pesoTotale}</td>
+            <td>{pezzatura}</td>
+            <td className="operation">
+              <button className="button" onClick={() => removeData(id)}>
+                Elimina
+              </button>
+            </td>
+          </tr>
+        );
+      })
+    );
+  };
 
-            <Snackbar
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-        open={open}
-        autoHideDuration={3000}
-        onClose={handleClose}
-      >
-        <SnackbarContent style={{
-          backgroundColor: snackColor,
-        }}
-          message={result}
-        />
-      </Snackbar>
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
 
-        </div>
-    )
-} else {
+  if (!loading) {
     return (
-        <CircularIndeterminate />
-    )
-}
-}
+      <div>
+        <table id="styled-table">
+          <thead>
+            <tr>{renderHeader()}</tr>
+          </thead>
+          <tbody>{renderBody()}</tbody>
+        </table>
 
+        <Snackbar
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          open={open}
+          autoHideDuration={3000}
+          onClose={handleClose}
+        >
+          <SnackbarContent
+            style={{
+              backgroundColor: snackColor,
+            }}
+            message={result}
+          />
+        </Snackbar>
+      </div>
+    );
+  } else {
+    return <CircularIndeterminate />;
+  }
+};
 
 export { ProductTable };

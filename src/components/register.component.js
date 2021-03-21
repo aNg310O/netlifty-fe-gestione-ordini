@@ -5,10 +5,9 @@ import CheckButton from "react-validation/build/button";
 import { isEmail } from "validator";
 import Logging from "../services/log.service";
 import AuthService from "../services/auth.service";
-import Switch from '@material-ui/core/Switch';
-import FormControlLabel from '@material-ui/core/FormControlLabel';  
+import { Link } from "react-router-dom";
 
-const required = value => {
+const required = (value) => {
   if (!value) {
     return (
       <div className="alert alert-danger" role="alert">
@@ -18,7 +17,7 @@ const required = value => {
   }
 };
 
-const email = value => {
+const email = (value) => {
   if (!isEmail(value)) {
     return (
       <div className="alert alert-danger" role="alert">
@@ -28,7 +27,7 @@ const email = value => {
   }
 };
 
-const vusername = value => {
+const vusername = (value) => {
   if (value.length < 3 || value.length > 20) {
     return (
       <div className="alert alert-danger" role="alert">
@@ -38,7 +37,7 @@ const vusername = value => {
   }
 };
 
-const vpassword = value => {
+const vpassword = (value) => {
   if (value.length < 6 || value.length > 40) {
     return (
       <div className="alert alert-danger" role="alert">
@@ -61,30 +60,30 @@ export default class Register extends Component {
       email: "",
       password: "",
       successful: false,
-      message: ""
+      message: "",
     };
 
     this.state = {
       admin: ["user"],
       flag: false,
-    }
+    };
   }
 
   onChangeUsername(e) {
     this.setState({
-      username: e.target.value
+      username: e.target.value,
     });
   }
 
   onChangeEmail(e) {
     this.setState({
-      email: e.target.value
+      email: e.target.value,
     });
   }
 
   onChangePassword(e) {
     this.setState({
-      password: e.target.value
+      password: e.target.value,
     });
   }
 
@@ -93,7 +92,7 @@ export default class Register extends Component {
 
     this.setState({
       message: "",
-      successful: false
+      successful: false,
     });
 
     this.form.validateAll();
@@ -105,14 +104,16 @@ export default class Register extends Component {
         this.state.password,
         this.state.admin
       ).then(
-        response => {
+        (response) => {
           this.setState({
             message: response.data.message,
-            successful: true
+            successful: true,
           });
-          console.log(`INFO, "NO USER", register.component, register registrato nuovo utente ${this.state.username}`)
+          console.log(
+            `INFO, "NO USER", register.component, register registrato nuovo utente ${this.state.username}`
+          );
         },
-        error => {
+        (error) => {
           const resMessage =
             (error.response &&
               error.response.data &&
@@ -122,10 +123,17 @@ export default class Register extends Component {
 
           this.setState({
             successful: false,
-            message: resMessage
+            message: resMessage,
           });
-          console.log(`ERROR, NO USER, register.component, register errore in registrazione ${resMessage}`)
-          Logging.log("ERROR", "NO USER", "register.component", `register errore in registrazione ${resMessage}`)
+          console.log(
+            `ERROR, NO USER, register.component, register errore in registrazione ${resMessage}`
+          );
+          Logging.log(
+            "ERROR",
+            "NO USER",
+            "register.component",
+            `register errore in registrazione ${resMessage}`
+          );
         }
       );
     }
@@ -133,24 +141,24 @@ export default class Register extends Component {
 
   render() {
     const { flag } = this.state;
- 
+
     return (
       <div className="col-md-12">
         <div className="card card-container">
-        <FormControlLabel
+          {/* <FormControlLabel
         control={<Switch checked={flag} onChange={(e) => this.setState({ admin: e.target.checked ? ["admin"] : ["user"], flag: e.target.checked})} name="checkedA" color="primary" />}
         label="Seleziona per creare un utente ADMIN"
       />
-          {/*<img
+          <img
             src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
             alt="profile-img"
             className="profile-img-card"
           />*/}
-          <h5>Inserisci un nuovo utente</h5>
+          <h5>Registrati per utilizzare l'app</h5>
 
           <Form
             onSubmit={this.handleRegister}
-            ref={c => {
+            ref={(c) => {
               this.form = c;
             }}
           >
@@ -193,10 +201,21 @@ export default class Register extends Component {
                 </div>
 
                 <div className="form-group">
-                  <button className="btn btn-primary btn-block">Registra</button>
+                  <button className="btn btn-primary btn-block">
+                    Registra
+                  </button>
                 </div>
               </div>
             )}
+
+            <button
+              class="btn btn-dark btn-outline-warning my-2 my-sm-0"
+              type="submit"
+            >
+              <Link to={"/login"} color="primary">
+                Torna al login
+              </Link>
+            </button>
 
             {this.state.message && (
               <div className="form-group">
@@ -209,16 +228,17 @@ export default class Register extends Component {
                   role="alert"
                 >
                   {this.state.message}
-                  {this.state.successful 
-                  ? setTimeout(() => { window.location.reload(true); }, 2000)
-                  : "" 
-                  }
+                  {this.state.successful
+                    ? setTimeout(() => {
+                        window.location.reload(true);
+                      }, 2000)
+                    : ""}
                 </div>
               </div>
             )}
             <CheckButton
               style={{ display: "none" }}
-              ref={c => {
+              ref={(c) => {
                 this.checkBtn = c;
               }}
             />

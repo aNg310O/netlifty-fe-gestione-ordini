@@ -2,15 +2,15 @@ import React, { Component } from "react";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
-
 import AuthService from "../services/auth.service";
 import Logging from "../services/log.service";
+import { Link } from "react-router-dom";
 
-const required = value => {
+const required = (value) => {
   if (!value) {
     return (
       <div className="alert alert-danger" role="alert">
-        This field is required!
+        Questo campo è obbligatorio!
       </div>
     );
   }
@@ -27,19 +27,19 @@ export default class Login extends Component {
       username: "",
       password: "",
       loading: false,
-      message: ""
+      message: "",
     };
   }
 
   onChangeUsername(e) {
     this.setState({
-      username: e.target.value
+      username: e.target.value,
     });
   }
 
   onChangePassword(e) {
     this.setState({
-      password: e.target.value
+      password: e.target.value,
     });
   }
 
@@ -48,7 +48,7 @@ export default class Login extends Component {
 
     this.setState({
       message: "",
-      loading: true
+      loading: true,
     });
 
     this.form.validateAll();
@@ -58,9 +58,11 @@ export default class Login extends Component {
         () => {
           this.props.history.push("/");
           window.location.reload();
-          console.log(`INFO, ${this.state.username}, login.component, user logged in`)
+          console.log(
+            `INFO, ${this.state.username}, login.component, user logged in`
+          );
         },
-        error => {
+        (error) => {
           const resMessage =
             (error.response &&
               error.response.data &&
@@ -70,15 +72,22 @@ export default class Login extends Component {
 
           this.setState({
             loading: false,
-            message: resMessage
+            message: resMessage,
           });
-          Logging.log("ERROR", this.state.username, "login.component", `login error ${resMessage}`)
-          console.log(`ERROR, ${this.state.username}, login.component, login error ${resMessage}`)
+          Logging.log(
+            "ERROR",
+            this.state.username,
+            "login.component",
+            `login error ${resMessage}`
+          );
+          console.log(
+            `ERROR, ${this.state.username}, login.component, login error ${resMessage}`
+          );
         }
       );
     } else {
       this.setState({
-        loading: false
+        loading: false,
       });
     }
   }
@@ -87,11 +96,10 @@ export default class Login extends Component {
     return (
       <div className="col-md-12">
         <div className="card card-container">
-          <h5>Inserisci le credenziali</h5>
-
+          <h5>Inserisci le credenziali per accedere</h5>
           <Form
             onSubmit={this.handleLogin}
-            ref={c => {
+            ref={(c) => {
               this.form = c;
             }}
           >
@@ -140,11 +148,19 @@ export default class Login extends Component {
             )}
             <CheckButton
               style={{ display: "none" }}
-              ref={c => {
+              ref={(c) => {
                 this.checkBtn = c;
               }}
             />
           </Form>
+          <button
+            class="btn btn-dark btn-outline-warning my-2 my-sm-0"
+            type="submit"
+          >
+            <Link to={"/admin/new"} color="primary">
+              Clicca qui per registrarti
+            </Link>
+          </button>
         </div>
       </div>
     );
