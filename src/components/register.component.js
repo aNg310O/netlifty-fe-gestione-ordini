@@ -61,12 +61,13 @@ export default class Register extends Component {
       password: "",
       successful: false,
       message: "",
+      redirect: false,
     };
 
-    this.state = {
-      admin: ["user"],
-      flag: false,
-    };
+    //    this.state = {
+    //      admin: ["user"],
+    //      flag: false,
+    //    };
   }
 
   onChangeUsername(e) {
@@ -108,7 +109,17 @@ export default class Register extends Component {
           this.setState({
             message: response.data.message,
             successful: true,
+            redirect: true,
           });
+          AuthService.login(this.state.username, this.state.password).then(
+            () => {
+              this.props.history.push("/");
+              window.location.reload();
+              console.log(
+                `INFO, ${this.state.username}, login.component, user logged in`
+              );
+            }
+          );
           console.log(
             `INFO, "NO USER", register.component, register registrato nuovo utente ${this.state.username}`
           );
@@ -124,6 +135,7 @@ export default class Register extends Component {
           this.setState({
             successful: false,
             message: resMessage,
+            redirect: false,
           });
           console.log(
             `ERROR, NO USER, register.component, register errore in registrazione ${resMessage}`
@@ -140,8 +152,6 @@ export default class Register extends Component {
   }
 
   render() {
-    const { flag } = this.state;
-
     return (
       <div className="col-md-12">
         <div className="card card-container">
@@ -202,7 +212,7 @@ export default class Register extends Component {
 
                 <div className="form-group">
                   <button className="btn btn-primary btn-block">
-                    Registra
+                    Registrati
                   </button>
                 </div>
               </div>
@@ -228,11 +238,7 @@ export default class Register extends Component {
                   role="alert"
                 >
                   {this.state.message}
-                  {this.state.successful
-                    ? setTimeout(() => {
-                        window.location.reload(true);
-                      }, 2000)
-                    : ""}
+                  {this.state.successful ? setTimeout(() => {}, 5000) : ""}
                 </div>
               </div>
             )}

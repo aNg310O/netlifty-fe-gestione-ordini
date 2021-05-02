@@ -135,7 +135,7 @@ export default class Login extends Component {
                 {this.state.loading && (
                   <span className="spinner-border spinner-border-sm"></span>
                 )}
-                <span>Login</span>
+                <span>ACCEDI</span>
               </button>
             </div>
 
@@ -153,14 +153,6 @@ export default class Login extends Component {
               }}
             />
           </Form>
-          <button
-            class="btn btn-dark btn-outline-warning my-2 my-sm-0"
-            type="submit"
-          >
-            <Link to={"/admin/new"} color="primary">
-              Clicca qui per registrarti
-            </Link>
-          </button>
         </div>
       </div>
     );

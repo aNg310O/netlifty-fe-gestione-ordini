@@ -10,7 +10,7 @@ import { RivediOrdineComponent } from "./components/ordine.rivedi.component";
 import { RivediOrdineDayComponent } from "./components/ordine.rivedi.day.component";
 import { AdminProdotti } from "./components/admin.gestioneprodotti.component";
 import { AdminUsers } from "./components/admin.gestioneutenti.component";
-import { AdminNewUsers } from "./components/admin.inserimentoutenti.component";
+import Register from "./components/register.component";
 import { AdminReportOggi } from "./components/admin.reportoggi.component";
 import { AdminReportAltri } from "./components/admin.altrireport.component";
 import NotFoundPage from "./components/NotFoundPage";
@@ -84,8 +84,18 @@ class App extends Component {
                   data-toggle="collapse"
                   data-target=".navbar-collapse.show"
                 >
-                  Accedi o registrati
+                  Accedi
                 </Link>
+                <li className="nav-item">
+                  <Link
+                    to={"/admin/new"}
+                    className="nav-link"
+                    data-toggle="collapse"
+                    data-target=".navbar-collapse.show"
+                  >
+                    Registrati
+                  </Link>
+                </li>
               </li>
             )}
           </ul>
@@ -232,7 +242,7 @@ class App extends Component {
             <Route path="/user/recapDay" component={RivediOrdineDayComponent} />
             <Route path="/admin/prodottsplit" component={AdminProdotti} />
             <Route path="/admin/users" component={AdminUsers} />
-            <Route path="/admin/new" component={AdminNewUsers} />
+            <Route path="/admin/new" component={Register} />
             <Route path="/admin/report/oggi" component={AdminReportOggi} />
             <Route path="/admin/report/altri" component={AdminReportAltri} />
             <Route path="/404" component={NotFoundPage} />
