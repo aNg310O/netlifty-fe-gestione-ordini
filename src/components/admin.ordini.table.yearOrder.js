@@ -218,7 +218,7 @@ const AdminYearOrder = () => {
   const handleReportClick = () => {
     var test = new jsPDF();
     test.text(`Report ordini annuale: ${fileName.substring(15, 19)}`, 10, 15);
-    test.autoTable({ html: "#reportdaysingle", startY: 25 });
+    test.autoTable({ html: "#reportyearsingle", startY: 25 });
     var strb64 = btoa(test.output());
     if (
       isChrome ||
@@ -385,7 +385,7 @@ const AdminYearOrder = () => {
         <br></br>
         {click && (
           <div id="contentdaysingle">
-            <table id="reportdaysingle">
+            <table id="reportyearsingle">
               <thead>
                 <tr>{renderHeader()}</tr>
               </thead>

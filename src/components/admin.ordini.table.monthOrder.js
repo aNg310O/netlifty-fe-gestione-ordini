@@ -225,7 +225,7 @@ const AdminMonthOrder = () => {
       10,
       15
     );
-    test.autoTable({ html: "#reportdaysingle", startY: 25 });
+    test.autoTable({ html: "#reportmonthsingle", startY: 25 });
     var strb64 = btoa(test.output());
     if (
       isChrome ||
@@ -392,7 +392,7 @@ const AdminMonthOrder = () => {
         <br></br>
         {click && (
           <div id="contentdaysingle">
-            <table id="reportdaysingle">
+            <table id="reportmonthsingle">
               <thead>
                 <tr>{renderHeader()}</tr>
               </thead>
